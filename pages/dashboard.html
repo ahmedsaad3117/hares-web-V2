@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <script>
+    // Critical: Immediate direction setup to prevent LTR flash
+    (function () {
+      var lang = localStorage.getItem('locale') || 'ar';
+      document.documentElement.setAttribute('lang', lang);
+      document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+      if (lang === 'ar') document.documentElement.classList.add('rtl');
+    })();
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-i18n-key="navigation.dashboard">Dashboard - Q1KEY Platform</title>
+  <link rel="stylesheet" href="../css/styles.css?v=12">
+  <script src="../js/i18n.js"></script>
+  <style>
+    /* Disable text selection globally */
+    body {
+      user-select: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      cursor: default;
+    }
+
+    /* Allow selection in inputs, textareas and contenteditable elements */
+    input,
+    textarea,
+    [contenteditable="true"] {
+      user-select: text !important;
+      -webkit-user-select: text !important;
+      -moz-user-select: text !important;
+      -ms-user-select: text !important;
+      cursor: text;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Page Preloader (Flicker Prevention) -->
+  <div id="page-preloader">
+    <div class="preloader-spinner"></div>
+  </div>
+
+  <div id="sidebar"></div>
+
+  <div class="main-content">
+    <div id="header"></div>
+
+    <div class="page-content">
+      <!-- Dashboard Actions -->
+      <div class="flex justify-end mb-6" style="display: flex; justify-content: flex-end; gap: 0.75rem;">
+        <button onclick="printDashboard()" class="btn btn-secondary" title="Print Dashboard">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 6 2 18 2 18 9" />
+            <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
+            <rect x="6" y="14" width="12" height="8" />
+          </svg>
+          <span data-i18n-key="common.button.print">طباعة</span>
+        </button>
+      </div>
+
+      <!-- Stats Grid with Skeletons -->
+      <div id="statsGrid" class="stats-grid mb-8">
+        <div class="premium-card skeleton skeleton-card"></div>
+        <div class="premium-card skeleton skeleton-card"></div>
+        <div class="premium-card skeleton skeleton-card"></div>
+        <div class="premium-card skeleton skeleton-card"></div>
+      </div>
+
+      <!-- Installments Report Card -->
+      <div class="glass-card p-6 mb-8">
+        <div class="flex items-center justify-between mb-6">
+          <h2 class="text-xl font-bold text-white" data-i18n-key="dashboard.installments_report.title">تقرير
+            الأقساط
+          </h2>
+          <div class="flex items-center gap-3">
+            <div class="flex flex-col gap-1">
+              <label class="text-muted text-sm" data-i18n-key="dashboard.installments_report.from_date">من
+                تاريخ</label>
+              <input type="date" id="fromDate" class="input input-date" />
+            </div>
+            <div class="flex flex-col gap-1">
+              <label class="text-muted text-sm" data-i18n-key="dashboard.installments_report.to_date">إلى
+                تاريخ</label>
+              <input type="date" id="toDate" class="input input-date" />
+            </div>
+            <button id="filterInstallments" class="btn btn-primary mt-5 px-4 py-2"
+              data-i18n-key="dashboard.installments_report.filter">تصفية</button>
+          </div>
+        </div>
+
+        <div id="installmentsStats" class="premium-dashboard-grid" style="margin-bottom: 0;">
+          <!-- Pre-filled structures for report -->
+          <div class="premium-card theme-blue">
+            <div class="premium-icon-box">📅</div>
+            <div class="premium-content">
+              <div class="premium-value" id="totalDueInstallments"><span class="skeleton skeleton-text"
+                  style="width: 30px; display: inline-block;"></span></div>
+              <div class="premium-label">
+                <span data-i18n-key="dashboard.installments_report.total_due">إجمالي المستحق</span>
+              </div>
+              <div class="text-lg font-bold text-blue-400 mt-2" id="totalDueAmount">0.00</div>
+            </div>
+          </div>
+          <div class="premium-card theme-emerald">
+            <div class="premium-icon-box">✅</div>
+            <div class="premium-content">
+              <div class="premium-value" id="paidInstallments">0</div>
+              <div class="premium-label">
+                <span data-i18n-key="dashboard.installments_report.paid">المدفوع</span>
+              </div>
+              <div class="text-lg font-bold text-emerald-400 mt-2" id="paidAmount">0.00</div>
+            </div>
+          </div>
+          <!-- Other items omitted for brevity in replacement but kept in file -->
+          <div class="premium-card theme-amber">
+            <div class="premium-icon-box">⏳</div>
+            <div class="premium-content">
+              <div class="premium-value" id="pendingInstallments">0</div>
+              <div class="premium-label">
+                <span data-i18n-key="dashboard.installments_report.pending">قيد الانتظار</span>
+              </div>
+              <div class="text-lg font-bold text-amber-400 mt-2" id="pendingAmount">0.00</div>
+            </div>
+          </div>
+          <div class="premium-card theme-rose">
+            <div class="premium-icon-box">⚠️</div>
+            <div class="premium-content">
+              <div class="premium-value" id="overdueInstallments">0</div>
+              <div class="premium-label">
+                <span data-i18n-key="dashboard.installments_report.overdue">متأخر</span>
+              </div>
+              <div class="text-lg font-bold text-rose-400 mt-2" id="overdueAmount">0.00</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Actions and Recent Activity -->
+      <div class="grid grid-cols-2 gap-6 mb-8">
+        <!-- Quick Actions -->
+        <div class="glass-card p-4">
+          <h2 class="text-base font-bold text-white mb-3" data-i18n-key="dashboard.quick_actions">إجراءات سريعة</h2>
+          <div id="quickActions" class="flex flex-col gap-2">
+            <div class="skeleton" style="height: 60px; border-radius: 8px;"></div>
+            <div class="skeleton" style="height: 60px; border-radius: 8px; margin-top: 8px;"></div>
+          </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="glass-card p-6">
+          <h2 class="text-xl font-bold text-white mb-6" data-i18n-key="dashboard.recent_activity.title">النشاط الأخير
+          </h2>
+          <div id="recentActivity">
+            <div class="activity-container-new">
+              <div class="skeleton skeleton-text"></div>
+              <div class="skeleton skeleton-text"></div>
+              <div class="skeleton skeleton-text"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Force correct API config before any external scripts -->
+  <script>
+    window.API_CONFIG = { baseUrl: 'http://localhost:3001/api' };
+  </script>
+  <script src="../js/config.js?v=3"></script>
+  <script src="../js/api.js?v=4"></script>
+  <script src="../js/ui-utils.js?v=6"></script>
+  <script src="../components/sidebar.js?v=5"></script>
+  <script src="../components/header.js?v=3"></script>
+  <script>
+    console.log('Dashboard loading...');
+    console.log('Token:', getToken()?.substring(0, 20) + '...');
+    console.log('User:', getCurrentUser());
+
+    // Wait for i18n to be ready before initializing
+    async function startDashboard() {
+      await waitForI18n();
+
+      // Check authentication
+      if (!requireAuth()) {
+        console.log('Not authenticated, redirecting...');
+      } else {
+        console.log('Authentication passed!');
+        try {
+          await initializeDashboard();
+        } catch (error) {
+          console.error('Error initializing dashboard:', error);
+        }
+      }
+    }
+
+    // Start when DOM is ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', startDashboard);
+    } else {
+      startDashboard();
+    }
+
+    async function initializeDashboard() {
+      // Refresh profile to get latest subscription data
+      try {
+        await api.auth.getProfile();
+      } catch (e) {
+        console.error('Failed to refresh profile:', e);
+      }
+
+      const user = getCurrentUser();
+      console.log('Initializing dashboard for user:', user);
+
+      if (!user) {
+        console.error('User object is null/undefined!');
+        clearAuthData();
+        window.location.href = '../index.html';
+        return;
+      }
+
+      // Initialize dashboard
+      console.log('Calling initDashboard...');
+      initDashboard();
+    }
+
+    async function initDashboard() {
+      const user = getCurrentUser();
+      console.log('initDashboard - Role:', user?.roleName || user?.role_name);
+
+      // 1. Render Navigation & Headers IMMEDIATELY (UX: Don't wait for API)
+      document.getElementById('sidebar').innerHTML = createSidebar(user);
+      document.getElementById('header').innerHTML = createHeader(t('navigation.dashboard'), t('dashboard.welcome_back') + ', ' + user.name);
+      initializeLanguageSwitcher();
+      setActiveNav('dashboard');
+      i18n.translatePage();
+
+      try {
+        // 2. Fetch ALL dashboard data in ONE request
+        console.log('Fetching dashboard data from API...');
+        const dashboardData = await api.reports.getDashboardData();
+        console.log('Unified Dashboard Data Received:', dashboardData);
+
+        if (dashboardData.error) {
+          throw new Error(dashboardData.error);
+        }
+
+        // 3. Render Statistics Grid
+        renderStatsGrid(dashboardData, user);
+
+        // 4. Render Quick Actions
+        renderQuickActions();
+
+        // 5. Render Recent Activity
+        renderRecentActivity(dashboardData.activities || []);
+
+        // 6. Render Installments Report
+        renderInstallmentsSummary(dashboardData.installments);
+
+      } catch (error) {
+        console.error('Error loading dashboard:', error);
+        showToast(t('dashboard.errors.load_failed') || 'Failed to load dashboard data', 'error');
+        // Hide skeletons and show error state in grid
+        document.getElementById('statsGrid').innerHTML = `
+          <div class="col-span-full p-8 text-center glass-card">
+            <div class="text-4xl mb-4">🚫</div>
+            <div class="text-xl text-white mb-2">${t('dashboard.errors.load_title') || 'Error loading dashboard'}</div>
+            <div class="text-muted mb-4">${error.message}</div>
+            <button onclick="location.reload()" class="btn btn-primary px-6 py-2 rounded-lg">${t('common.button.retry') || 'Retry'}</button>
+          </div>
+        `;
+      }
+    }
+
+    function renderStatsGrid(data, user) {
+      const { stats, systemCounts } = data;
+      const roleName = (user.roleName || user.role_name || '').toLowerCase();
+      let statsHTML = '<div class="premium-dashboard-grid">';
+
+      // --- Super Admin System Stats ---
+      if (roleName === 'super admin' && systemCounts) {
+        statsHTML += `
+          <a href="institutions.html" class="premium-card theme-violet clickable-card">
+            <div class="premium-icon-box">🏛️</div>
+            <div class="premium-content">
+              <div class="premium-value">${systemCounts.institutions}</div>
+              <div class="premium-label">
+                ${t('dashboard.stats.total_institutions')}
+                <span class="premium-indicator" style="background: rgba(139, 92, 246, 0.2); color: #a78bfa;">${t('common.label.active')}</span>
+              </div>
+            </div>
+          </a>
+          <a href="branches.html" class="premium-card theme-blue clickable-card">
+            <div class="premium-icon-box">🏢</div>
+            <div class="premium-content">
+              <div class="premium-value">${systemCounts.branches}</div>
+              <div class="premium-label">
+                ${t('dashboard.stats.total_branches')}
+                <span class="premium-indicator" style="background: rgba(59, 130, 246, 0.2); color: #60a5fa;">${t('dashboard.stats.all_time')}</span>
+              </div>
+            </div>
+          </a>
+        `;
+      }
+      // --- Institution Specific Stats ---
+      else if (roleName === 'institution') {
+        const branchCount = stats.totalBranches || (systemCounts ? systemCounts.branches : 0);
+        statsHTML += `
+          <a href="branches.html" class="premium-card theme-blue clickable-card">
+            <div class="premium-icon-box">🏢</div>
+            <div class="premium-content">
+              <div class="premium-value">${branchCount}</div>
+              <div class="premium-label">
+                ${t('dashboard.stats.total_branches')}
+                <span class="premium-indicator" style="background: rgba(59, 130, 246, 0.2); color: #60a5fa;">${t('dashboard.stats.locations')}</span>
+              </div>
+            </div>
+          </a>
+        `;
+      }
+
+      // --- Common Stats (Customers, Loans, Late) ---
+      statsHTML += `
+        <a href="customers.html" class="premium-card theme-indigo clickable-card">
+          <div class="premium-icon-box">👥</div>
+          <div class="premium-content">
+            <div class="premium-value">${stats.totalCustomers}</div>
+            <div class="premium-label">
+              ${t('dashboard.stats.total_customers')}
+              <span class="premium-indicator" style="background: rgba(99, 102, 241, 0.2); color: #818cf8;">${t('dashboard.stats.all_time')}</span>
+            </div>
+          </div>
+        </a>
+        
+        <a href="loans.html" class="premium-card theme-emerald clickable-card">
+          <div class="premium-icon-box">💰</div>
+          <div class="premium-content">
+            <div class="premium-value">${stats.totalLoans}</div>
+            <div class="premium-label">
+              ${t('dashboard.stats.total_loans')}
+              <span class="premium-indicator" style="background: rgba(16, 185, 129, 0.2); color: #34d399;">${formatCurrency(stats.totalLoanAmount)}</span>
+            </div>
+          </div>
+        </a>
+        
+        <a href="loans.html?filter=late" class="premium-card theme-amber clickable-card">
+          <div class="premium-icon-box">⚠️</div>
+          <div class="premium-content">
+            <div class="premium-value">${(stats.loansByStatus || []).find(s => s.status === 'Late')?.count || 0}</div>
+            <div class="premium-label">
+              ${t('dashboard.stats.late_loans')}
+              <span class="premium-indicator" style="background: rgba(245, 158, 11, 0.2); color: #fbbf24;">${t('dashboard.stats.late')}</span>
+            </div>
+          </div>
+        </a>
+      `;
+
+      statsHTML += '</div>';
+      document.getElementById('statsGrid').innerHTML = statsHTML;
+    }
+
+    function renderInstallmentsSummary(data) {
+      if (!data) return;
+      const stats = data.totals || { count: 0, totalAmount: 0 };
+      const byStatus = data.byStatus || [];
+
+      document.getElementById('totalDueInstallments').textContent = stats.count || 0;
+      document.getElementById('totalDueAmount').textContent = formatCurrency(stats.totalAmount || 0);
+
+      const paidData = byStatus.find(s => s.status === 'Paid') || { count: 0, amount: 0 };
+      const pendingData = byStatus.find(s => s.status === 'Pending') || { count: 0, amount: 0 };
+      const overdueData = byStatus.find(s => s.status === 'Overdue') || { count: 0, amount: 0 };
+
+      document.getElementById('paidInstallments').textContent = paidData.count || 0;
+      document.getElementById('paidAmount').textContent = formatCurrency(paidData.amount || 0);
+
+      document.getElementById('pendingInstallments').textContent = pendingData.count || 0;
+      document.getElementById('pendingAmount').textContent = formatCurrency(pendingData.amount || 0);
+
+      document.getElementById('overdueInstallments').textContent = overdueData.count || 0;
+      document.getElementById('overdueAmount').textContent = formatCurrency(overdueData.amount || 0);
+    }
+
+    function renderQuickActions() {
+      const user = getCurrentUser();
+      const actions = [
+        { icon: '👤', title: t('dashboard.actions.add_customer'), subtitle: t('dashboard.actions.add_customer_desc'), href: 'customers-new.html', color: 'indigo' },
+        { icon: '💰', title: t('dashboard.actions.issue_loan'), subtitle: t('dashboard.actions.issue_loan_desc'), href: 'loans-new.html', color: 'emerald' },
+      ];
+
+      if (user.roleName === 'Super Admin' || user.role_name === 'Super Admin') {
+        actions.push({ icon: '🏛️', title: t('dashboard.actions.add_institution'), subtitle: t('dashboard.actions.add_institution_desc'), href: 'institutions-new.html', color: 'violet' });
+      }
+
+      const actionsHTML = actions.map(action => `
+        <a href="${action.href}" class="glass-card p-4 flex items-center gap-4 transition-all duration-300 hover:bg-white/10 group" style="text-decoration: none; border-left: 4px solid transparent;">
+          <div class="w-12 h-12 rounded-xl flex items-center justify-center text-2xl shadow-lg group-hover:scale-110 transition-transform duration-300" style="width: 48px; height: 48px; background: rgba(255,255,255,0.05);">
+            ${action.icon}
+          </div>
+          <div>
+            <h3 class="font-bold text-white text-lg group-hover:text-${action.color}-400 transition-colors">${action.title}</h3>
+            <p class="text-sm text-muted">${action.subtitle}</p>
+          </div>
+        </a>
+        `).join('');
+
+      document.getElementById('quickActions').innerHTML = actionsHTML;
+    }
+
+    function renderRecentActivity(activities) {
+      const container = document.getElementById('recentActivity');
+      if (!activities || activities.length === 0) {
+        container.innerHTML = `<div class="text-muted p-4 text-center">${t('dashboard.recent_activity.empty') || 'لا يوجد نشاط مؤخراً'}</div>`;
+        return;
+      }
+
+      const activitiesHTML = activities.slice(0, 5).map(activity => {
+        console.log('Rendering Activity:', activity); // Debug log
+
+        let icon = '📝';
+        let color = '#6366f1';
+        const type = activity.type || '';
+        const customerName = activity.customerName || activity.customer_name || t('dashboard.activity.customer_generic');
+        const amount = activity.amount !== undefined ? activity.amount : 0;
+
+        let description = '';
+        if (type === 'loan_created') {
+          icon = '💰';
+          color = '#10b981';
+          description = t('dashboard.activity.loan_created', {
+            amount: formatCurrency(amount),
+            customer: customerName
+          });
+        } else if (type === 'customer_added') {
+          icon = '👤';
+          color = '#818cf8';
+          description = t('dashboard.activity.customer_added', {
+            name: customerName
+          });
+        } else {
+          description = activity.description || t('dashboard.activity.no_activity');
+        }
+
+        return `
+          <div class="activity-card-new" style="--accent: ${color}">
+            <div class="activity-icon-new">${icon}</div>
+            <div class="activity-info-new">
+              <div class="activity-desc-new">${description}</div>
+              <div class="activity-time-new">
+                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                ${formatDateTime(activity.timestamp || activity.createdAt || new Date())}
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      container.innerHTML = `<div class="activity-container-new">${activitiesHTML}</div>`;
+    }
+
+    // Load installments report for date filtering
+    async function loadInstallmentsReport(fromDate, toDate) {
+      try {
+        const report = await api.reports.getInstallmentsReport({ startDate: fromDate, endDate: toDate });
+        renderInstallmentsSummary(report);
+      } catch (error) {
+        console.error('Error filtering installments:', error);
+        showToast(t('dashboard.installments_report.load_error'), 'error');
+      }
+    }
+
+    // Setup filter button
+    document.addEventListener('DOMContentLoaded', () => {
+      const filterBtn = document.getElementById('filterInstallments');
+      if (filterBtn) {
+        filterBtn.addEventListener('click', () => {
+          const fromDate = document.getElementById('fromDate').value;
+          const toDate = document.getElementById('toDate').value;
+          if (!fromDate || !toDate) {
+            showToast(t('dashboard.installments_report.select_dates'), 'error');
+            return;
+          }
+          loadInstallmentsReport(fromDate, toDate);
+        });
+      }
+    });
+
+    // --- Export Functions ---
+    function printDashboard() {
+      const content = document.querySelector('.page-content').innerHTML;
+      const printWindow = window.open('', '', 'height=600,width=800');
+      printWindow.document.write('<html><head><title>' + (t('common.button.print') || 'طباعة لوحة التحكم') + '</title>');
+      printWindow.document.write('<style>');
+      printWindow.document.write(`
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333; padding: 20px; direction: ${i18n.isRTL() ? 'rtl' : 'ltr'}; }
+        h1 { text-align: center; color: #4f46e5; margin-bottom: 20px; }
+        .glass-card, .premium-card {
+        border: 1px solid #ccc;
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 8px;
+        background: #fff!important;
+        color: #333!important;
+        box-shadow: none!important;
+        backdrop-filter: none!important;
+      }
+        .premium-dashboard-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+      }
+        .text-white, .premium-value { color: #333!important; text-shadow: none!important; -webkit-text-fill-color: initial!important; background: none!important; }
+        .text-muted, .premium-label { color: #666!important; }
+        .premium-value { font-size: 24px; font-weight: bold; margin-bottom: 5px; }
+        .grid { display: grid; gap: 20px; }
+        .grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+        .badge, .premium-indicator { padding: 4px 8px; border-radius: 4px; border: 1px solid #ccc; font-size: 12px; background: #eee!important; color: #333!important; }
+        .premium-icon-box { float: left; margin-right: 15px; width: 40px; height: 40px; font-size: 20px; border: 1px solid #ddd; background: #f5f5f5!important; color: #333!important; box-shadow: none!important; }
+        .premium-content { overflow: hidden; } /* clearfix */
+        a { text-decoration: none; color: inherit; }
+        .flex.justify-end { display: none; }
+        .premium-card:hover { transform: none!important; box-shadow: none!important; }
+      `);
+      printWindow.document.write('</style></head><body>');
+      printWindow.document.write(`<h1>${t('navigation.dashboard')} - Q1KEY</h1>`);
+      printWindow.document.write(`<div style="text-align: center; margin-bottom: 20px; color: #666;">${new Date().toLocaleString()}</div>`);
+      printWindow.document.write(content);
+      printWindow.document.write('</body></html>');
+      printWindow.document.close();
+      printWindow.focus();
+      setTimeout(() => {
+        printWindow.print();
+        printWindow.close();
+      }, 500);
+    }
+  </script>
+</body>
+
+</html>

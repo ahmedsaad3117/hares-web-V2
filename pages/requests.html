@@ -1,0 +1,1471 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <script>
+        (function () {
+            var lang = localStorage.getItem('locale') || 'ar';
+            document.documentElement.setAttribute('lang', lang);
+            document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+            if (lang === 'ar') document.documentElement.classList.add('rtl');
+        })();
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الطلبات - Q1KEY Platform</title>
+    <link rel="stylesheet" href="../css/styles.css?v=12">
+    <style>
+        .page-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .stat-card .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card .stat-label {
+            font-size: 0.875rem;
+            color: #94a3b8;
+        }
+
+        .stat-card.pending .stat-value {
+            color: #f59e0b;
+        }
+
+        .stat-card.approved .stat-value {
+            color: #10b981;
+        }
+
+        .stat-card.rejected .stat-value {
+            color: #ef4444;
+        }
+
+        /* List Header Actions */
+        .list-header-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        /* Filter Tabs */
+        .filter-tabs {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        /* Search Bar */
+        .search-container {
+            position: relative;
+            flex: 1;
+            max-width: 400px;
+            min-width: 250px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.75rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: white;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+        }
+
+        [dir="rtl"] .search-input {
+            padding: 0.75rem 2.75rem 0.75rem 1rem;
+        }
+
+        .search-input:focus {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: #6366f1;
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+            outline: none;
+        }
+
+        .search-icon {
+            position: absolute;
+            top: 50%;
+            left: 1rem;
+            transform: translateY(-50%);
+            color: #64748b;
+            pointer-events: none;
+            transition: color 0.3s;
+        }
+
+        [dir="rtl"] .search-icon {
+            left: auto;
+            right: 1rem;
+        }
+
+        .search-input:focus+.search-icon {
+            color: #818cf8;
+        }
+
+        .filter-tab {
+            padding: 0.75rem 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: #94a3b8;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .filter-tab:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .filter-tab.active {
+            background: rgba(99, 102, 241, 0.2);
+            border-color: #6366f1;
+            color: #818cf8;
+        }
+
+        .filter-tab .count {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 20px;
+            height: 20px;
+            padding: 0 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            font-size: 0.75rem;
+            margin-right: 0.5rem;
+        }
+
+        .filter-tab.active .count {
+            background: rgba(99, 102, 241, 0.5);
+        }
+
+        /* Request Cards */
+        .requests-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .request-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .request-card:hover {
+            border-color: rgba(99, 102, 241, 0.3);
+        }
+
+        .request-card.pending {
+            border-right: 4px solid #f59e0b;
+        }
+
+        .request-card.approved {
+            border-right: 4px solid #10b981;
+        }
+
+        .request-card.rejected {
+            border-right: 4px solid #ef4444;
+        }
+
+        .request-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .request-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .request-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.2));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .request-details h3 {
+            color: white;
+            font-size: 1.1rem;
+            margin: 0 0 0.25rem 0;
+        }
+
+        .request-details p {
+            color: white;
+            font-size: 0.85rem;
+            margin: 0;
+        }
+
+        .request-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .request-status.pending {
+            background: rgba(245, 158, 11, 0.2);
+            color: #fbbf24;
+        }
+
+        .request-status.approved {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+        }
+
+        .request-status.rejected {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+
+        .request-status.cancelled {
+            background: rgba(100, 116, 139, 0.2);
+            color: #64748b;
+        }
+
+        .request-body {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            padding: 1rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .request-field {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .request-field .label {
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+
+        .request-field .value {
+            color: white;
+            font-weight: 500;
+        }
+
+        .request-field .value.amount {
+            color: #10b981;
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .request-actions {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.25rem;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+        }
+
+        .action-btn.approve {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(5, 150, 105, 0.1));
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #10b981;
+        }
+
+        .action-btn.approve:hover {
+            background: #10b981;
+            color: white;
+        }
+
+        .action-btn.reject {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(220, 38, 38, 0.1));
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #ef4444;
+        }
+
+        .action-btn.reject:hover {
+            background: #ef4444;
+            color: white;
+        }
+
+        .action-btn.free {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.1));
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            color: #818cf8;
+        }
+
+        .action-btn.free:hover {
+            background: #6366f1;
+            color: white;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #94a3b8;
+        }
+
+        .empty-state svg {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .empty-state h3 {
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Process Modal */
+        .process-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .process-modal.active {
+            display: flex;
+        }
+
+        .process-modal-content {
+            background: #1e293b;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 2rem;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .process-modal h3 {
+            color: white;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #94a3b8;
+            font-size: 0.875rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .modal-actions .btn {
+            flex: 1;
+        }
+
+        .free-toggle {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .free-toggle label {
+            color: white;
+            margin: 0;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 50px;
+            height: 26px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(100, 116, 139, 0.5);
+            transition: 0.3s;
+            border-radius: 26px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background: white;
+            transition: 0.3s;
+            border-radius: 50%;
+        }
+
+        input:checked+.toggle-slider {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+        }
+
+        input:checked+.toggle-slider:before {
+            transform: translateX(24px);
+        }
+
+        .plan-chip {
+            padding: 0.6rem 1.25rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            color: #94a3b8;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .plan-chip:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(99, 102, 241, 0.3);
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        .plan-chip.active {
+            background: rgba(99, 102, 241, 0.2);
+            border-color: #6366f1;
+            color: #818cf8;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
+        }
+
+        .new-badge {
+            background: rgba(245, 158, 11, 0.2);
+            color: #fbbf24;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+
+        .renewal-badge {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="sidebar"></div>
+
+    <div class="main-content">
+        <div id="header"></div>
+
+        <div class="page-container">
+            <!-- Stats -->
+            <div class="stats-row">
+                <div class="stat-card pending">
+                    <div class="stat-value" id="pendingCount">-</div>
+                    <div class="stat-label" data-i18n-key="requests.stats.pending">Pending</div>
+                </div>
+                <div class="stat-card approved">
+                    <div class="stat-value" id="approvedCount">-</div>
+                    <div class="stat-label" data-i18n-key="requests.stats.approved">Approved</div>
+                </div>
+                <div class="stat-card rejected">
+                    <div class="stat-value" id="rejectedCount">-</div>
+                    <div class="stat-label" data-i18n-key="requests.stats.rejected">Rejected</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="totalCount">-</div>
+                    <div class="stat-label" data-i18n-key="requests.stats.total">Total Requests</div>
+                </div>
+            </div>
+
+            <div class="glass-card">
+                <!-- List Header Actions -->
+                <div class="list-header-actions">
+                    <!-- Filter Tabs -->
+                    <div class="filter-tabs">
+                        <button class="filter-tab" data-status="" onclick="filterRequests('')"
+                            data-i18n-key="requests.tabs.all">
+                            All
+                        </button>
+                        <button class="filter-tab active" data-status="Pending" onclick="filterRequests('Pending')">
+                            <span class="count" id="pendingBadge">0</span>
+                            <span data-i18n-key="requests.tabs.pending">Pending</span>
+                        </button>
+                        <button class="filter-tab" data-status="Approved" onclick="filterRequests('Approved')"
+                            data-i18n-key="requests.tabs.approved">
+                            Approved
+                        </button>
+                        <button class="filter-tab" data-status="Rejected" onclick="filterRequests('Rejected')"
+                            data-i18n-key="requests.tabs.rejected">
+                            Rejected
+                        </button>
+                    </div>
+
+                    <div class="search-container">
+                        <input type="text" id="requestSearch" name="q1key_request_search" autocomplete="off"
+                            class="search-input" data-i18n-placeholder="requests.search_placeholder"
+                            placeholder="البحث بالاسم، رقم الطلب، أو السجل..." oninput="handleSearch(this.value)">
+                        <div class="search-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Requests List -->
+                <div class="requests-list" id="requestsList">
+                    <div class="empty-state">
+                        <div class="spinner"></div>
+                        <p data-i18n-key="requests.list.loading">Loading Requests...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- Process Modal -->
+    <div id="processModal" class="process-modal">
+        <div class="process-modal-content">
+            <h3 id="modalTitle">✅ Confirm Subscription</h3>
+
+            <div id="requestSummary"
+                style="background: rgba(0,0,0,0.2); border-radius: 10px; padding: 1rem; margin-bottom: 1rem;">
+                <!-- Will be populated dynamically -->
+            </div>
+
+            <div class="free-toggle" id="freeToggleSection">
+                <label class="toggle-switch">
+                    <input type="checkbox" id="isFreeCheckbox" onchange="toggleFreeReason()">
+                    <span class="toggle-slider"></span>
+                </label>
+                <label data-i18n-key="requests.process_modal.free_subscription">اشتراك مجاني (تعويضي)</label>
+            </div>
+
+            <div class="form-group" id="freeReasonGroup" style="display: none;">
+                <label data-i18n-key="requests.process_modal.free_reason_label">سبب الاشتراك المجاني</label>
+                <input type="text" id="freeReason" data-i18n-attr="placeholder"
+                    data-i18n-key="requests.process_modal.free_reason_placeholder"
+                    placeholder="مثال: تعويض عن مشكلة تقنية">
+            </div>
+
+            <div class="form-group">
+                <label data-i18n-key="requests.process_modal.admin_notes">ملاحظات الإدارة</label>
+                <textarea id="adminNotes" data-i18n-attr="placeholder"
+                    data-i18n-key="requests.process_modal.admin_notes_placeholder"
+                    placeholder="ملاحظات إضافية (اختياري)..."></textarea>
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeProcessModal()"
+                    data-i18n-key="requests.process_modal.cancel">إلغاء</button>
+                <button class="btn btn-primary" id="confirmProcessBtn" onclick="confirmProcess()"
+                    data-i18n-key="common.button.confirm">تأكيد</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Details Modal - Comprehensive View -->
+    <div id="detailsModal" class="process-modal">
+        <div class="process-modal-content"
+            style="max-width: 900px; max-height: 95vh; overflow-y: auto; padding: 1.5rem;">
+            <h3 style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                📄 <span data-i18n-key="requests.details_modal.title">تفاصيل الطلب</span>
+            </h3>
+
+            <div id="detailsContent"
+                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem;">
+                <!-- Will be populated dynamically -->
+            </div>
+
+            <div class="modal-actions"
+                style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.1);">
+                <button class="btn btn-secondary" onclick="closeDetailsModal()"
+                    data-i18n-key="requests.details_modal.close">إغلاق</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirm Modal - For confirmation dialogs -->
+    <div id="confirmModal" class="process-modal" style="z-index: 10001;">
+        <div class="process-modal-content" style="max-width: 450px; text-align: center;">
+            <div id="confirmIcon" style="font-size: 3rem; margin-bottom: 1rem;">⚠️</div>
+            <h3 id="confirmTitle" style="margin-bottom: 1rem; color: white;">تأكيد العملية</h3>
+            <p id="confirmMessage" style="color: #94a3b8; margin-bottom: 1.5rem;">هل أنت متأكد من إتمام هذه العملية؟</p>
+
+            <div class="modal-actions" style="justify-content: center; gap: 1rem;">
+                <button class="btn btn-secondary" onclick="closeConfirmModal()">إلغاء</button>
+                <button id="confirmActionBtn" class="btn btn-primary" onclick="executeConfirmedAction()">تأكيد</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Modal - Full Form Like institutions-new.html -->
+    <div id="editModal" class="process-modal">
+        <div class="process-modal-content"
+            style="max-width: 1000px; max-height: 95vh; overflow-y: auto; padding: 1.5rem;">
+            <h3 style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                ✏️ تعديل بيانات الطلب
+            </h3>
+
+            <!-- Request Type Info -->
+            <div id="editRequestTypeInfo"
+                style="background: rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.3); border-radius: 10px; padding: 1rem; margin-bottom: 1.5rem;">
+                <!-- Will show request type dynamically -->
+            </div>
+
+            <!-- Main Grid Layout -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+
+                <!-- Right Column: Institution Details + Notes -->
+                <div style="display: flex; flex-direction: column; gap: 1rem;">
+                    <!-- Institution Info -->
+                    <div
+                        style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 1.25rem;">
+                        <h4
+                            style="color: #818cf8; margin-bottom: 1rem; font-size: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                            🏢 معلومات المؤسسة
+                        </h4>
+
+                        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                            <!-- Name -->
+                            <div class="form-group">
+                                <label style="font-size: 0.85rem; color: #94a3b8;">اسم المؤسسة <span
+                                        style="color: #ef4444;">*</span></label>
+                                <input type="text" id="editInstName" class="input" placeholder="أدخل اسم المؤسسة">
+                            </div>
+
+                            <!-- Tax ID -->
+                            <div class="form-group">
+                                <label style="font-size: 0.85rem; color: #94a3b8;">رقم السجل التجاري <span
+                                        style="color: #ef4444;">*</span></label>
+                                <input type="text" id="editInstTaxId" class="input"
+                                    placeholder="أدخل رقم السجل التجاري">
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+                                <!-- Phone -->
+                                <div class="form-group">
+                                    <label style="font-size: 0.85rem; color: #94a3b8;">رقم الهاتف <span
+                                            style="color: #ef4444;">*</span></label>
+                                    <input type="tel" id="editInstPhone" class="input" placeholder="05xxxxxxxx">
+                                </div>
+                                <!-- Email -->
+                                <div class="form-group">
+                                    <label style="font-size: 0.85rem; color: #94a3b8;">البريد الإلكتروني <span
+                                            style="color: #ef4444;">*</span></label>
+                                    <input type="email" id="editInstEmail" name="edit_inst_email_field"
+                                        autocomplete="off" class="input" placeholder="email@example.com">
+                                </div>
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+                                <!-- Max Users -->
+                                <div class="form-group">
+                                    <label style="font-size: 0.85rem; color: #94a3b8;">الحد الأقصى للمستخدمين</label>
+                                    <input type="number" id="editInstMaxUsers" class="input" min="1" value="1">
+                                </div>
+                                <!-- Expiration Date -->
+                                <div class="form-group">
+                                    <label style="font-size: 0.85rem; color: #94a3b8;">تاريخ الانتهاء</label>
+                                    <input type="date" id="editInstExpiration" class="input">
+                                </div>
+                            </div>
+
+                            <!-- Toggles -->
+                            <div
+                                style="background: rgba(255,255,255,0.03); padding: 0.75rem; border-radius: 8px; display: flex; flex-direction: column; gap: 0.5rem;">
+                                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                    <input type="checkbox" id="editInstCanCreateBranches" checked
+                                        style="width: 16px; height: 16px; accent-color: #6366f1;">
+                                    <div>
+                                        <span style="color: white; font-size: 0.85rem;">السماح بإنشاء الفروع</span>
+                                        <p style="margin: 0; font-size: 0.75rem; color: #64748b;">السماح لهذه المؤسسة
+                                            بإنشاء وإدارة الفروع</p>
+                                    </div>
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                    <input type="checkbox" id="editInstIsActive" checked
+                                        style="width: 16px; height: 16px; accent-color: #10b981;">
+                                    <span style="color: white; font-size: 0.85rem;">نشط</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notes Section (moved here under Institution Info) -->
+                    <div
+                        style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 1.25rem;">
+                        <h4
+                            style="color: #64748b; margin-bottom: 1rem; font-size: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                            📝 الملاحظات
+                        </h4>
+                        <div class="form-group" style="margin-bottom: 0.75rem;">
+                            <label style="font-size: 0.85rem; color: #94a3b8;">ملاحظات العميل</label>
+                            <textarea id="editNotes" class="input" rows="2"
+                                placeholder="ملاحظات من صاحب الطلب..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label style="font-size: 0.85rem; color: #94a3b8;">ملاحظات المشرف</label>
+                            <textarea id="editAdminNotes" class="input" rows="2"
+                                placeholder="ملاحظات خاصة بالمشرف..."></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Left Column: Subscription & Admin -->
+                <div style="display: flex; flex-direction: column; gap: 1rem;">
+
+                    <!-- Subscription Plan -->
+                    <div
+                        style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 1.25rem;">
+                        <h4
+                            style="color: #a855f7; margin-bottom: 1rem; font-size: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                            💎 باقة الاشتراك
+                        </h4>
+                        <div id="editPlansContainer" style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                            <div class="spinner"></div>
+                        </div>
+                        <input type="hidden" id="editSelectedPlanId">
+
+                        <!-- Amount Override -->
+                        <div class="form-group" style="margin-top: 1rem;">
+                            <label style="font-size: 0.85rem; color: #94a3b8;">المبلغ (يمكن تعديله)</label>
+                            <input type="number" id="editAmount" class="input" step="0.01" placeholder="المبلغ">
+                        </div>
+                    </div>
+
+                    <!-- Manager Account -->
+                    <div
+                        style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 1.25rem;">
+                        <h4
+                            style="color: #f59e0b; margin-bottom: 1rem; font-size: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                            👤 بيانات حساب المدير
+                        </h4>
+
+                        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                            <div class="form-group">
+                                <label style="font-size: 0.85rem; color: #94a3b8;">الاسم الكامل <span
+                                        style="color: #ef4444;">*</span></label>
+                                <input type="text" id="editAdminName" class="input" placeholder="أدخل الاسم الكامل">
+                            </div>
+
+                            <div class="form-group">
+                                <label style="font-size: 0.85rem; color: #94a3b8;">البريد الإلكتروني <span
+                                        style="color: #ef4444;">*</span></label>
+                                <input type="email" id="editAdminEmail" name="edit_admin_email_field" autocomplete="off"
+                                    class="input" placeholder="admin@example.com">
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+                                <div class="form-group">
+                                    <label style="font-size: 0.85rem; color: #94a3b8;">رقم الهاتف</label>
+                                    <input type="tel" id="editAdminPhone" class="input" placeholder="Phone">
+                                </div>
+                                <div class="form-group">
+                                    <label style="font-size: 0.85rem; color: #94a3b8;">كلمة المرور</label>
+                                    <input type="password" id="editAdminPassword" name="edit_admin_password_field"
+                                        autocomplete="new-password" class="input"
+                                        placeholder="كلمة مرور جديدة (اختياري)">
+                                </div>
+                            </div>
+
+                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                <input type="checkbox" id="editAdminIsActive" checked
+                                    style="width: 16px; height: 16px; accent-color: #10b981;">
+                                <span style="color: white; font-size: 0.85rem;">حساب المدير نشط</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="modal-actions"
+                style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.1);">
+                <button class="btn btn-secondary" onclick="closeEditModal()">إلغاء</button>
+                <button class="btn btn-primary" onclick="saveEditRequest()">💾 حفظ التغييرات</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="toast" class="toast"></div>
+
+    <!-- Force correct API config -->
+    <script>
+        window.API_CONFIG = { baseUrl: 'http://localhost:3001/api' };
+    </script>
+    <script src="../js/config.js?v=3"></script>
+    <script src="../js/i18n.js"></script>
+    <script src="../js/api.js?v=4"></script>
+    <script src="../js/ui-utils.js?v=3"></script>
+    <script src="../components/sidebar.js?v=12"></script>
+    <script src="../components/header.js?v=3"></script>
+    <script>
+        let allRequests = [];
+        let currentFilter = 'Pending';
+        let searchQuery = '';
+        let processingRequest = null;
+        let processAction = 'Approved';
+        let editingRequest = null;
+        let availablePlans = [];
+        let searchTimeout = null;
+
+        function translateNote(note) {
+            if (!note) return '-';
+            if (localStorage.getItem('locale') !== 'ar') return note;
+            let translated = note.replace(/Initial subscription request for Branch: /g, 'طلب اشتراك أولي للفرع: ');
+            translated = translated.replace(/Initial subscription request for /g, 'طلب اشتراك أولي للمؤسسة: ');
+            return translated;
+        }
+
+        async function loadPlans() {
+            try {
+                const response = await api.subscriptions.getPlans();
+                availablePlans = Array.isArray(response) ? response : (response.data || []);
+            } catch (error) { console.error('Error loading plans:', error); }
+        }
+
+        async function initPage() {
+            await waitForI18n();
+            if (!requireAuth()) return;
+            const user = getCurrentUser();
+            if (user.roleName !== 'Super Admin') {
+                window.location.href = 'dashboard.html';
+                return;
+            }
+            document.getElementById('sidebar').innerHTML = createSidebar(user);
+            document.getElementById('header').innerHTML = createHeader(t('requests.title'), t('requests.subtitle'));
+            if (typeof initializeLanguageSwitcher === 'function') initializeLanguageSwitcher();
+            setActiveNav('requests');
+
+            await loadRequests();
+            await loadPlans();
+        }
+
+        async function loadRequests() {
+            const list = document.getElementById('requestsList');
+            const statsIds = ['pendingCount', 'approvedCount', 'rejectedCount', 'totalCount', 'pendingBadge'];
+
+            list.innerHTML = `<div class="empty-state"><div class="spinner"></div><p>${t('requests.list.loading') || 'جاري التحميل...'}</p></div>`;
+
+            try {
+                console.log('Fetching unified data with status:', currentFilter);
+                const response = await api.subscriptions.getUnifiedData({
+                    status: currentFilter,
+                    search: searchQuery,
+                    page: 1,
+                    limit: 50
+                });
+
+                if (!response) throw new Error('Empty response from server');
+                console.log('Response received:', response);
+
+                const stats = response.stats;
+                if (stats) {
+                    const updateText = (id, val) => {
+                        const el = document.getElementById(id);
+                        if (el) el.textContent = val;
+                        else console.warn(`Element #${id} not found`);
+                    };
+
+                    updateText('pendingCount', stats.pending || 0);
+                    updateText('approvedCount', stats.approved || 0);
+                    updateText('rejectedCount', stats.rejected || 0);
+                    updateText('totalCount', stats.total || 0);
+                    updateText('pendingBadge', stats.pending || 0);
+                }
+
+                allRequests = (response.requests && response.requests.data) ? response.requests.data : [];
+                console.log(`Rendering ${allRequests.length} requests`);
+                renderRequestsList();
+            } catch (error) {
+                console.error('Critical Error in loadRequests:', error);
+                list.innerHTML = `
+                    <div class="empty-state">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">❌</div>
+                        <h3 style="color: #ef4444;">${t('requests.messages.load_error') || 'خطأ في تحميل الطلبات'}</h3>
+                        <p style="color: #94a3b8; margin: 1rem 0; font-family: monospace; background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 8px;">
+                            ${error.message || 'Unknown Error'}
+                        </p>
+                        <button class="action-btn" onclick="loadRequests()">🔄 ${t('common.button.retry') || 'إعادة المحاولة'}</button>
+                    </div>
+                `;
+                showToast(t('requests.messages.load_error') || 'خطأ في تحميل الطلبات', 'error');
+            }
+        }
+
+        // updateStats is now handled in loadRequests
+        function updateStats() { }
+
+        function filterRequests(status) {
+            currentFilter = status;
+            document.querySelectorAll('.filter-tab').forEach(tab => {
+                tab.classList.toggle('active', tab.dataset.status === status);
+            });
+            loadRequests();
+        }
+
+        function handleSearch(query) {
+            searchQuery = query;
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                loadRequests();
+            }, 500);
+        }
+
+        function getStatusIcon(status) {
+            if (status === 'Approved') return '✅';
+            if (status === 'Rejected') return '❌';
+            if (status === 'Cancelled') return '🚫';
+            return '⏳';
+        }
+
+        function getStatusLabel(status) {
+            const locale = localStorage.getItem('locale') || 'ar';
+            const labels = {
+                'Pending': locale === 'ar' ? 'قيد الانتظار' : 'Pending',
+                'Approved': locale === 'ar' ? 'تمت الموافقة' : 'Approved',
+                'Rejected': locale === 'ar' ? 'مرفوض' : 'Rejected',
+                'Cancelled': locale === 'ar' ? 'ملغي' : 'Cancelled'
+            };
+            return labels[status] || status;
+        }
+
+        function renderRequestsList() {
+            const list = document.getElementById('requestsList');
+            const requests = allRequests; // Already filtered by server
+
+            if (requests.length === 0) {
+                list.innerHTML = `
+                    <div class="empty-state">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity: 0.2; margin-bottom: 1rem;">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                            <line x1="16" y1="13" x2="8" y2="13"></line>
+                            <line x1="16" y1="17" x2="8" y2="17"></line>
+                            <polyline points="10 9 9 9 8 9"></polyline>
+                        </svg>
+                        <h3 style="color: #64748b;">${t('requests.list.empty') || 'لا توجد طلبات'}</h3>
+                    </div>
+                `;
+                return;
+            }
+
+            list.innerHTML = requests.map(req => {
+                const isInstitution = req.requesterType === 'Institution';
+                let entName = isInstitution ? req.institution?.name : req.branch?.name;
+                let taxId = isInstitution ? req.institution?.taxId : req.branch?.taxId;
+                if (req.pendingData) {
+                    let pd = req.pendingData;
+                    if (typeof pd === 'string') {
+                        try { pd = JSON.parse(pd); } catch (e) { pd = {}; }
+                    }
+                    if (pd) {
+                        entName = entName || pd.name || pd.branchName;
+                        taxId = taxId || pd.taxId;
+                    }
+                }
+
+                const plan = req.plan || availablePlans.find(p => p.id === req.planId);
+                const planName = plan ? (i18n.isRTL() ? plan.name : (plan.nameEn || plan.name)) : (req.customDurationMonths + ' شهر');
+
+                const statusClass = req.status.toLowerCase();
+                // Determine display type label
+                let typeLabel = '';
+                let typeClass = '';
+                if (req.status === 'Pending') {
+                    // If pendingData exists, it's a new registration request because renewals don't store pendingData
+                    if (req.pendingData && req.pendingData !== 'null') {
+                        typeLabel = 'إنشاء جديد';
+                        typeClass = 'new-badge';
+                    } else {
+                        typeLabel = 'تجديد اشتراك';
+                        typeClass = 'renewal-badge';
+                    }
+                }
+
+                return `
+                    <div class="request-card ${req.status.toLowerCase()}">
+                        <div class="request-header">
+                            <div class="request-info">
+                                <div class="request-icon">${isInstitution ? '🏛️' : '🏪'}</div>
+                                <div class="request-details">
+                                    <h3 style="display: flex; align-items: center; gap: 0.5rem;">
+                                        ${entName || '-'}
+                                        ${typeLabel ? `<span class="request-status ${typeClass}" style="font-size: 0.7rem; padding: 0.2rem 0.6rem;">${typeLabel}</span>` : ''}
+                                    </h3>
+                                    <p>${isInstitution ? t('requests.list.entity_institution') : t('requests.list.entity_branch')} | ${t('requests.list.request_num')} #${req.id}</p>
+                                    ${!isInstitution && req.institution ? `<p style="color: #818cf8; font-weight: bold; margin-top: 4px;">${t('requests.list.parent_institution')}: ${req.institution.name}</p>` : ''}
+                                </div>
+                            </div>
+                            <div class="request-status ${req.status.toLowerCase()}">
+                                ${getStatusIcon(req.status)} ${getStatusLabel(req.status)}
+                            </div>
+                        </div>
+                        <div class="request-body">
+                            <div class="request-field">
+                                <span class="label">${t('requests.list.plan_label')}</span>
+                                <span class="value" style="color: #a855f7;">${planName}</span>
+                            </div>
+                            <div class="request-field">
+                                <span class="label">${t('requests.list.amount_label')}</span>
+                                <span class="value amount">${req.isFree ? t('requests.list.free') : (req.amount || plan?.price) + ' ' + t('my_subscription.currency')}</span>
+                            </div>
+                            <div class="request-field">
+                                <span class="label">${t('requests.list.date_label')}</span>
+                                <span class="value">${formatDate(req.createdAt)}</span>
+                            </div>
+                        </div>
+                        <div class="request-actions">
+                            <button class="action-btn" onclick="openDetailsModal(${req.id})">🔍 ${t('requests.list.details')}</button>
+                            ${req.status === 'Pending' ? `
+                                <button class="action-btn approve" onclick="openProcessModal(${req.id}, 'Approved')">✅ ${t('requests.list.activate')}</button>
+                                <button class="action-btn reject" onclick="openProcessModal(${req.id}, 'Rejected')">❌ ${t('requests.list.reject')}</button>
+                                <button class="action-btn" onclick="openEditModal(${req.id})">✏️ ${t('requests.list.edit')}</button>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Bridge function for backwards compatibility if needed, or just remove usages of renderRequests
+        function renderRequests() { renderRequestsList(); }
+
+
+        function openProcessModal(requestId, action) {
+            const request = allRequests.find(r => r.id === requestId);
+            if (!request) return;
+            processingRequest = request;
+            processAction = action;
+            const isApproval = action === 'Approved';
+            document.getElementById('modalTitle').innerHTML = isApproval ? '✅ تفعيل الاشتراك' : '❌ رفض الطلب';
+            const summary = document.getElementById('requestSummary');
+            let name = (request.institution?.name || request.branch?.name);
+            let pd = request.pendingData;
+            if (typeof pd === 'string') { try { pd = JSON.parse(pd); } catch (e) { pd = {}; } }
+            if (pd && pd.name) name = name || pd.name;
+            summary.innerHTML = `<div style="font-weight: bold;">${name}</div><div style="font-size: 0.85rem; color: #94a3b8;">${t('subscriptions.type.' + request.requesterType.toLowerCase())} #${request.id}</div>`;
+            document.getElementById('freeToggleSection').style.display = isApproval ? 'flex' : 'none';
+            document.getElementById('adminNotes').value = request.adminNotes || '';
+            document.getElementById('processModal').classList.add('active');
+        }
+
+        function closeProcessModal() { document.getElementById('processModal').classList.remove('active'); }
+        function toggleFreeReason() { document.getElementById('freeReasonGroup').style.display = document.getElementById('isFreeCheckbox').checked ? 'block' : 'none'; }
+
+        function openDetailsModal(requestId) {
+            const request = allRequests.find(r => r.id === requestId);
+            if (!request) return;
+            const content = document.getElementById('detailsContent');
+            const isInstitution = request.requesterType === 'Institution';
+            let entity = isInstitution ? request.institution : request.branch;
+            let manager = null;
+            let pendingData = {};
+
+            try {
+                if (request.pendingData) {
+                    let pd = request.pendingData;
+                    if (typeof pd === 'string') {
+                        try { pd = JSON.parse(pd); } catch (e) { pd = {}; }
+                    }
+                    if (pd) {
+                        pendingData = pd;
+                        if (!entity) {
+                            entity = {
+                                name: pd.name || pd.branchName || '',
+                                taxId: pd.taxId || '-',
+                                phoneNumber: pd.phoneNumber || pd.phone || '',
+                                email: pd.email || '',
+                                maxUsers: pd.maxUsers || pd.branchMaxUsers || 1,
+                                canCreateBranches: pd.canCreateBranches,
+                                isActive: pd.isActive,
+                                isPendingRegistration: true
+                            };
+                        }
+
+                        // Comprehensive manager data search
+                        const mName = pd.adminName || pd.userName || pd.managerName || pd.name;
+                        const mEmail = pd.adminEmail || pd.userEmail || pd.managerEmail || pd.email;
+
+                        if (mName || mEmail) {
+                            manager = {
+                                name: mName || '',
+                                email: mEmail || '',
+                                phoneNumber: pd.adminPhoneNumber || pd.userPhoneNumber || pd.managerPhoneNumber || pd.phoneNumber || '',
+                                isActive: pd.adminIsActive !== undefined ? pd.adminIsActive : (pd.userIsActive !== undefined ? pd.userIsActive : true)
+                            };
+                        }
+                    }
+                }
+
+                // Fallback to joined users if no manager found in pending data
+                if (!manager && entity && entity.users && entity.users.length > 0) {
+                    // Find manager (Role ID 2 for Institutions, 3 for Branches)
+                    manager = entity.users.find(u => u.roleId === 2 || u.roleId === 3) || entity.users[0];
+                }
+
+                const plan = request.plan || availablePlans.find(p => p.id === request.planId);
+                const planName = plan ? (i18n.isRTL() ? plan.name : (plan.nameEn || plan.name)) : (request.customDurationMonths + ' شهر');
+                const planDuration = plan ? plan.durationMonths : request.customDurationMonths;
+
+                const calculatedEndDate = new Date();
+                calculatedEndDate.setMonth(calculatedEndDate.getMonth() + (planDuration || 0));
+                const displayEndDate = request.requestedEndDate ? new Date(request.requestedEndDate) : calculatedEndDate;
+
+                content.innerHTML = `
+                    <div style="display: flex; flex-direction: column; gap: 1rem;">
+                        <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 1.25rem;">
+                            <h4 style="color: #818cf8; margin-bottom: 1rem;">${isInstitution ? '🏛️ ' + t('requests.details_modal.entity_info_institution') : '🏪 ' + t('requests.details_modal.entity_info_branch')}</h4>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+                                <div class="request-field"><span class="label">${t('requests.details_modal.name')}</span><span class="value">${entity?.name || '-'}</span></div>
+                                ${!isInstitution && request.institution ? `<div class="request-field"><span class="label">${t('requests.list.parent_institution')}</span><span class="value" style="color:#818cf8;font-weight:bold;">${request.institution.name}</span></div>` : ''}
+                                <div class="request-field"><span class="label">${t('requests.details_modal.tax_id')}</span><span class="value">${entity?.taxId || '-'}</span></div>
+                                <div class="request-field"><span class="label">${t('requests.details_modal.phone')}</span><span class="value">${entity?.phoneNumber || pendingData.phoneNumber || '-'}</span></div>
+                                <div class="request-field"><span class="label">${t('requests.details_modal.email')}</span><span class="value">${entity?.email || pendingData.email || '-'}</span></div>
+                                <div class="request-field"><span class="label">${t('requests.details_modal.expected_end_date')}</span><span class="value">${formatDate(displayEndDate)}</span></div>
+                            </div>
+
+                            <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.05);">
+                                <h4 style="color: #f59e0b; margin-bottom: 1rem; font-size: 0.9rem;">👤 ${t('requests.details_modal.manager_info')}</h4>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+                                    <div class="request-field">
+                                        <span class="label">${t('requests.details_modal.name')}</span>
+                                        <span class="value">${manager?.name || manager?.displayName || '-'}</span>
+                                    </div>
+                                    <div class="request-field">
+                                        <span class="label">${t('requests.details_modal.email')}</span>
+                                        <span class="value">${manager?.email || '-'}</span>
+                                    </div>
+                                    <div class="request-field">
+                                        <span class="label">${t('requests.details_modal.phone')}</span>
+                                        <span class="value">${manager?.phoneNumber || manager?.phone || '-'}</span>
+                                    </div>
+                                    <div class="request-field">
+                                        <span class="label">${t('requests.details_modal.status')}</span>
+                                        <span class="value">${manager?.isActive !== false ? '<span style="color: #10b981;">✅ ' + t('requests.details_modal.active') + '</span>' : '<span style="color: #ef4444;">❌ ' + t('requests.details_modal.inactive') + '</span>'}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 1.25rem;">
+                            <h4 style="color: #64748b; margin-bottom: 1rem;">📝 <span data-i18n-key="requests.list.notes">الملاحظات</span></h4>
+                            <div class="request-field"><span class="label">${t('requests.details_modal.customer_notes')}</span><span class="value">${request.notes ? translateNote(request.notes) : '-'}</span></div>
+                            <div class="request-field"><span class="label">${t('requests.process_modal.admin_notes')}</span><span class="value">${request.adminNotes || '-'}</span></div>
+                        </div>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 1rem;">
+                        <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 1.25rem;">
+                            <h4 style="color: #a855f7; margin-bottom: 1rem;">💎 ${t('requests.details_modal.subscription_info')}</h4>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+                                <div class="request-field"><span class="label">${t('requests.list.plan_label')}</span><span class="value" style="color:#a855f7;">${planName}</span></div>
+                                <div class="request-field">
+                                    <span class="label">${t('requests.list.amount_label')}</span>
+                                    <span class="value amount">${request.isFree ? t('requests.list.free') : (request.amount || plan?.price) + ' ' + t('my_subscription.currency')}</span>
+                                </div>
+                                <div class="request-field"><span class="label">${t('requests.details_modal.users_count')}</span><span class="value">${pendingData.maxUsers || entity?.maxUsers || 1}</span></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                document.getElementById('detailsModal').classList.add('active');
+            } catch (e) {
+                console.error('Error in openDetailsModal:', e);
+                showToast('حدث خطأ أثناء عرض التفاصيل', 'error');
+            }
+        }
+
+        function closeDetailsModal() { document.getElementById('detailsModal').classList.remove('active'); }
+
+        async function openEditModal(requestId) {
+            let request = allRequests.find(r => r.id === requestId);
+            if (!request) return;
+
+            // Fetch full details to ensure we have relations (users, etc.)
+            try {
+                document.body.style.cursor = 'wait';
+                const fullRequest = await api.subscriptions.getRequestById(requestId);
+                if (fullRequest) request = fullRequest;
+            } catch (e) {
+                console.warn('Could not fetch full request details, using list data', e);
+            } finally {
+                document.body.style.cursor = 'default';
+            }
+
+            editingRequest = request;
+            if (availablePlans.length === 0) await loadPlans();
+            const isInstitution = request.requesterType === 'Institution';
+            let pd = request.pendingData;
+            if (typeof pd === 'string') { try { pd = JSON.parse(pd); } catch (e) { pd = {}; } }
+            if (!pd) pd = {};
+            const entity = isInstitution ? request.institution : request.branch;
+            document.getElementById('editInstName').value = entity?.name || pd.name || '';
+            document.getElementById('editInstTaxId').value = entity?.taxId || pd.taxId || '';
+            document.getElementById('editInstPhone').value = entity?.phoneNumber || pd.phoneNumber || '';
+            document.getElementById('editInstEmail').value = entity?.email || pd.email || '';
+            document.getElementById('editInstMaxUsers').value = pd.maxUsers || entity?.maxUsers || 1;
+            let expDate = request.requestedEndDate || entity?.expirationDate;
+            if (!expDate && request.planId) {
+                const plan = availablePlans.find(p => p.id === request.planId);
+                if (plan) {
+                    const d = new Date();
+                    d.setMonth(d.getMonth() + plan.durationMonths);
+                    expDate = d.toISOString();
+                }
+            }
+            let dateStr = '';
+            if (expDate) {
+                if (typeof expDate === 'string') dateStr = expDate.split('T')[0];
+                else if (expDate instanceof Date) dateStr = expDate.toISOString().split('T')[0];
+                else try { dateStr = new Date(expDate).toISOString().split('T')[0]; } catch (e) { }
+            }
+            document.getElementById('editInstExpiration').value = dateStr;
+            document.getElementById('editInstCanCreateBranches').checked = pd.canCreateBranches !== false;
+            document.getElementById('editNotes').value = request.notes || '';
+            document.getElementById('editAdminNotes').value = request.adminNotes || '';
+            document.getElementById('editAmount').value = request.amount || '';
+            document.getElementById('editSelectedPlanId').value = request.planId || '';
+            // For existing entities (Renewal), try to get manager info from users list if not in pendingData
+            let managerName = pd.adminName || pd.userName || pd.managerName || '';
+            let managerEmail = pd.adminEmail || pd.userEmail || pd.managerEmail || '';
+            let managerPhone = pd.adminPhoneNumber || pd.userPhoneNumber || pd.managerPhoneNumber || '';
+            let managerIsActive = pd.adminIsActive !== false && pd.userIsActive !== false;
+
+            if (!managerName && entity && entity.users) {
+                // Try to find the manager user (Role 2 for Institution, 3 for Branch)
+                const manager = entity.users.find(u => u.roleId === 2 || u.roleId === 3) || entity.users[0];
+                if (manager) {
+                    managerName = manager.name;
+                    managerEmail = manager.email;
+                    managerPhone = manager.phoneNumber;
+                    managerIsActive = manager.isActive;
+                }
+            }
+
+            document.getElementById('editAdminName').value = managerName;
+            document.getElementById('editAdminEmail').value = managerEmail;
+            document.getElementById('editAdminPhone').value = managerPhone;
+            document.getElementById('editAdminIsActive').checked = managerIsActive;
+            renderEditPlans();
+            document.getElementById('editModal').classList.add('active');
+        }
+
+        function closeEditModal() { document.getElementById('editModal').classList.remove('active'); }
+
+        function calculateNewExpiration(durationMonths) {
+            const isInstitution = editingRequest.requesterType === 'Institution';
+            const entity = isInstitution ? editingRequest.institution : editingRequest.branch;
+            let baseDate = new Date();
+
+            // If entity has a future expiration date, use it as base
+            if (entity && entity.expirationDate) {
+                const currentExp = new Date(entity.expirationDate);
+                if (currentExp > baseDate) baseDate = currentExp;
+            }
+
+            const d = new Date(baseDate);
+            d.setMonth(d.getMonth() + durationMonths);
+            return d.toISOString().split('T')[0];
+        }
+
+        function selectEditPlan(planId) {
+            document.getElementById('editSelectedPlanId').value = planId;
+            const plan = availablePlans.find(p => p.id === planId);
+            if (plan) {
+                document.getElementById('editAmount').value = plan.price;
+                document.getElementById('editInstExpiration').value = calculateNewExpiration(plan.durationMonths);
+            }
+            renderEditPlans();
+        }
+
+        function renderEditPlans() {
+            const container = document.getElementById('editPlansContainer');
+            const selectedId = parseInt(document.getElementById('editSelectedPlanId').value);
+            container.innerHTML = availablePlans.map(plan => `
+                <div class="plan-chip ${plan.id === selectedId ? 'active' : ''}" onclick="selectEditPlan(${plan.id})">
+                    ${i18n.isRTL() ? plan.name : plan.nameEn || plan.name}
+                </div>
+            `).join('');
+        }
+
+        async function saveEditRequest() {
+            if (!editingRequest) return;
+            let pd = editingRequest.pendingData || {};
+            // If request is renewal, pendingData might be null/string "null", so init as empty object
+            if (typeof pd === 'string') { try { pd = JSON.parse(pd); } catch (e) { pd = {}; } }
+            if (!pd) pd = {};
+
+            const data = {
+                amount: parseFloat(document.getElementById('editAmount').value),
+                planId: parseInt(document.getElementById('editSelectedPlanId').value),
+                notes: document.getElementById('editNotes').value,
+                adminNotes: document.getElementById('editAdminNotes').value,
+                requestedEndDate: document.getElementById('editInstExpiration').value,
+                pendingData: JSON.stringify({
+                    ...pd,
+                    name: document.getElementById('editInstName').value,
+                    taxId: document.getElementById('editInstTaxId').value,
+                    phoneNumber: document.getElementById('editInstPhone').value,
+                    email: document.getElementById('editInstEmail').value,
+                    maxUsers: parseInt(document.getElementById('editInstMaxUsers').value),
+                    adminName: document.getElementById('editAdminName').value,
+                    adminEmail: document.getElementById('editAdminEmail').value,
+                    adminPhoneNumber: document.getElementById('editAdminPhone').value,
+                    userName: document.getElementById('editAdminName').value,
+                    userEmail: document.getElementById('editAdminEmail').value,
+                    userPhoneNumber: document.getElementById('editAdminPhone').value,
+                    // Preserve or update activation status
+                    adminIsActive: document.getElementById('editAdminIsActive').checked,
+                    userIsActive: document.getElementById('editAdminIsActive').checked,
+                    canCreateBranches: document.getElementById('editInstCanCreateBranches').checked
+                })
+            };
+            try {
+                await api.subscriptions.updateRequest(editingRequest.id, data);
+                showToast('تم التحديث بنجاح', 'success');
+                closeEditModal();
+                await loadRequests();
+            } catch (error) { showToast(error.message, 'error'); }
+        }
+
+        let pendingConfirmAction = null;
+        function showConfirmModal(options) {
+            document.getElementById('confirmIcon').textContent = options.icon || '⚠️';
+            document.getElementById('confirmTitle').textContent = options.title || 'تأكيد';
+            document.getElementById('confirmMessage').textContent = options.message || '';
+            const btn = document.getElementById('confirmActionBtn');
+            btn.textContent = options.confirmText || 'تأكيد';
+            btn.className = options.confirmClass || 'btn btn-primary';
+            pendingConfirmAction = options.onConfirm;
+            document.getElementById('confirmModal').classList.add('active');
+        }
+        function closeConfirmModal() { document.getElementById('confirmModal').classList.remove('active'); }
+        function executeConfirmedAction() { if (pendingConfirmAction) pendingConfirmAction(); closeConfirmModal(); }
+
+        async function confirmProcess() {
+            if (!processingRequest) return;
+            const isApproval = processAction === 'Approved';
+            showConfirmModal({
+                icon: isApproval ? '✅' : '❌',
+                title: isApproval ? 'تأكيد الموافقة' : 'تأكيد الرفض',
+                confirmText: isApproval ? 'موافقة' : 'رفض',
+                confirmClass: isApproval ? 'btn btn-primary' : 'btn btn-danger',
+                onConfirm: async () => { await executeConfirmProcess(); }
+            });
+        }
+
+        async function executeConfirmProcess() {
+            if (!processingRequest) return;
+            try {
+                await api.subscriptions.processRequest(processingRequest.id, {
+                    status: processAction,
+                    adminNotes: document.getElementById('adminNotes').value,
+                    isFree: document.getElementById('isFreeCheckbox').checked,
+                    freeReason: document.getElementById('freeReason').value
+                });
+                closeProcessModal();
+                showToast('تمت العملية بنجاح', 'success');
+                await loadRequests();
+            } catch (error) {
+                console.error("Confirmation Error:", error);
+                console.log("Error details:", error.response);
+                showToast(error.message || "حدث خطأ غير متوقع", 'error');
+            }
+        }
+
+        initPage();
+    </script>
+</body>
+
+</html>

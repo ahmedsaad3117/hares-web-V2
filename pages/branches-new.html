@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>إضافة فرع - Q1KEY Platform</title>
+  <link rel="stylesheet" href="../css/styles.css?v=18">
+  <script src="../js/i18n.js"></script>
+  <style>
+    /* Premium Cyber-Minimalist Design System - Sync with Institutions New */
+    :root {
+      --neon-primary: #818cf8;
+      --neon-secondary: #c084fc;
+      --card-bg: rgba(255, 255, 255, 0.03);
+      --glass-border: rgba(255, 255, 255, 0.12);
+    }
+
+    .page-wrapper {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 3rem 1rem;
+    }
+
+    .form-container-ultra {
+      width: 100%;
+      max-width: 1000px;
+      background: var(--card-bg);
+      backdrop-filter: blur(15px);
+      border-radius: 28px;
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .form-container-ultra::before {
+      content: '';
+      position: absolute;
+      top: -150px;
+      right: -150px;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(129, 140, 248, 0.15) 0%, transparent 70%);
+      z-index: -1;
+    }
+
+    .form-content-inner {
+      padding: 3.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .form-content-inner {
+        padding: 2rem;
+      }
+    }
+
+    .section-title-premium {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: white;
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      margin-bottom: 2rem;
+    }
+
+    .section-title-premium i {
+      padding: 8px;
+      background: rgba(129, 140, 248, 0.1);
+      border-radius: 10px;
+      color: var(--neon-primary);
+    }
+
+    .dual-column-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3.5rem;
+    }
+
+    @media (max-width: 900px) {
+      .dual-column-layout {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+    }
+
+    .input-field-wrapper {
+      margin-bottom: 1.5rem;
+    }
+
+    .input-label-clean {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.5);
+      margin-bottom: 0.5rem;
+      margin-right: 0.5rem;
+    }
+
+    .modern-input {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.03) !important;
+      border: 1px solid rgba(255, 255, 255, 0.06) !important;
+      border-radius: 14px !important;
+      padding: 0.9rem 1.1rem !important;
+      color: white !important;
+      font-size: 0.95rem !important;
+      transition: all 0.3s ease !important;
+    }
+
+    /* Fix for dropdown options background in dark mode */
+    .modern-input option {
+      background-color: #1c2135 !important;
+      color: white !important;
+    }
+
+    /* Searchable Dropdown Styling */
+    .searchable-dropdown-container {
+      position: relative;
+      width: 100%;
+    }
+
+    .dropdown-list-results {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      max-height: 250px;
+      overflow-y: auto;
+      background: #1c2135 !important;
+      border: 1px solid var(--glass-border);
+      border-radius: 14px;
+      margin-top: 8px;
+      z-index: 1000;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(10px);
+    }
+
+    .dropdown-item {
+      padding: 12px 16px;
+      cursor: pointer;
+      color: white;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .dropdown-item:last-child {
+      border-bottom: none;
+    }
+
+    .dropdown-item:hover {
+      background: rgba(129, 140, 248, 0.15);
+      padding-right: 20px;
+    }
+
+    .dropdown-item .sub-info {
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    .dropdown-item .highlight {
+      color: var(--neon-primary);
+      font-weight: bold;
+    }
+
+    .plans-flex {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+
+    .plan-chip {
+      padding: 0.75rem 1.25rem;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 14px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      text-align: center;
+      flex: 1;
+      min-width: 140px;
+    }
+
+    .plan-chip:hover {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .plan-chip.active {
+      background: rgba(129, 140, 248, 0.1);
+      border-color: var(--neon-primary);
+      box-shadow: 0 0 15px rgba(129, 140, 248, 0.2);
+    }
+
+    .toggle-modern {
+      display: flex;
+      flex-direction: row-reverse;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 12px;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 0.2s;
+      height: 42px;
+      white-space: nowrap;
+    }
+
+    .toggle-modern:hover {
+      background: rgba(255, 255, 255, 0.04);
+      border-color: rgba(255, 255, 255, 0.05);
+    }
+
+    .btn-create-ultra {
+      width: 100%;
+      height: 56px;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6) !important;
+      color: white !important;
+      border: none !important;
+      border-radius: 16px !important;
+      font-weight: 800 !important;
+      font-size: 1.05rem !important;
+      cursor: pointer !important;
+      margin-top: 1.5rem !important;
+      box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3) !important;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+    }
+
+    .btn-create-ultra:hover {
+      transform: translateY(-3px) scale(1.01);
+      box-shadow: 0 15px 35px rgba(99, 102, 241, 0.5) !important;
+    }
+
+    .glow-divider {
+      height: 1px;
+      background: linear-gradient(to left, transparent, var(--glass-border), transparent);
+      width: 100%;
+      margin: 3rem 0;
+    }
+
+    [dir="rtl"] .section-title-premium i {
+      margin-left: 0;
+      margin-right: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="sidebar"></div>
+
+  <div class="main-content">
+    <div id="header"></div>
+
+    <div class="page-wrapper">
+      <!-- Top Navigation -->
+      <div class="w-full max-w-[1000px] flex items-center mb-8 px-2">
+        <a href="branches.html" class="flex items-center gap-2 text-secondary hover:text-white group">
+          <span
+            class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-white/10 transition-all">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="19" y1="12" x2="5" y2="12" />
+              <polyline points="12 19 5 12 12 5" />
+            </svg>
+          </span>
+          <span class="font-bold text-sm tracking-wide" data-i18n-key="branches.form.back_to_branches">العودة
+            للفروع</span>
+        </a>
+      </div>
+
+      <form id="branchForm" class="form-container-ultra">
+        <div class="form-content-inner">
+
+          <!-- Section 1: Subscription Selection -->
+          <div class="mb-12">
+            <div class="section-title-premium">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                stroke="#818cf8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2" />
+              </svg>
+              <span data-i18n-key="branches.form.plans_title">اختر باقة الاشتراك المناسبة للفرع</span>
+            </div>
+            <div id="plansContainer" class="plans-flex">
+              <div class="spinner"></div>
+            </div>
+            <input type="hidden" id="selectedPlanId" name="planId" required>
+          </div>
+
+          <div class="glow-divider"></div>
+
+          <!-- Section 2: Dual Column Main Info -->
+          <div class="dual-column-layout">
+
+            <!-- RIGHT COLUMN: Branch Info -->
+            <div>
+              <div class="section-title-premium">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                  stroke="#818cf8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                  <polyline points="9 22 9 12 15 12 15 22" />
+                </svg>
+                <span data-i18n-key="branches.form.branch_identity_title">معلومات وتفاصيل الفرع</span>
+              </div>
+
+              <!-- Institution Field (Searchable Dropdown) -->
+              <div class="input-field-wrapper" id="institutionField">
+                <label class="input-label-clean"><span data-i18n-key="branches.form.institution_label">المؤسسة التابع
+                    لها</span> <span data-i18n-key="common.required" class="required-star">*</span></label>
+                <div class="searchable-dropdown-container">
+                  <input type="text" id="institutionSearch" class="modern-input"
+                    data-i18n-placeholder="institutions.form.search_placeholder"
+                    placeholder="ابحث بالاسم، السجل أو الهاتف..." autocomplete="off">
+                  <div id="instDropdownList" class="dropdown-list-results hidden"></div>
+                  <input type="hidden" id="institutionId" name="institutionId" required>
+                </div>
+              </div>
+
+              <div class="input-field-wrapper">
+                <label class="input-label-clean"><span data-i18n-key="branches.form.branch_name_label">اسم الفرع</span>
+                  <span data-i18n-key="common.required" class="required-star">*</span></label>
+                <input type="text" id="name" name="branch_display_name_field" autocomplete="off" class="modern-input"
+                  data-i18n-placeholder="branches.form.branch_name_placeholder" placeholder="فرع الرياض - الملز"
+                  required>
+              </div>
+
+              <div class="grid grid-cols-2 gap-4">
+                <div class="input-field-wrapper">
+                  <label class="input-label-clean"><span data-i18n-key="branches.form.phone_contact">هاتف التواصل</span>
+                    <span data-i18n-key="common.required" class="required-star">*</span></label>
+                  <input type="tel" id="phoneNumber" name="branch_contact_phone_field" autocomplete="off"
+                    class="modern-input" data-i18n-placeholder="branches.form.phone_placeholder"
+                    placeholder="05xxxxxxxx" required>
+                </div>
+                <div class="input-field-wrapper">
+                  <label class="input-label-clean"><span data-i18n-key="branches.form.branch_email">بريد الفرع</span>
+                    <span data-i18n-key="common.required" class="required-star">*</span></label>
+                  <input type="email" id="email" name="branch_contact_email_field" autocomplete="off"
+                    class="modern-input" data-i18n-placeholder="branches.form.email_placeholder"
+                    placeholder="branch@domain.com" required>
+                </div>
+              </div>
+
+              <div class="input-field-wrapper">
+                <label class="input-label-clean" data-i18n-key="branches.form.max_amount">الحد الأقصى للمبلغ المسموح
+                  به</label>
+                <input type="number" id="maximumLoans" class="modern-input"
+                  data-i18n-placeholder="branches.form.max_amount_help"
+                  placeholder="مثلاً: 50000 (اتركه فارغاً لمبالغ غير محدودة)" min="0">
+                <p class="text-[10px] text-white/30 mt-1" data-i18n-key="branches.form.max_amount_help">اترك الحقل
+                  فارغاً لإلغاء السقف المالي</p>
+              </div>
+
+              <div class="grid grid-cols-2 gap-4 mt-2">
+                <label class="toggle-modern">
+                  <input type="checkbox" id="isActive" checked class="w-4 h-4 accent-emerald-500">
+                  <span class="text-xs font-bold text-white/70" data-i18n-key="branches.form.toggle_active">فرع
+                    نشط</span>
+                </label>
+                <label class="toggle-modern">
+                  <input type="checkbox" id="userIsActive" checked class="w-4 h-4 accent-indigo-500">
+                  <span class="text-xs font-bold text-white/70" data-i18n-key="branches.form.toggle_admin_active">تفعيل
+                    حساب المدير</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- LEFT COLUMN: Manager Access -->
+            <div>
+              <div class="section-title-premium">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                  stroke="#818cf8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                  <circle cx="12" cy="7" r="4" />
+                </svg>
+                <span data-i18n-key="branches.form.manager_account_title">بيانات حساب مدير الفرع</span>
+              </div>
+
+              <div class="input-field-wrapper">
+                <label class="input-label-clean"><span data-i18n-key="branches.form.manager_full_name">الاسم الكامل
+                    للمدير</span> <span data-i18n-key="common.required">*</span></label>
+                <input type="text" id="userName" name="branch_manager_name_field" autocomplete="off"
+                  class="modern-input" data-i18n-placeholder="branches.form.username_placeholder" placeholder="محمد علي"
+                  required>
+              </div>
+
+              <div class="input-field-wrapper">
+                <label class="input-label-clean"><span data-i18n-key="branches.form.manager_email_dept">البريد
+                    الإلكتروني للإدارة</span> <span data-i18n-key="common.required">*</span></label>
+                <input type="email" id="userEmail" name="branch_manager_email_field" autocomplete="off"
+                  class="modern-input" data-i18n-placeholder="branches.form.useremail_placeholder"
+                  placeholder="manager@domain.com" required>
+              </div>
+
+              <div class="input-field-wrapper">
+                <label class="input-label-clean"><span data-i18n-key="branches.form.manager_national_id">رقم الهوية
+                    للمدير</span> <span data-i18n-key="common.required">*</span></label>
+                <input type="text" id="userNationalId" name="branch_manager_national_id_field" autocomplete="off"
+                  class="modern-input" data-i18n-placeholder="users.form.national_id_placeholder"
+                  placeholder="أدخل رقم الهوية" required>
+              </div>
+
+              <div class="grid grid-cols-2 gap-4">
+                <div class="input-field-wrapper">
+                  <label class="input-label-clean"><span data-i18n-key="branches.form.password_secure">كلمة المرور
+                      الآمنة</span> <span data-i18n-key="common.required">*</span></label>
+                  <div style="position: relative;">
+                    <input type="password" id="userPassword" name="branch_manager_password_field"
+                      autocomplete="new-password" class="modern-input" placeholder="••••••••" minlength="6" required>
+                    <button type="button" onclick="togglePassword()" id="togglePasswordBtn"
+                      style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: rgba(255,255,255,0.5); padding: 0; display: flex; align-items: center; justify-content: center; outline: none;">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <div class="input-field-wrapper">
+                  <label class="input-label-clean"><span data-i18n-key="branches.form.manager_phone_mobile">جوال
+                      المدير</span> <span data-i18n-key="common.required" class="required-star">*</span></label>
+                  <input type="tel" id="userPhoneNumber" name="branch_manager_phone_field" autocomplete="off"
+                    class="modern-input" data-i18n-placeholder="branches.form.phone_placeholder"
+                    placeholder="05xxxxxxxx" required>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- Error Alert -->
+          <div id="errorMessage" class="hidden mt-8 p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-center">
+            <p id="errorMessageText" style="color: #ef4444 !important; font-weight: bold !important; font-size: 16px;">
+            </p>
+          </div>
+
+          <!-- Final Submit -->
+          <div class="mt-10">
+            <button type="submit" id="submitButton" class="btn-create-ultra"
+              data-i18n-key="branches.form.submit_request_new">
+              تقديم طلب لإنشاء فرع جديد
+            </button>
+          </div>
+
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts Logic -->
+  <script src="../js/api.js?v=5"></script>
+  <script src="../js/ui-utils.js?v=5"></script>
+  <script src="../components/sidebar.js?v=12"></script>
+  <script src="../components/header.js?v=3"></script>
+  <script>
+    async function initPage() {
+      await waitForI18n();
+      if (!isAuthenticated()) { window.location.href = '../index.html'; return; }
+
+      // Get initial user
+      let user = getCurrentUser();
+
+      // Refresh profile to get latest data
+      try {
+        const freshUser = await api.auth.getProfile();
+        if (freshUser) user = freshUser;
+      } catch (e) {
+        console.error('Failed to refresh profile:', e);
+      }
+
+      // Auth Checks
+      if (user.roleName === 'Institution' && user.canCreateBranches === false) {
+        showToast('لا تملك صلاحية إنشاء فروع', 'error');
+        window.location.href = 'dashboard.html';
+        return;
+      }
+      if (user.roleName === 'Branch') { window.location.href = 'dashboard.html'; return; }
+
+      document.getElementById('sidebar').innerHTML = createSidebar(user);
+      document.getElementById('header').innerHTML = createHeader(t('branches.add_branch'), '');
+      initializeLanguageSwitcher();
+      setActiveNav('branches');
+      window.i18n.translatePage();
+
+      loadSubscriptionPlans();
+
+      let allInstitutions = [];
+
+      async function loadInstitutions(currentUser) {
+        const institutionField = document.getElementById('institutionField');
+        const selectHidden = document.getElementById('institutionId');
+        const searchInput = document.getElementById('institutionSearch');
+        const resultsDiv = document.getElementById('instDropdownList');
+
+        if (!searchInput || !resultsDiv) return;
+
+        // Robust role check
+        const isInstitution = currentUser && (currentUser.roleName === 'Institution' || (currentUser.role && currentUser.role.roleName === 'Institution'));
+        if (isInstitution && currentUser.institutionId) {
+          if (institutionField) institutionField.style.display = 'none';
+          selectHidden.value = currentUser.institutionId;
+          selectHidden.removeAttribute('required');
+          return;
+        }
+
+        try {
+          const response = await api.institutions.getAll(1, 400);
+          allInstitutions = response.data || (Array.isArray(response) ? response : []);
+
+          searchInput.addEventListener('focus', () => renderResults(allInstitutions));
+          searchInput.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            const filtered = allInstitutions.filter(inst =>
+              (inst.name || '').toLowerCase().includes(term) ||
+              (inst.taxId || '').toLowerCase().includes(term) ||
+              (inst.phoneNumber || '').toLowerCase().includes(term)
+            );
+            renderResults(filtered);
+          });
+
+          // Close dropdown when clicking outside
+          document.addEventListener('click', (e) => {
+            if (!e.target.closest('.searchable-dropdown-container')) {
+              resultsDiv.classList.add('hidden');
+            }
+          });
+
+          function renderResults(list) {
+            if (list.length === 0) {
+              resultsDiv.innerHTML = `<div class="p-4 text-center text-xs opacity-50">${t('common.message.no_results')}</div>`;
+            } else {
+              resultsDiv.innerHTML = list.map(inst => `
+                <div class="dropdown-item" onclick="selectInstitution(${inst.institutionId}, '${inst.name.replace(/'/g, "\\'")}')">
+                  <span class="font-bold text-white">${inst.name}</span>
+                  <div class="sub-info">
+                    ${inst.taxId ? `<span>${t('institutions.form.tax_id_label')}: ${inst.taxId}</span>` : ''}
+                    ${inst.phoneNumber ? `<span class="mx-2">|</span><span>${t('institutions.form.phone_contact')}: ${inst.phoneNumber}</span>` : ''}
+                  </div>
+                </div>
+              `).join('');
+            }
+            resultsDiv.classList.remove('hidden');
+          }
+
+          window.selectInstitution = (id, name) => {
+            selectHidden.value = id;
+            searchInput.value = name;
+            resultsDiv.classList.add('hidden');
+          };
+
+        } catch (error) {
+          console.error('Failed to load institutions:', error);
+        }
+      }
+
+      // Call it now
+      loadInstitutions(user);
+
+      const form = document.getElementById('branchForm');
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const errorMessage = document.getElementById('errorMessage');
+        const submitButton = document.getElementById('submitButton');
+        errorMessage.classList.add('hidden');
+
+        const formData = {
+          name: document.getElementById('name').value.trim(),
+          phoneNumber: document.getElementById('phoneNumber').value.trim(),
+          email: document.getElementById('email').value.trim(),
+          isActive: document.getElementById('isActive').checked,
+          planId: parseInt(document.getElementById('selectedPlanId').value),
+          userName: document.getElementById('userName').value.trim(),
+          userEmail: document.getElementById('userEmail').value.trim(),
+          userPassword: document.getElementById('userPassword').value,
+          userPhoneNumber: document.getElementById('userPhoneNumber').value.trim(),
+          userNationalId: document.getElementById('userNationalId').value.trim(),
+          userIsActive: document.getElementById('userIsActive').checked
+        };
+
+        const maxLoansInput = document.getElementById('maximumLoans').value;
+        formData.maximumLoans = maxLoansInput ? parseInt(maxLoansInput) : 0;
+
+        if (!formData.planId) {
+          showError(t('institutions.form.plan_required'));
+          return;
+        }
+
+        if (user.roleName === 'Institution' && user.institutionId) {
+          formData.institutionId = user.institutionId;
+        } else {
+          formData.institutionId = parseInt(document.getElementById('institutionId').value);
+          if (!formData.institutionId) { showError(t('branches.form.institution_placeholder')); return; }
+        }
+
+        submitButton.disabled = true;
+        submitButton.innerHTML = `<div class='spinner' style='width:20px;height:20px;margin:auto;border-color:white'></div>`;
+
+        try {
+          const response = await api.branches.create(formData);
+          showToast(response.message || t('branches.form.request_success'), 'success');
+          // Redirect to requests page so they can see it
+          setTimeout(() => window.location.href = 'requests.html', 1500);
+        } catch (error) {
+          showError(error.message || t('branches.form.request_failed'));
+          submitButton.disabled = false;
+          submitButton.innerHTML = t('branches.form.submit_request_new');
+        }
+      });
+
+      function showError(msg) {
+        const err = document.getElementById('errorMessage');
+        const text = document.getElementById('errorMessageText');
+        if (text) text.textContent = msg;
+        else err.querySelector('p').textContent = msg;
+        err.classList.remove('hidden');
+        err.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+
+    async function loadSubscriptionPlans() {
+      const container = document.getElementById('plansContainer');
+      try {
+        const response = await api.subscriptions.getActivePlans();
+        const plans = Array.isArray(response) ? response : (response.data || []);
+
+        if (plans.length === 0) {
+          container.innerHTML = `<p class='text-white/40 p-4 text-center w-full'>${t('institutions.form.no_plans') || 'لا توجد خطط اشتراك متاحة حالياً'}</p>`;
+          return;
+        }
+
+        container.innerHTML = plans.map(plan => `
+          <div class="plan-chip" onclick="selectPlan(this, ${plan.id})">
+            <div class="text-[10px] font-bold text-indigo-400 uppercase tracking-wider mb-1">${i18n.isRTL() ? plan.name : (plan.nameEn || plan.name)}</div>
+            <div class="text-xl font-black text-white">${plan.price} <span class="text-[10px] font-normal opacity-50">ر.س</span></div>
+            <div class="text-[9px] opacity-40 mt-1">${plan.durationMonths} شهر من الخدمة</div>
+          </div>
+        `).join('');
+      } catch (e) {
+        console.error('Plans loading error:', e);
+        container.innerHTML = `<p class='text-red-400 p-4'>${t('institutions.form.load_plans_error') || 'فشل في تحميل الخطط'}</p>`;
+      }
+    }
+
+    window.selectPlan = function (el, id) {
+      document.querySelectorAll('.plan-chip').forEach(c => c.classList.remove('active'));
+      el.classList.add('active');
+      document.getElementById('selectedPlanId').value = id;
+    }
+
+    window.togglePassword = function () {
+      const passwordInput = document.getElementById('userPassword');
+      const toggleBtn = document.getElementById('togglePasswordBtn');
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        toggleBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>`;
+        toggleBtn.style.color = 'var(--neon-primary)';
+      } else {
+        passwordInput.type = 'password';
+        toggleBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>`;
+        toggleBtn.style.color = 'rgba(255,255,255,0.5)';
+      }
+    }
+
+    initPage();
+  </script>
+</body>
+
+</html>

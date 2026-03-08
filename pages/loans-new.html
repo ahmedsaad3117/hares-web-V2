@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Loan - Q1KEY Platform</title>
+  <link rel="stylesheet" href="../css/styles.css?v=19">
+  <script src="../js/i18n.js?v=2"></script>
+</head>
+
+<body>
+  <div id="sidebar"></div>
+
+  <div class="main-content">
+    <div id="header"></div>
+
+    <div class="page-content">
+      <!-- Page Header -->
+      <div class="flex items-center gap-3 mb-8"
+        style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 2rem;">
+        <a href="loans.html" class="btn btn-secondary" style="padding: 0.5rem;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="19" y1="12" x2="5" y2="12" />
+            <polyline points="12 19 5 12 12 5" />
+          </svg>
+        </a>
+        <div>
+          <h1 class="text-3xl font-bold text-white" data-i18n-key="loans.add_loan">Create Loan</h1>
+          <p class="text-secondary" data-i18n-key="loans.create_new_loan">Issue a new loan application</p>
+        </div>
+      </div>
+
+      <!-- Form -->
+      <div class="glass-card p-6" style="max-width: 800px;">
+        <form id="loanForm">
+          <!-- Customer -->
+          <!-- Customer Search Component -->
+          <div class="form-group" style="position: relative;">
+            <label class="label"><span data-i18n-key="loans.form.customer_label">Customer</span> <span
+                data-i18n-key="common.required" class="required-star">*</span></label>
+
+            <div class="search-input-wrapper" style="position: relative;">
+              <input type="text" id="customerSearchInput" class="input"
+                data-i18n-placeholder="loans.form.customer_search_placeholder"
+                placeholder="Search by Name, Phone, or ID..." autocomplete="off" required>
+
+              <!-- Hidden input to store actual ID -->
+              <input type="hidden" id="customerId" name="customerId" required>
+
+              <!-- Clear Button -->
+              <button type="button" id="clearCustomerBtn" class="hidden"
+                style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #ffffff; cursor: pointer; padding: 4px; z-index: 10;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              </button>
+
+              <!-- Loading Indicator -->
+              <div id="customerLoading" class="hidden"
+                style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%);">
+                <div class="spinner" style="width: 16px; height: 16px; border-width: 2px;"></div>
+              </div>
+            </div>
+
+            <!-- Dropdown Results -->
+            <div id="customerSearchResults" class="hidden"
+              style="position: absolute; top: calc(100% + 4px); left: 0; right: 0; background: #1e293b; border: 1px solid #334155; border-radius: 0.5rem; max-height: 300px; overflow-y: auto; z-index: 50; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);">
+              <!-- Results will be injected here -->
+            </div>
+
+            <div id="customerIdError" class="error-text hidden"></div>
+          </div>
+
+          <!-- Branch -->
+          <div class="form-group" id="branchField">
+            <label class="label"><span data-i18n-key="loans.form.branch_label">Branch</span> <span
+                data-i18n-key="common.required" class="required-star">*</span></label>
+            <select id="branchId" name="branchId" class="input" required>
+              <option value="" data-i18n-key="loans.form.loading_branches">Loading branches...</option>
+            </select>
+            <!-- Capacity Warning Display -->
+            <div id="capacityInfo" class="hidden mt-2" style="margin-top: 0.5rem;">
+              <div id="capacityStatus" class="flex items-center justify-between p-3"
+                style="display: flex; justify-content: space-between; padding: 0.75rem; border-radius: 6px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2);">
+                <div class="flex items-center gap-2" style="display: flex; align-items: center; gap: 0.5rem;">
+                  <span id="capacityIcon">✓</span>
+                  <span class="text-sm" id="capacityText" style="font-size: 0.875rem; color: #10b981;"
+                    data-i18n-key="loans.form.available_capacity">Available capacity</span>
+                </div>
+                <span class="font-semibold" id="capacityNumbers" style="color: #10b981;">-</span>
+              </div>
+            </div>
+            <div id="branchIdError" class="error-text hidden"></div>
+          </div>
+
+          <!-- Product -->
+          <div class="form-group">
+            <label class="label"><span data-i18n-key="loans.form.product_label">Product</span> <span
+                data-i18n-key="common.required" class="required-star">*</span></label>
+            <select id="productId" name="productId" class="input" required>
+              <option value="" data-i18n-key="loans.form.loading_products">Loading products...</option>
+            </select>
+            <div id="productIdError" class="error-text hidden"></div>
+          </div>
+
+          <!-- Principal Amount -->
+          <div class="form-group">
+            <label class="label"><span data-i18n-key="loans.form.principal_amount">Principal Amount</span> <span
+                data-i18n-key="common.required" class="required-star">*</span></label>
+            <input type="number" id="principalAmount" name="principalAmount" class="input"
+              data-i18n-placeholder="loans.form.principal_placeholder" placeholder="5000.00" step="0.01" min="0"
+              required />
+            <div id="principalAmountError" class="error-text hidden"></div>
+          </div>
+
+          <!-- Profit Amount -->
+          <div class="form-group">
+            <label class="label" data-i18n-key="loans.form.profit_amount">Profit Amount</label>
+            <input type="number" id="profitAmount" name="profitAmount" class="input"
+              data-i18n-placeholder="loans.form.profit_placeholder" placeholder="0.00" step="0.01" min="0" />
+          </div>
+
+          <!-- Payment Plan -->
+          <div class="form-group">
+            <label class="label"><span data-i18n-key="loans.form.payment_plan">Payment Plan (Months)</span> <span
+                data-i18n-key="common.required" class="required-star">*</span></label>
+            <select id="paymentPlanMonths" name="paymentPlanMonths" class="input" required>
+            </select>
+            <p class="text-muted text-sm mt-1" style="font-size: 0.875rem; margin-top: 0.25rem;"
+              data-i18n-key="loans.form.payment_plan_help">Select the number of monthly installments for this loan</p>
+            <div id="paymentPlanMonthsError" class="error-text hidden"></div>
+          </div>
+
+          <!-- Installment Preview -->
+          <div id="installmentPreview" class="hidden glass-card p-4 border border-blue-500/20 bg-blue-500/10 mb-6">
+            <p class="text-sm font-semibold text-white mb-3 flex items-center gap-2">
+              <span>📋</span>
+              <span data-i18n-key="loans.form.installment_preview">معاينة الأقساط</span>
+            </p>
+            <div class="grid-responsive-sm gap-4">
+              <div>
+                <p class="text-muted text-xs" data-i18n-key="loans.form.monthly_payment">القسط الشهري</p>
+                <p id="monthlyPayment" class="text-white font-medium text-lg">--</p>
+              </div>
+              <div>
+                <p class="text-muted text-xs" data-i18n-key="loans.form.installment_count">عدد الأقساط</p>
+                <p id="installmentCount" class="text-white font-medium text-lg">--</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Due Date -->
+          <div class="form-group">
+            <label class="label" data-i18n-key="loans.form.due_date_label">Due Date *</label>
+            <input type="date" id="dueDate" name="dueDate" class="input" required />
+            <div id="dueDateError" class="error-text hidden"></div>
+          </div>
+
+          <!-- Error Message -->
+          <div id="errorMessage" class="hidden mb-4"
+            style="padding: 0.75rem; border-radius: 8px; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2); margin-bottom: 1rem;">
+            <p class="text-sm" style="color: #ef4444; font-size: 0.875rem;"></p>
+          </div>
+
+          <!-- Buttons -->
+          <div class="flex items-center gap-3" style="display: flex; align-items: center; gap: 0.75rem;">
+            <button type="submit" id="submitButton" class="btn btn-primary">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+              <span data-i18n-key="loans.form.create_loan">Create Loan</span>
+            </button>
+            <a href="loans.html" class="btn btn-secondary" data-i18n-key="loans.form.cancel">Cancel</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/api.js?v=5"></script>
+  <script src="../components/sidebar.js?v=13"></script>
+  <script src="../components/header.js?v=3"></script>
+  <script>
+    async function initPage() {
+      await waitForI18n();
+
+      if (!isAuthenticated()) {
+        window.location.href = '../index.html';
+        return;
+      }
+
+      // Refresh profile to get latest subscription data
+      try {
+        await api.auth.getProfile();
+      } catch (e) {
+        console.error('Failed to refresh profile:', e);
+      }
+
+      const user = getCurrentUser();
+      document.getElementById('sidebar').innerHTML = createSidebar(user);
+      document.getElementById('header').innerHTML = createHeader(
+        t('loans.add_loan'),
+        t('loans.create_new_loan')
+      );
+      initializeLanguageSwitcher();
+      setActiveNav('loans');
+      window.i18n.translatePage();
+
+      // Declare variables first
+      let branchesData = [];
+      let institutionData = null;
+      let allLocalCustomers = []; // Store all local customers for search
+
+      // Initialize Customer Search
+      initCustomerSearch();
+
+      // Populate Payment Plan (1-36 months)
+      populatePaymentPlan();
+
+      function populatePaymentPlan() {
+        const select = document.getElementById('paymentPlanMonths');
+        select.innerHTML = '';
+        for (let i = 1; i <= 36; i++) {
+          const option = document.createElement('option');
+          option.value = i;
+          // Use i18n for 'Month'/'Months' if available, otherwise fallback
+          const label = i === 1 ? t('loans.month') : t('loans.months');
+          option.text = `${i} ${label}`;
+          if (i === 1) option.selected = true; // Default to 1 month
+          select.appendChild(option);
+        }
+      }
+
+      // Load form data
+      loadFormData();
+
+      // Load form data
+      async function loadFormData() {
+        try {
+          // Show loading indicator
+          document.getElementById('customerLoading').classList.remove('hidden');
+
+          // Only products and branches (if applicable) are loaded initially
+          // Customers will be loaded via search component
+          let promises = [
+            api.products.getActive(),
+          ];
+
+          // For Institution users, hide branch field (each entity is independent now)
+          if (user.roleName === 'Institution') {
+            institutionData = {
+              institutionId: user.institutionId,
+              name: user.institutionName
+            };
+          } else if (user.roleName !== 'Branch') {
+            promises.push(api.branches.getAll(1, 100));
+          }
+
+          const responses = await Promise.all(promises);
+
+          // Handle Pre-selected Customer from URL
+          const urlParams = new URLSearchParams(window.location.search);
+          const preSelectedCustomerId = urlParams.get('customer_id');
+
+          if (preSelectedCustomerId) {
+            const preSelectedId = parseInt(preSelectedCustomerId);
+            try {
+              const targetCustomer = await api.customers.getById(preSelectedId);
+              if (targetCustomer) {
+                setTimeout(() => {
+                  if (window.selectCustomer) {
+                    window.selectCustomer(
+                      targetCustomer.customerId,
+                      targetCustomer.name.replace(/'/g, "\\'"),
+                      targetCustomer.nationalId
+                    );
+                  }
+                }, 100);
+              }
+            } catch (err) {
+              console.warn('Could not fetch pre-selected customer', err);
+            }
+          }
+
+          document.getElementById('customerLoading').classList.add('hidden');
+
+          const products = responses[0];
+          const branches = (user.roleName !== 'Branch' && !institutionData) ? (responses[1]?.data || []) : [];
+
+          branchesData = branches; // Store for capacity checks
+
+          // Populate products
+          const productSelect = document.getElementById('productId');
+          productSelect.innerHTML = `<option value="">${t('loans.form.select_product')}</option>` +
+            products.map(p => `<option value="${p.productId}">${p.name}</option>`).join('');
+
+          // Handle branch field
+          const branchField = document.getElementById('branchField');
+          const branchSelect = document.getElementById('branchId');
+
+          if (user.roleName === 'Branch' && user.branchId) {
+            branchField.style.display = 'none';
+            branchSelect.removeAttribute('required');
+          } else if (institutionData) {
+            // Hide for Institution users (they only use Main Treasury)
+            branchField.style.display = 'none';
+            branchSelect.removeAttribute('required');
+          } else if (branches && branches.length === 0 && user.roleName !== 'Super Admin') {
+            // Hide if no branches exist (unless Super Admin who might want to see why/how)
+            branchField.style.display = 'none';
+            branchSelect.removeAttribute('required');
+
+            if (!institutionData) {
+              institutionData = {
+                institutionId: user.institutionId,
+                name: user.institutionName
+              };
+            }
+          } else {
+            // Visible for Super Admin or cases where choice is available
+            branchField.style.display = 'block';
+            branchSelect.setAttribute('required', 'required');
+
+            // Start with prompt
+            let options = `<option value="">${t('loans.form.select_branch')}</option>`;
+
+            // ALWAYS allow "Main Treasury" if user is Institution or Admin
+            if (user.roleName !== 'Branch') {
+              options += `<option value="main_treasury">${t('loans.form.main_treasury') || 'Main Treasury (Head Office)'}</option>`;
+            }
+
+            options += branches.map(b => `<option value="${b.branchId}">${b.name} - ${b.institution.name}</option>`).join('');
+            branchSelect.innerHTML = options;
+          }
+
+        } catch (error) {
+          console.error('Error loading form data:', error);
+          showToast(t('loans.failed_to_load'), 'error');
+          document.getElementById('customerLoading').classList.add('hidden');
+        }
+      }
+
+      // Customer Search Logic - Optimized with Debounced Server-side Search
+      function initCustomerSearch() {
+        const searchInput = document.getElementById('customerSearchInput');
+        const searchResults = document.getElementById('customerSearchResults');
+        const clearBtn = document.getElementById('clearCustomerBtn');
+        const hiddenInput = document.getElementById('customerId');
+        const loader = document.getElementById('customerLoading');
+
+        const performCustomerSearch = async (term) => {
+          if (!term) {
+            searchResults.classList.add('hidden');
+            return;
+          }
+
+          loader.classList.remove('hidden');
+          try {
+            // Search via API (National ID or Name/Phone)
+            const matches = await api.customers.search({
+              nationalId: term,
+              phoneNumber: term,
+              name: term
+            });
+            renderSearchResults(matches.slice(0, 20));
+          } catch (error) {
+            console.error('Customer search error:', error);
+            renderSearchResults([]);
+          } finally {
+            loader.classList.add('hidden');
+          }
+        };
+
+        const debouncedCustomerSearch = debounce((term) => performCustomerSearch(term), 400);
+
+        // Input Handler
+        searchInput.addEventListener('input', (e) => {
+          const term = e.target.value.trim();
+
+          if (!term) {
+            searchResults.classList.add('hidden');
+            clearBtn.classList.add('hidden');
+            return;
+          }
+
+          clearBtn.classList.remove('hidden');
+          debouncedCustomerSearch(term);
+        });
+
+        // Focus & Click Handler
+        searchInput.addEventListener('focus', () => {
+          const term = searchInput.value.trim();
+          if (term) {
+            if (searchResults.classList.contains('hidden')) {
+              performCustomerSearch(term);
+            }
+          } else {
+            // If empty, show recent customers
+            showRecentCustomers();
+          }
+        });
+
+        const showRecentCustomers = async () => {
+          loader.classList.remove('hidden');
+          try {
+            // Get last 10 customers added to institution
+            const response = await api.customers.getAll(1, 10);
+            if (response && response.data) {
+              renderSearchResults(response.data);
+            }
+          } catch (error) {
+            console.error('Failed to load recent customers:', error);
+          } finally {
+            loader.classList.add('hidden');
+          }
+        };
+
+        // Click outside to close
+        document.addEventListener('click', (e) => {
+          if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+            searchResults.classList.add('hidden');
+          }
+        });
+
+        // Clear Handler
+        clearBtn.addEventListener('click', () => {
+          searchInput.value = '';
+          hiddenInput.value = '';
+          searchResults.classList.add('hidden');
+          clearBtn.classList.add('hidden');
+          searchInput.focus();
+        });
+      }
+
+      function renderSearchResults(customers) {
+        const searchResults = document.getElementById('customerSearchResults');
+
+        // Helper for status colors using inline styles for guaranteed rendering without Tailwind build
+        const getStatusStyle = (status) => {
+          const s = (status || '').toLowerCase();
+          if (s === 'trusted') return 'color: #34d399;'; // Emerald
+          if (s === 'blocked') return 'color: #ef4444;'; // Red
+          if (s === 'suspicious') return 'color: #fbbf24;'; // Amber
+          if (s === 'flagged') return 'color: #fb923c;'; // Orange
+          return 'color: #94a3b8;'; // Slate (Default)
+        };
+
+        if (customers.length === 0) {
+          searchResults.innerHTML = `
+            <div class="p-4 text-sm text-slate-400 text-center">
+              <div class="mb-2">${t('customers.no_customers_found') || 'No customers found'}</div>
+              <a href="customers-new.html" class="btn btn-secondary btn-sm inline-block" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.25rem 0.75rem; font-size: 0.75rem;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="12" y1="5" x2="12" y2="19"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+                ${t('customers.add_customer') || 'Add New'}
+              </a>
+            </div>
+          `;
+          searchResults.classList.remove('hidden');
+          return;
+        }
+
+        searchResults.innerHTML = customers.map(c => `
+          <div class="p-3 hover:bg-slate-700 cursor-pointer border-b border-slate-700 last:border-0 transition-colors duration-150"
+               onclick="selectCustomer(${c.customerId}, '${c.name.replace(/'/g, "\\'")}', '${c.nationalId}')">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-white">${c.name}</span>
+              <span class="text-xs font-medium" style="${getStatusStyle(c.trustStatus)}">${t('customers.view_page.trust_status_options.' + (c.trustStatus || '').toLowerCase()) || c.trustStatus}</span>
+            </div>
+            <div class="flex items-center gap-3 mt-1 text-xs text-slate-400">
+              <div class="flex items-center gap-1">
+                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M7 15h0M2 9.5h20"/></svg>
+                 ${c.nationalId}
+              </div>
+              <div class="flex items-center gap-1">
+                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                 ${c.phoneNumber}
+              </div>
+            </div>
+          </div>
+        `).join('');
+
+        searchResults.classList.remove('hidden');
+      }
+
+      // Expose to window for onclick
+      window.selectCustomer = function (id, name, nationalId) {
+        document.getElementById('customerId').value = id;
+        document.getElementById('customerSearchInput').value = `${name} (${nationalId})`;
+        document.getElementById('customerSearchResults').classList.add('hidden');
+        document.getElementById('clearCustomerBtn').classList.remove('hidden');
+
+        // Clear error if any
+        document.getElementById('errorMessage').classList.add('hidden');
+      };
+
+      document.getElementById('branchId').addEventListener('change', function (e) {
+        const val = e.target.value;
+        if (!val || val === 'main_treasury') {
+          document.getElementById('capacityInfo').classList.add('hidden');
+          return;
+        }
+
+        const branchId = parseInt(val);
+        const branch = branchesData.find(b => b.branchId === branchId);
+        if (branch) {
+          updateBranchCapacityDisplay(branch);
+        }
+      });
+
+      function updateBranchCapacityDisplay(branch) {
+        const totalLoans = branch.totalLoans || 0;
+        const maximumLoans = branch.maximumLoans || 0;
+        const available = Math.max(0, maximumLoans - totalLoans);
+        const utilizationPercent = maximumLoans > 0 ? (totalLoans / maximumLoans) * 100 : 0;
+
+        const capacityInfo = document.getElementById('capacityInfo');
+        const capacityStatus = document.getElementById('capacityStatus');
+        const capacityIcon = document.getElementById('capacityIcon');
+        const capacityText = document.getElementById('capacityText');
+        const capacityNumbers = document.getElementById('capacityNumbers');
+        const submitButton = document.getElementById('submitButton');
+
+        if (maximumLoans === 0) {
+          capacityInfo.classList.add('hidden');
+          return;
+        }
+
+        capacityInfo.classList.remove('hidden');
+        capacityNumbers.textContent = `${formatCurrency(available)} / ${formatCurrency(maximumLoans)} available`;
+
+        if (available === 0) {
+          // At capacity - RED (but still allow creation)
+          capacityStatus.style.background = 'rgba(239, 68, 68, 0.1)';
+          capacityStatus.style.borderColor = 'rgba(239, 68, 68, 0.2)';
+          capacityIcon.textContent = '⚠️';
+          capacityText.textContent = t('loans.form.capacity_limit_exceeded');
+          capacityText.style.color = '#ef4444';
+          capacityNumbers.style.color = '#ef4444';
+          submitButton.disabled = false; // Allow creation even at capacity
+        } else if (utilizationPercent >= 90) {
+          // Near capacity - YELLOW
+          capacityStatus.style.background = 'rgba(245, 158, 11, 0.1)';
+          capacityStatus.style.borderColor = 'rgba(245, 158, 11, 0.2)';
+          capacityIcon.textContent = '⚠️';
+          capacityText.textContent = t('loans.form.capacity_near_limit');
+          capacityText.style.color = '#f59e0b';
+          capacityNumbers.style.color = '#f59e0b';
+          submitButton.disabled = false;
+        } else {
+          // Good capacity - GREEN
+          capacityStatus.style.background = 'rgba(16, 185, 129, 0.1)';
+          capacityStatus.style.borderColor = 'rgba(16, 185, 129, 0.2)';
+          capacityIcon.textContent = '✓';
+          capacityText.textContent = t('loans.form.available_capacity');
+          capacityText.style.color = '#10b981';
+          capacityNumbers.style.color = '#10b981';
+          submitButton.disabled = false;
+        }
+      }
+
+      function updateInstallmentPreview() {
+        const principalAmount = parseFloat(document.getElementById('principalAmount').value);
+        const profitAmount = parseFloat(document.getElementById('profitAmount').value) || 0;
+        const paymentPlanMonths = parseInt(document.getElementById('paymentPlanMonths').value);
+
+        if (principalAmount && paymentPlanMonths && principalAmount > 0) {
+          const totalAmount = principalAmount + profitAmount;
+          const monthlyPayment = totalAmount / paymentPlanMonths;
+          document.getElementById('monthlyPayment').textContent = formatCurrency(monthlyPayment);
+          document.getElementById('installmentCount').textContent = paymentPlanMonths;
+          document.getElementById('installmentPreview').classList.remove('hidden');
+        } else {
+          document.getElementById('installmentPreview').classList.add('hidden');
+        }
+      }
+
+      // Add event listeners for installment preview
+      document.getElementById('principalAmount').addEventListener('input', updateInstallmentPreview);
+      document.getElementById('profitAmount').addEventListener('input', updateInstallmentPreview);
+      document.getElementById('paymentPlanMonths').addEventListener('change', updateInstallmentPreview);
+      document.getElementById('paymentPlanMonths').addEventListener('change', updateInstallmentPreview);
+
+      const form = document.getElementById('loanForm');
+      const submitButton = document.getElementById('submitButton');
+      const errorMessage = document.getElementById('errorMessage');
+
+      let isSubmitting = false; // Prevent duplicate submissions
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        // Prevent duplicate submissions
+        if (isSubmitting) {
+          return;
+        }
+
+        isSubmitting = true;
+
+        // Clear errors
+        errorMessage.classList.add('hidden');
+
+        // Get form data
+        const formData = {
+          customerId: parseInt(document.getElementById('customerId').value),
+          productId: parseInt(document.getElementById('productId').value),
+          principalAmount: parseFloat(document.getElementById('principalAmount').value),
+          profitAmount: parseFloat(document.getElementById('profitAmount').value) || 0,
+          paymentPlanMonths: parseInt(document.getElementById('paymentPlanMonths').value),
+          dueDate: document.getElementById('dueDate').value,
+        };
+
+        // Add branchId or institutionId based on user role or branch selection
+        if (user.roleName === 'Branch' && user.branchId) {
+          formData.branchId = user.branchId;
+        } else if (institutionData) {
+          // Explicit Institution mode (no branches or forced)
+          formData.institutionId = institutionData.institutionId;
+        } else {
+          // Admin or Institution with choice
+          const branchVal = document.getElementById('branchId').value;
+          if (branchVal === 'main_treasury') {
+            formData.institutionId = user.institutionId;
+          } else if (branchVal) {
+            formData.branchId = parseInt(branchVal);
+          } else {
+            // Should be caught by 'required' but as fallback:
+            formData.institutionId = user.institutionId;
+          }
+        }
+
+        // Validation
+        if (!formData.customerId || (!formData.branchId && !formData.institutionId) || !formData.productId || !formData.principalAmount || !formData.paymentPlanMonths || !formData.dueDate) {
+          errorMessage.querySelector('p').textContent = t('loans.form.required_fields_error');
+          errorMessage.classList.remove('hidden');
+          return;
+        }
+
+        if (formData.principalAmount <= 0) {
+          errorMessage.querySelector('p').textContent = t('loans.form.principal_min_error');
+          errorMessage.classList.remove('hidden');
+          return;
+        }
+
+        // Disable submit button
+        submitButton.disabled = true;
+        submitButton.innerHTML = `<div class="spinner" style="width: 20px; height: 20px; border-width: 2px;"></div> ${t('loans.form.creating')}`;
+
+        try {
+          await api.loans.create(formData);
+          showToast(t('loans.form.create_success'), 'success');
+          window.location.href = 'loans.html';
+        } catch (error) {
+          console.error('Error creating loan:', error);
+          errorMessage.querySelector('p').textContent = error.message || t('loans.form.create_failed');
+          errorMessage.classList.remove('hidden');
+
+          // Re-enable button and reset flag
+          isSubmitting = false;
+          submitButton.disabled = false;
+          submitButton.innerHTML = `
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+          ${t('loans.form.create_loan')}
+        `;
+        }
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initPage);
+    } else {
+      initPage();
+    }
+  </script>
+</body>
+
+</html>

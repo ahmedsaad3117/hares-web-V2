@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>إضافة مؤسسة - Q1KEY Platform</title>
+  <link rel="stylesheet" href="../css/styles.css?v=18">
+  <script src="../js/i18n.js"></script>
+  <style>
+    /* Premium Cyber-Minimalist Design System */
+    :root {
+      --neon-primary: #818cf8;
+      --neon-secondary: #c084fc;
+      /* Slightly lighter glass to sit ON TOP of #1c2135 */
+      --card-bg: rgba(255, 255, 255, 0.03);
+      --glass-border: rgba(255, 255, 255, 0.12);
+    }
+
+    .page-wrapper {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 3rem 1rem;
+    }
+
+    .form-container-ultra {
+      width: 100%;
+      max-width: 1000px;
+      background: var(--card-bg);
+      backdrop-filter: blur(15px);
+      border-radius: 28px;
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Decorative Glows */
+    .form-container-ultra::before {
+      content: '';
+      position: absolute;
+      top: -150px;
+      right: -150px;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(129, 140, 248, 0.15) 0%, transparent 70%);
+      z-index: -1;
+    }
+
+    .form-content-inner {
+      padding: 3.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .form-content-inner {
+        padding: 2rem;
+      }
+    }
+
+    /* Section Typography */
+    .section-title-premium {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: white;
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      margin-bottom: 2rem;
+      text-shadow: 0 0 10px rgba(129, 140, 248, 0.2);
+    }
+
+    .section-title-premium i {
+      padding: 8px;
+      background: rgba(129, 140, 248, 0.1);
+      border-radius: 10px;
+      color: var(--neon-primary);
+    }
+
+    /* Grid Layout */
+    .dual-column-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3.5rem;
+    }
+
+    @media (max-width: 900px) {
+      .dual-column-layout {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+    }
+
+    /* Clean Input Fields */
+    .input-field-wrapper {
+      margin-bottom: 1.5rem;
+    }
+
+    .input-label-clean {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.5);
+      margin-bottom: 0.5rem;
+      margin-right: 0.5rem;
+    }
+
+    .modern-input {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.03) !important;
+      border: 1px solid rgba(255, 255, 255, 0.06) !important;
+      border-radius: 14px !important;
+      padding: 0.9rem 1.1rem !important;
+      color: white !important;
+      font-size: 0.95rem !important;
+      transition: all 0.3s ease !important;
+    }
+
+    .modern-input:focus {
+      background: rgba(255, 255, 255, 0.05) !important;
+      border-color: var(--neon-primary) !important;
+      box-shadow: 0 0 0 4px rgba(129, 140, 248, 0.1) !important;
+      outline: none;
+    }
+
+    /* Plan Selection Pills */
+    .plans-flex {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+
+    .plan-chip {
+      padding: 0.75rem 1.25rem;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 14px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      text-align: center;
+      flex: 1;
+      min-width: 140px;
+    }
+
+    .plan-chip:hover {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .plan-chip.active {
+      background: rgba(129, 140, 248, 0.1);
+      border-color: var(--neon-primary);
+      box-shadow: 0 0 15px rgba(129, 140, 248, 0.2);
+    }
+
+    /* Toggle Switches */
+    .toggle-modern {
+      display: flex;
+      flex-direction: row-reverse;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 12px;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 0.2s;
+      height: 42px;
+      white-space: nowrap;
+    }
+
+    .toggle-modern:hover {
+      background: rgba(255, 255, 255, 0.04);
+      border-color: rgba(255, 255, 255, 0.05);
+    }
+
+    /* Submit Button */
+    .btn-create-ultra {
+      width: 100%;
+      height: 56px;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6) !important;
+      color: white !important;
+      border: none !important;
+      border-radius: 16px !important;
+      font-weight: 800 !important;
+      font-size: 1.05rem !important;
+      cursor: pointer !important;
+      margin-top: 1.5rem !important;
+      box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3) !important;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+    }
+
+    .btn-create-ultra:hover {
+      transform: translateY(-3px) scale(1.01);
+      box-shadow: 0 15px 35px rgba(99, 102, 241, 0.5) !important;
+    }
+
+    .btn-create-ultra:active {
+      transform: scale(0.98);
+    }
+
+    /* Divider */
+    .glow-divider {
+      height: 1px;
+      background: linear-gradient(to left, transparent, var(--glass-border), transparent);
+      width: 100%;
+      margin: 3rem 0;
+    }
+
+    [dir="rtl"] .section-title-premium i {
+      margin-left: 0;
+      margin-right: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="sidebar"></div>
+
+  <div class="main-content">
+    <div id="header"></div>
+
+    <div class="page-wrapper">
+      <!-- Top Navigation -->
+      <div class="w-full max-w-[1000px] flex items-center mb-8 px-2">
+        <a href="institutions.html" class="flex items-center gap-2 text-secondary hover:text-white group">
+          <span
+            class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-white/10 transition-all">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="19" y1="12" x2="5" y2="12" />
+              <polyline points="12 19 5 12 12 5" />
+            </svg>
+          </span>
+          <span class="font-bold text-sm tracking-wide" data-i18n-key="institutions.form.back_to_institutions">العودة
+            للمؤسسات</span>
+        </a>
+      </div>
+
+      <form id="institutionForm" class="form-container-ultra">
+        <div class="form-content-inner">
+
+          <!-- Section 1: Subscription Selection -->
+          <div class="mb-12">
+            <div class="section-title-premium">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                stroke="#818cf8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2" />
+              </svg>
+              <span data-i18n-key="institutions.form.plans_title">اختر باقة الاشتراك المناسبة لمؤسستك</span>
+            </div>
+            <div id="plansContainer" class="plans-flex">
+              <div class="spinner"></div>
+            </div>
+            <input type="hidden" id="selectedPlanId" name="planId" required>
+          </div>
+
+          <div class="glow-divider"></div>
+
+          <!-- Section 2: Dual Column Main Info -->
+          <div class="dual-column-layout">
+
+            <!-- RIGHT COLUMN: Institution Info -->
+            <div>
+              <div class="section-title-premium">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                  stroke="#818cf8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                  <line x1="9" y1="3" x2="9" y2="21" />
+                  <line x1="15" y1="3" x2="15" y2="21" />
+                  <line x1="3" y1="9" x2="21" y2="9" />
+                  <line x1="3" y1="15" x2="21" y2="15" />
+                </svg>
+                <span data-i18n-key="institutions.form.identity_title">هوية وبيانات المؤسسة</span>
+              </div>
+
+              <div class="grid grid-cols-2 gap-4">
+                <div class="input-field-wrapper">
+                  <label class="input-label-clean"><span data-i18n-key="institutions.form.name_trade">الاسم
+                      التجاري</span> <span data-i18n-key="common.required">*</span></label>
+                  <input type="text" id="name" name="inst_display_name_field" autocomplete="off" class="modern-input"
+                    data-i18n-placeholder="institutions.form.name_placeholder" placeholder="مؤسسة التقنية العالمية"
+                    required>
+                </div>
+                <div class="input-field-wrapper">
+                  <label class="input-label-clean"><span data-i18n-key="institutions.form.tax_id_label">رقم السجل
+                      التجاري</span> <span data-i18n-key="common.required">*</span></label>
+                  <input type="text" id="taxId" name="inst_tax_id_field" autocomplete="off" class="modern-input"
+                    data-i18n-placeholder="institutions.form.tax_id_placeholder" placeholder="1010xxxxxx" required>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-2 gap-4">
+                <div class="input-field-wrapper">
+                  <label class="input-label-clean"><span data-i18n-key="institutions.form.phone_contact">هاتف
+                      التواصل</span> <span data-i18n-key="common.required">*</span></label>
+                  <input type="tel" id="phoneNumber" name="inst_contact_phone_field" autocomplete="off"
+                    class="modern-input" data-i18n-placeholder="institutions.form.phone_placeholder"
+                    placeholder="011xxxxxxx" required>
+                </div>
+                <div class="input-field-wrapper">
+                  <label class="input-label-clean"><span data-i18n-key="institutions.form.email_inst">بريد
+                      المؤسسة</span> <span data-i18n-key="common.required">*</span></label>
+                  <input type="email" id="email" name="inst_contact_email_field" autocomplete="off" class="modern-input"
+                    data-i18n-placeholder="institutions.form.email_placeholder" placeholder="info@company.com" required>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-2 gap-4">
+                <div class="input-field-wrapper">
+                  <label class="input-label-clean"><span data-i18n-key="institutions.form.max_users_allowed">عدد
+                      المستخدمين المسموح</span> <span data-i18n-key="common.required"
+                      class="required-star">*</span></label>
+                  <input type="number" id="maxUsers" class="modern-input" min="1" value="1" required>
+                </div>
+                <div class="input-field-wrapper">
+                  <label class="input-label-clean"><span data-i18n-key="institutions.form.expiration_license">تاريخ
+                      انتهاء الترخيص</span></label>
+                  <input type="date" id="expirationDate" class="modern-input">
+                </div>
+              </div>
+
+              <div class="input-field-wrapper">
+                <label class="input-label-clean" data-i18n-key="institutions.form.max_amount">الحد الأقصى للمبلغ المسموح
+                  به (للمؤسسة)</label>
+                <input type="number" id="maximumLoans" class="modern-input"
+                  data-i18n-placeholder="institutions.form.max_amount_help"
+                  placeholder="مثلاً: 1000000 (0 تعني غير محدود)" min="0">
+              </div>
+
+              <div class="grid grid-cols-3 gap-4 mt-2">
+                <label class="toggle-modern">
+                  <input type="checkbox" id="canCreateBranches" checked class="w-4 h-4 accent-indigo-500">
+                  <span class="text-xs font-bold text-white/70" data-i18n-key="institutions.form.toggle_branches">إنشاء
+                    فروع</span>
+                </label>
+                <label class="toggle-modern">
+                  <input type="checkbox" id="isActive" checked class="w-4 h-4 accent-emerald-500">
+                  <span class="text-xs font-bold text-white/70"
+                    data-i18n-key="institutions.form.toggle_active_inst">مؤسسة نشطة</span>
+                </label>
+                <label class="toggle-modern">
+                  <input type="checkbox" id="adminIsActive" checked class="w-4 h-4 accent-indigo-500">
+                  <span class="text-xs font-bold text-white/70"
+                    data-i18n-key="institutions.form.toggle_active_admin">تفعيل حساب المدير</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- LEFT COLUMN: Admin Access -->
+            <div>
+              <div class="section-title-premium">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                  stroke="#818cf8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                  <circle cx="12" cy="7" r="4" />
+                </svg>
+                <span data-i18n-key="institutions.form.admin_account_title">حساب مدير المؤسسة</span>
+              </div>
+
+              <div class="input-field-wrapper">
+                <label class="input-label-clean"><span data-i18n-key="institutions.form.admin_full_name">الاسم الكامل
+                    لمدير المؤسسة</span> <span data-i18n-key="common.required">*</span></label>
+                <input type="text" id="adminName" name="inst_admin_name_field" autocomplete="off" class="modern-input"
+                  data-i18n-placeholder="institutions.form.admin_name_placeholder" placeholder="د. أحمد محمد" required>
+              </div>
+
+              <div class="input-field-wrapper">
+                <label class="input-label-clean"><span data-i18n-key="institutions.form.admin_email_dept">البريد
+                    الإلكتروني للإدارة</span> <span data-i18n-key="common.required">*</span></label>
+                <input type="email" id="adminEmail" name="inst_admin_email_field" autocomplete="off"
+                  class="modern-input" data-i18n-placeholder="institutions.form.admin_email_placeholder"
+                  placeholder="admin@domain.com" required>
+              </div>
+
+              <div class="input-field-wrapper">
+                <label class="input-label-clean"><span data-i18n-key="institutions.form.admin_national_id">رقم الهوية
+                    للمدير</span> <span data-i18n-key="common.required">*</span></label>
+                <input type="text" id="adminNationalId" name="inst_admin_national_id_field" autocomplete="off"
+                  class="modern-input" data-i18n-placeholder="users.form.national_id_placeholder"
+                  placeholder="أدخل رقم الهوية" required>
+              </div>
+
+              <div class="grid grid-cols-2 gap-4">
+                <div class="input-field-wrapper">
+                  <label class="input-label-clean"><span data-i18n-key="institutions.form.admin_password_secure">كلمة
+                      المرور الآمنة</span> <span data-i18n-key="common.required">*</span></label>
+                  <div style="position: relative;">
+                    <input type="password" id="adminPassword" name="inst_admin_password_field"
+                      autocomplete="new-password" class="modern-input" placeholder="••••••••" minlength="6" required>
+                    <button type="button" onclick="togglePassword()" id="togglePasswordBtn"
+                      style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: rgba(255,255,255,0.5); padding: 0; display: flex; align-items: center; justify-content: center; outline: none;">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <div class="input-field-wrapper">
+                  <label class="input-label-clean"><span data-i18n-key="institutions.form.admin_phone_mobile">جوال
+                      المدير</span> <span data-i18n-key="common.required">*</span></label>
+                  <input type="tel" id="adminPhoneNumber" name="inst_admin_phone_field" autocomplete="off"
+                    class="modern-input" data-i18n-placeholder="institutions.form.admin_phone_placeholder"
+                    placeholder="05xxxxxxxx" required>
+                </div>
+              </div>
+
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Error Alert -->
+        <div id="errorMessage" class="hidden mt-8 p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-center">
+          <p id="errorMessageText" style="color: #ef4444 !important; font-weight: bold !important; font-size: 16px;">
+          </p>
+        </div>
+
+        <!-- Final Submit -->
+        <div class="mt-10">
+          <button type="submit" id="submitButton" class="btn-create-ultra"
+            data-i18n-key="institutions.form.submit_request_new">
+            تقديم طلب لمؤسسة جديدة
+          </button>
+        </div>
+
+    </div>
+    </form>
+  </div>
+  </div>
+
+  <!-- Scripts Logic (Preserved and Updated) -->
+  <script src="../js/api.js?v=4"></script>
+  <script src="../components/sidebar.js?v=12"></script>
+  <script src="../components/header.js?v=3"></script>
+  <script>
+    async function initPage() {
+      await waitForI18n();
+      if (!requireAuth()) return;
+
+      const user = getCurrentUser();
+      document.getElementById('sidebar').innerHTML = createSidebar(user);
+      document.getElementById('header').innerHTML = createHeader(t('institutions.add_institution'), '');
+      initializeLanguageSwitcher();
+      setActiveNav('institutions');
+      window.i18n.translatePage();
+
+      loadSubscriptionPlans();
+
+      // Real-time Tax ID Validation
+      const taxIdInput = document.getElementById('taxId');
+      const submitBtn = document.getElementById('submitButton');
+
+      taxIdInput.addEventListener('blur', async () => {
+        const taxId = taxIdInput.value.trim();
+        if (taxId.length > 5) {
+          try {
+            // Visual feedback for checking
+            taxIdInput.style.borderColor = '#818cf8';
+
+            const result = await api.institutions.checkTaxId(taxId);
+
+            if (result && result.exists) {
+              showError(result.message || t('institutions.form.tax_id_exists'));
+              taxIdInput.style.borderColor = '#ef4444';
+              taxIdInput.style.backgroundColor = 'rgba(239, 68, 68, 0.1)';
+              submitBtn.disabled = true;
+              submitBtn.style.opacity = '0.5';
+              submitBtn.style.cursor = 'not-allowed';
+            } else {
+              // Clear error if it was related to tax ID
+              const err = document.getElementById('errorMessage');
+              if (!err.classList.contains('hidden') && err.innerText.includes('السجل التجاري')) {
+                err.classList.add('hidden');
+              }
+              // Reset styles
+              taxIdInput.style.borderColor = '';
+              taxIdInput.style.backgroundColor = '';
+              submitBtn.disabled = false;
+              submitBtn.style.opacity = '1';
+              submitBtn.style.cursor = 'pointer';
+            }
+          } catch (e) {
+            console.error('Validation error', e);
+            // On error (like network), we don't block, but maybe warn
+            taxIdInput.style.borderColor = '';
+          }
+        }
+      });
+
+      // Clear error state on input
+      taxIdInput.addEventListener('input', () => {
+        taxIdInput.style.borderColor = '';
+        taxIdInput.style.backgroundColor = '';
+        submitBtn.disabled = false;
+        submitBtn.style.opacity = '1';
+        submitBtn.style.cursor = 'pointer';
+      });
+
+      const form = document.getElementById('institutionForm');
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const errorMessage = document.getElementById('errorMessage');
+        const submitButton = document.getElementById('submitButton');
+        errorMessage.classList.add('hidden');
+
+        const formData = {
+          name: document.getElementById('name').value.trim(),
+          taxId: document.getElementById('taxId').value.trim(),
+          phoneNumber: document.getElementById('phoneNumber').value.trim(),
+          email: document.getElementById('email').value.trim(),
+          maxUsers: parseInt(document.getElementById('maxUsers').value) || 1,
+          expirationDate: document.getElementById('expirationDate').value || null,
+          maximumLoans: parseInt(document.getElementById('maximumLoans').value) || 0,
+          canCreateBranches: document.getElementById('canCreateBranches').checked,
+          isActive: document.getElementById('isActive').checked,
+          planId: parseInt(document.getElementById('selectedPlanId').value),
+          adminName: document.getElementById('adminName').value.trim(),
+          adminEmail: document.getElementById('adminEmail').value.trim(),
+          adminPassword: document.getElementById('adminPassword').value,
+          adminPhoneNumber: document.getElementById('adminPhoneNumber').value.trim(),
+          adminNationalId: document.getElementById('adminNationalId').value.trim(),
+          adminIsActive: document.getElementById('adminIsActive').checked
+        };
+
+        if (!formData.planId) {
+          showError(t('institutions.form.plan_required'));
+          return;
+        }
+
+        submitButton.disabled = true;
+        submitButton.innerHTML = `<div class='spinner' style='width:20px;height:20px;margin:auto;border-color:white'></div>`;
+
+        try {
+          await api.institutions.create(formData);
+          showToast(t('institutions.form.create_success'), 'success');
+          setTimeout(() => window.location.href = 'institutions.html', 1500);
+        } catch (error) {
+          showError(error.message);
+          submitButton.disabled = false;
+          submitButton.innerHTML = t('institutions.form.submit_request_new');
+        }
+      });
+
+      function showError(msg) {
+        const err = document.getElementById('errorMessage');
+        const text = document.getElementById('errorMessageText');
+        if (text) text.textContent = msg;
+        else err.querySelector('p').textContent = msg;
+        err.classList.remove('hidden');
+        err.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+
+    async function loadSubscriptionPlans() {
+      const container = document.getElementById('plansContainer');
+      try {
+        const response = await api.subscriptions.getActivePlans();
+        const plans = Array.isArray(response) ? response : (response.data || []);
+
+        if (plans.length === 0) {
+          container.innerHTML = `<p class='text-white/40 p-4 text-center w-full'>${t('institutions.form.no_plans') || 'لا توجد خطط اشتراك متاحة حالياً'}</p>`;
+          return;
+        }
+
+        container.innerHTML = plans.map(plan => `
+          <div class="plan-chip" onclick="selectPlan(this, ${plan.id})">
+            <div class="text-[10px] font-bold text-indigo-400 uppercase tracking-wider mb-1">${i18n.isRTL() ? plan.name : (plan.nameEn || plan.name)}</div>
+            <div class="text-xl font-black text-white">${plan.price} <span class="text-[10px] font-normal opacity-50">ر.س</span></div>
+            <div class="text-[9px] opacity-40 mt-1">${plan.durationMonths} ${t('my_subscription.month') || 'شهر'}</div>
+          </div>
+        `).join('');
+      } catch (e) {
+        console.error('Plans loading error:', e);
+        container.innerHTML = `<p class='text-red-400 p-4'>${t('institutions.form.load_plans_error') || 'فشل في تحميل الخطط'}</p>`;
+      }
+    }
+
+    window.selectPlan = function (el, id) {
+      document.querySelectorAll('.plan-chip').forEach(c => c.classList.remove('active'));
+      el.classList.add('active');
+      document.getElementById('selectedPlanId').value = id;
+    }
+
+    window.togglePassword = function () {
+      const passwordInput = document.getElementById('adminPassword');
+      const toggleBtn = document.getElementById('togglePasswordBtn');
+
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        toggleBtn.innerHTML = `
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+            <line x1="1" y1="1" x2="23" y2="23"></line>
+          </svg>
+        `;
+        toggleBtn.style.color = 'var(--neon-primary)';
+      } else {
+        passwordInput.type = 'password';
+        toggleBtn.innerHTML = `
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+            <circle cx="12" cy="12" r="3"></circle>
+          </svg>
+        `;
+        toggleBtn.style.color = 'rgba(255,255,255,0.5)';
+      }
+    }
+
+    initPage();
+  </script>
+</body>
+
+</html>

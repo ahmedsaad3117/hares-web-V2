@@ -1,0 +1,2586 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الأدوات - Q1KEY Platform</title>
+    <link rel="stylesheet" href="../css/styles.css?v=12">
+    <style>
+        .page-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Tools Tabs */
+        .tools-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .tool-tab {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 1.25rem 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .tool-tab:hover {
+            border-color: rgba(99, 102, 241, 0.4);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .tool-tab.active {
+            border-color: #6366f1;
+            background: rgba(99, 102, 241, 0.1);
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.2);
+        }
+
+        .tool-tab-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.2));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #818cf8;
+            flex-shrink: 0;
+        }
+
+        .tool-tab h3 {
+            color: white;
+            font-size: 1.1rem;
+            margin: 0 0 0.25rem 0;
+        }
+
+        .tool-tab p {
+            color: #94a3b8;
+            font-size: 0.85rem;
+            margin: 0;
+        }
+
+        .tool-tab.active h3 {
+            color: #a5b4fc;
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+        /* Subscription Plans Section */
+        .plans-section {
+            margin-top: 2rem;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-header h2 {
+            color: white;
+            font-size: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .plans-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .plans-table th {
+            background: rgba(99, 102, 241, 0.1);
+            padding: 1rem;
+            text-align: right;
+            font-weight: 600;
+            color: #e2e8f0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .plans-table td {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: #cbd5e1;
+        }
+
+        .plans-table tr:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .price-input {
+            width: 120px;
+            padding: 0.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: white;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        .price-input:focus {
+            outline: none;
+            border-color: #6366f1;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 50px;
+            height: 26px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(100, 116, 139, 0.5);
+            transition: 0.3s;
+            border-radius: 26px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background: white;
+            transition: 0.3s;
+            border-radius: 50%;
+        }
+
+        input:checked+.toggle-slider {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+        }
+
+        input:checked+.toggle-slider:before {
+            transform: translateX(24px);
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-badge.active {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+        }
+
+        .status-badge.inactive {
+            background: rgba(100, 116, 139, 0.2);
+            color: #64748b;
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-icon {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: #94a3b8;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-icon:hover {
+            background: rgba(99, 102, 241, 0.2);
+            border-color: #6366f1;
+            color: #818cf8;
+        }
+
+        .btn-icon.danger:hover {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: #ef4444;
+            color: #ef4444;
+        }
+
+        /* Add Plan Form */
+        .add-plan-form {
+            display: none;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .add-plan-form.active {
+            display: block;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            color: #94a3b8;
+            font-size: 0.875rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 0.75rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #6366f1;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        /* Settings Card */
+        .settings-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .settings-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .settings-row:last-child {
+            border-bottom: none;
+        }
+
+        .settings-label {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .settings-label span {
+            color: white;
+            font-weight: 500;
+        }
+
+        .settings-label small {
+            color: #64748b;
+            font-size: 0.8rem;
+        }
+
+        .currency-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(5, 150, 105, 0.1));
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 8px;
+            color: #10b981;
+            font-weight: 600;
+        }
+
+        .loading-overlay {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 3rem;
+        }
+
+        /* Announcements Section */
+        .announcements-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .announcement-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            transition: all 0.2s;
+        }
+
+        .announcement-item:hover {
+            border-color: rgba(99, 102, 241, 0.3);
+        }
+
+        .announcement-preview {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .announcement-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            min-width: 120px;
+        }
+
+        .announcement-info small {
+            color: #64748b;
+            font-size: 0.75rem;
+        }
+
+        /* Color Picker */
+        .color-picker-group {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .color-picker {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .color-picker::-webkit-color-swatch-wrapper {
+            padding: 0;
+        }
+
+        .color-picker::-webkit-color-swatch {
+            border: none;
+            border-radius: 6px;
+        }
+
+        .color-presets {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .color-preset {
+            width: 30px;
+            height: 30px;
+            border-radius: 6px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .color-preset:hover,
+        .color-preset.selected {
+            border-color: white;
+            transform: scale(1.1);
+        }
+
+        /* Announcement Modal */
+        .announcement-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .announcement-modal.active {
+            display: flex;
+        }
+
+        .announcement-modal-content {
+            background: #1e293b;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 2rem;
+            width: 100%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .announcement-modal h3 {
+            color: white;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .modal-actions .btn {
+            flex: 1;
+        }
+
+        .preview-banner {
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-weight: 500;
+        }
+    </style>
+    <script>
+        (function () {
+            var lang = localStorage.getItem('locale') || 'ar';
+            document.documentElement.setAttribute('lang', lang);
+            document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+            if (lang === 'ar') document.documentElement.classList.add('rtl');
+        })();
+    </script>
+</head>
+
+<body>
+    <div id="sidebar"></div>
+
+    <div class="main-content">
+        <div id="header"></div>
+
+        <div class="page-content">
+            <div class="page-container">
+                <!-- Tools Tabs -->
+                <div class="tools-tabs">
+                    <div class="tool-tab active" id="tab-announcements" onclick="switchTab('announcements')">
+                        <div class="tool-tab-icon"
+                            style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(251, 191, 36, 0.2)); color: #fbbf24;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                                <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 data-i18n-key="tools.tabs.announcements">Announcements</h3>
+                            <p data-i18n-key="tools.tabs.announcements_desc">Create alert messages for customers</p>
+                        </div>
+                    </div>
+
+                    <div class="tool-tab" id="tab-subscriptions" onclick="switchTab('subscriptions')">
+                        <div class="tool-tab-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                                <line x1="16" y1="2" x2="16" y2="6" />
+                                <line x1="8" y1="2" x2="8" y2="6" />
+                                <line x1="3" y1="10" x2="21" y2="10" />
+                                <path d="M12 14v4" />
+                                <path d="M10 16h4" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 data-i18n-key="tools.tabs.plans">Subscription Plans</h3>
+                            <p data-i18n-key="tools.tabs.plans_desc">Manage plans and pricing</p>
+                        </div>
+                    </div>
+
+                    <div class="tool-tab" id="tab-homepage" onclick="switchTab('homepage')">
+                        <div class="tool-tab-icon"
+                            style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(52, 211, 153, 0.2)); color: #34d399;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                                <polyline points="9 22 9 12 15 12 15 22" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 data-i18n-key="tools.tabs.homepage">إدارة الصفحة الرئيسية</h3>
+                            <p data-i18n-key="tools.tabs.homepage_desc">تخصيص الصفحة الرئيسية العامة</p>
+                        </div>
+                    </div>
+
+                    <div class="tool-tab" id="tab-quicklinks" onclick="switchTab('quicklinks')">
+                        <div class="tool-tab-icon"
+                            style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(96, 165, 250, 0.2)); color: #60a5fa;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                                <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 data-i18n-key="tools.tabs.quicklinks">إدارة الروابط</h3>
+                            <p data-i18n-key="tools.tabs.quicklinks_desc">إضافة روابط سريعة للوحة التحكم</p>
+                        </div>
+                    </div>
+
+                    <div class="tool-tab" id="tab-telegram" onclick="switchTab('telegram')">
+                        <div class="tool-tab-icon"
+                            style="background: linear-gradient(135deg, rgba(0, 136, 204, 0.2), rgba(29, 161, 242, 0.2)); color: #1da1f2;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2">
+                                <path
+                                    d="M21.198 2.433a2.242 2.242 0 0 0-1.022.215l-8.609 3.33c-2.068.8-4.133 1.598-5.724 2.21a405.15 405.15 0 0 1-2.849 1.09c-.42.147-.99.332-1.473.901-.728.855-.749 1.957-.22 2.89.485.855 1.324 1.313 1.857 1.54.614.261 1.312.49 1.907.686l.025.008c.586.192 1.173.385 1.759.578l1.072 3.22c.203.609.572 1.04 1.079 1.241.506.2 1.048.15 1.523-.155l2.403-1.542 2.904 2.203c.458.349 1.011.539 1.592.539 1.098 0 2.045-.726 2.343-1.796l2.733-12.29c.08-.364.116-.738.108-1.11-.016-.747-.208-1.5-.764-2.116a2.392 2.392 0 0 0-1.644-.642z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 data-i18n-key="tools.tabs.telegram">إعدادات التلجرام</h3>
+                            <p data-i18n-key="tools.tabs.telegram_desc">ربط إشعارات الطلبات مع بوت التلجرام</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Announcements Section (Default Active) -->
+                <div class="tab-content active" id="content-announcements">
+                    <div class="glass-card" id="announcementsSection">
+                        <!-- ... (Announcements content unchanged) ... -->
+                        <div class="section-header">
+                            <h2>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                                    <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+                                </svg>
+                                <span data-i18n-key="tools.announcements.title">Announcements & Alerts</span>
+                            </h2>
+                            <button class="btn btn-primary" onclick="openAnnouncementModal()">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="12" y1="5" x2="12" y2="19" />
+                                    <line x1="5" y1="12" x2="19" y2="12" />
+                                </svg>
+                                <span data-i18n-key="tools.announcements.create">Create New Announcement</span>
+                            </button>
+                        </div>
+
+                        <p style="color: #94a3b8; margin-bottom: 1rem;" data-i18n-key="tools.announcements.description">
+                            Announcements appear as a banner at the top of all pages for all users. Only one
+                            announcement can
+                            be active at a time.
+                        </p>
+
+                        <div class="announcements-list" id="announcementsList">
+                            <div class="loading-overlay">
+                                <div class="spinner"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Subscription Plans Section -->
+                <div class="tab-content" id="content-subscriptions">
+                    <div class="glass-card" id="subscriptionPlans">
+                        <!-- ... (Subscription Plans content unchanged) ... -->
+                        <div class="section-header">
+                            <h2>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="12" y1="1" x2="12" y2="23" />
+                                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                                </svg>
+                                <span data-i18n-key="tools.plans.title">Subscription Plans & Pricing</span>
+                            </h2>
+                            <button class="btn btn-primary" onclick="toggleAddPlanForm()">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="12" y1="5" x2="12" y2="19" />
+                                    <line x1="5" y1="12" x2="19" y2="12" />
+                                </svg>
+                                <span data-i18n-key="tools.plans.create">Add New Plan</span>
+                            </button>
+                        </div>
+
+                        <!-- Settings Card -->
+                        <div class="settings-card">
+                            <div class="settings-row">
+                                <div class="settings-label">
+                                    <span data-i18n-key="tools.plans.currency">💰 Currency Used</span>
+                                    <small data-i18n-key="tools.plans.currency_desc">Subscription and payment
+                                        currency</small>
+                                </div>
+                                <div class="currency-badge" data-i18n-key="tools.plans.currency_sar">
+                                    🇸🇦 Saudi Riyal (SAR)
+                                </div>
+                            </div>
+                            <div class="settings-row">
+                                <div class="settings-label">
+                                    <span data-i18n-key="tools.plans.free_trial">🎁 Free Month for New
+                                        Subscribers</span>
+                                    <small data-i18n-key="tools.plans.free_trial_desc">Enable free month offer for
+                                        first-time subscription</small>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="freeTrialToggle" onchange="toggleFreeTrial()">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Add Plan Form -->
+                        <div class="add-plan-form" id="addPlanForm">
+                            <h3 style="color: white; margin-bottom: 1rem;" data-i18n-key="tools.plans.add_title">➕ Add
+                                New Plan</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label data-i18n-key="tools.plans.name_ar">Plan Name (Arabic)</label>
+                                    <input type="text" id="newPlanName" placeholder="مثال: 3 أشهر">
+                                </div>
+                                <div class="form-group">
+                                    <label data-i18n-key="tools.plans.name_en">Plan Name (English)</label>
+                                    <input type="text" id="newPlanNameEn" placeholder="e.g., 3 Months">
+                                </div>
+                                <div class="form-group">
+                                    <label data-i18n-key="tools.plans.duration">Duration (Months)</label>
+                                    <input type="number" id="newPlanDuration" min="1" placeholder="3">
+                                </div>
+                                <div class="form-group">
+                                    <label data-i18n-key="tools.plans.price">Price (SAR)</label>
+                                    <input type="number" id="newPlanPrice" min="0" step="0.01" placeholder="250">
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button class="btn btn-primary" onclick="savePlan()"><span
+                                        data-i18n-key="tools.plans.save">💾 Save Plan</span></button>
+                                <button class="btn btn-secondary" onclick="toggleAddPlanForm()"
+                                    data-i18n-key="tools.plans.cancel">Cancel</button>
+                            </div>
+                        </div>
+
+                        <!-- Plans Table -->
+                        <div class="table-container">
+                            <table class="plans-table">
+                                <thead>
+                                    <tr>
+                                        <th data-i18n-key="tools.plans.table.name">الباقة</th>
+                                        <th data-i18n-key="tools.plans.table.duration">المدة</th>
+                                        <th data-i18n-key="tools.plans.table.price">السعر (ر.س)</th>
+                                        <th data-i18n-key="tools.plans.table.status">الحالة</th>
+                                        <th data-i18n-key="tools.plans.table.actions">الإجراءات</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="plansTableBody">
+                                    <tr>
+                                        <td colspan="5">
+                                            <div class="loading-overlay">
+                                                <div class="spinner"></div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div style="margin-top: 1.5rem; text-align: center;">
+                            <button class="btn btn-primary" onclick="saveAllPrices()" id="saveAllBtn"
+                                style="display: none;">
+                                💾 حفظ جميع التغييرات
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Homepage Management Section -->
+                <div class="tab-content" id="content-homepage">
+                    <style>
+                        .settings-layout {
+                            display: flex;
+                            height: calc(100vh - 200px);
+                            min-height: 500px;
+                        }
+
+                        .settings-sidebar {
+                            width: 250px;
+                            background: rgba(0, 0, 0, 0.2);
+                            border-left: 1px solid rgba(255, 255, 255, 0.1);
+                            padding: 1rem;
+                            display: flex;
+                            flex-direction: column;
+                            gap: 0.5rem;
+                            overflow-y: auto;
+                        }
+
+                        .settings-nav-item {
+                            background: transparent;
+                            border: none;
+                            color: #94a3b8;
+                            padding: 0.75rem 1rem;
+                            text-align: right;
+                            border-radius: 8px;
+                            cursor: pointer;
+                            transition: all 0.2s;
+                            font-size: 0.95rem;
+                            display: flex;
+                            align-items: center;
+                            gap: 0.5rem;
+                        }
+
+                        .settings-nav-item:hover {
+                            background: rgba(255, 255, 255, 0.05);
+                            color: white;
+                        }
+
+                        .settings-nav-item.active {
+                            background: rgba(99, 102, 241, 0.1);
+                            color: var(--primary);
+                            font-weight: 600;
+                        }
+
+                        .settings-content-area {
+                            flex: 1;
+                            padding: 2rem;
+                            overflow-y: auto;
+                            background: rgba(255, 255, 255, 0.02);
+                        }
+
+                        .settings-tab-pane {
+                            display: none;
+                            animation: fadeIn 0.3s ease;
+                        }
+
+                        .settings-tab-pane.active {
+                            display: block;
+                        }
+
+                        .input-group-title {
+                            color: var(--primary);
+                            font-size: 1.1rem;
+                            margin-bottom: 1.5rem;
+                            padding-bottom: 0.5rem;
+                            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                        }
+                    </style>
+
+                    <div class="glass-card" id="homepageSection" style="padding: 0; overflow: hidden;">
+                        <!-- Header -->
+                        <div class="section-header"
+                            style="padding: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 0;">
+                            <h2>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                                    <polyline points="9 22 9 12 15 12 15 22" />
+                                </svg>
+                                <span data-i18n-key="tools.homepage.title">إدارة الصفحة الرئيسية</span>
+                            </h2>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <a href="../index.html" target="_blank" class="btn btn-secondary">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                                        <polyline points="15 3 21 3 21 9" />
+                                        <line x1="10" y1="14" x2="21" y2="3" />
+                                    </svg>
+                                    <span data-i18n-key="tools.homepage.preview">معاينة</span>
+                                </a>
+                                <button class="btn btn-primary" onclick="saveHomepageSettings()">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
+                                        <polyline points="17 21 17 13 7 13 7 21" />
+                                        <polyline points="7 3 7 8 15 8" />
+                                    </svg>
+                                    <span data-i18n-key="tools.homepage.save">حفظ التغييرات</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Main Layout -->
+                        <div class="settings-layout">
+                            <!-- Sidebar -->
+                            <div class="settings-sidebar">
+                                <button class="settings-nav-item active" onclick="switchSettingsTab('hero', this)">
+                                    ✨ <span data-i18n-key="tools.homepage.hero_section">قسم الهيرو</span>
+                                </button>
+                                <button class="settings-nav-item" onclick="switchSettingsTab('buttons', this)">
+                                    🔘 <span data-i18n-key="tools.homepage.buttons_section">الأزرار</span>
+                                </button>
+                                <button class="settings-nav-item" onclick="switchSettingsTab('features', this)">
+                                    ⭐ <span data-i18n-key="tools.homepage.features_section">المميزات</span>
+                                </button>
+                                <button class="settings-nav-item" onclick="switchSettingsTab('plans', this)">
+                                    💎 <span data-i18n-key="tools.homepage.plans_section">الباقات</span>
+                                </button>
+                                <button class="settings-nav-item" onclick="switchSettingsTab('about', this)">
+                                    ℹ️ <span data-i18n-key="tools.homepage.about_section">من نحن</span>
+                                </button>
+                                <button class="settings-nav-item" onclick="switchSettingsTab('contact', this)">
+                                    📞 <span data-i18n-key="tools.homepage.contact_section">التواصل</span>
+                                </button>
+                                <button class="settings-nav-item" onclick="switchSettingsTab('footer', this)">
+                                    🦶 <span data-i18n-key="tools.homepage.footer_section">الفوتر</span>
+                                </button>
+                            </div>
+
+                            <!-- Content Area -->
+                            <div class="settings-content-area">
+                                <!-- Hero Tab -->
+                                <div id="tab-hero" class="settings-tab-pane active">
+                                    <h3 class="input-group-title" data-i18n-key="tools.homepage.hero_settings">إعدادات
+                                        قسم البداية (Hero Section)</h3>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label data-i18n-key="tools.homepage.title_ar">العنوان الرئيسي
+                                                (عربي)</label>
+                                            <input type="text" id="hp_heroTitleAr" class="input"
+                                                placeholder="منصة Q1Key لإدارة القروض">
+                                        </div>
+                                        <div class="form-group">
+                                            <label data-i18n-key="tools.homepage.title_en">العنوان الرئيسي
+                                                (إنجليزي)</label>
+                                            <input type="text" id="hp_heroTitleEn" class="input"
+                                                placeholder="Q1Key Loan Management Platform">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label data-i18n-key="tools.homepage.subtitle_ar">العنوان الفرعي
+                                                (عربي)</label>
+                                            <textarea id="hp_heroSubtitleAr" rows="3" class="input"
+                                                placeholder="الحل الأمثل لإدارة مؤسستك المالية"></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label data-i18n-key="tools.homepage.subtitle_en">العنوان الفرعي
+                                                (إنجليزي)</label>
+                                            <textarea id="hp_heroSubtitleEn" rows="3" class="input"
+                                                placeholder="The Ultimate Solution"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Buttons Tab -->
+                                <div id="tab-buttons" class="settings-tab-pane">
+                                    <h3 class="input-group-title" data-i18n-key="tools.homepage.buttons_section">إعدادات
+                                        الأزرار الرئيسية</h3>
+
+                                    <!-- Login Button -->
+                                    <div class="settings-card" style="margin-bottom: 1.5rem;">
+                                        <div class="settings-row"
+                                            style="border: none; padding: 0; margin-bottom: 1rem;">
+                                            <div class="settings-label">
+                                                <span data-i18n-key="tools.homepage.login_button">زر "تسجيل
+                                                    الدخول"</span>
+                                            </div>
+                                            <label class="toggle-switch">
+                                                <input type="checkbox" id="hp_loginBtnVisible">
+                                                <span class="toggle-slider"></span>
+                                            </label>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group">
+                                                <label data-i18n-key="tools.homepage.btn_text_ar">النص (عربي)</label>
+                                                <input type="text" id="hp_loginBtnTextAr" class="input"
+                                                    placeholder="تسجيل الدخول">
+                                            </div>
+                                            <div class="form-group">
+                                                <label data-i18n-key="tools.homepage.btn_text_en">النص (إنجليزي)</label>
+                                                <input type="text" id="hp_loginBtnTextEn" class="input"
+                                                    placeholder="Login">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Register Button -->
+                                    <div class="settings-card">
+                                        <div class="settings-row"
+                                            style="border: none; padding: 0; margin-bottom: 1rem;">
+                                            <div class="settings-label">
+                                                <span data-i18n-key="tools.homepage.register_button">زر "حساب
+                                                    جديد"</span>
+                                            </div>
+                                            <label class="toggle-switch">
+                                                <input type="checkbox" id="hp_registerBtnVisible">
+                                                <span class="toggle-slider"></span>
+                                            </label>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group">
+                                                <label data-i18n-key="tools.homepage.btn_text_ar">النص (عربي)</label>
+                                                <input type="text" id="hp_registerBtnTextAr" class="input"
+                                                    placeholder="اشترك معنا">
+                                            </div>
+                                            <div class="form-group">
+                                                <label data-i18n-key="tools.homepage.btn_text_en">النص (إنجليزي)</label>
+                                                <input type="text" id="hp_registerBtnTextEn" class="input"
+                                                    placeholder="Register Now">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Features Tab -->
+                                <div id="tab-features" class="settings-tab-pane">
+                                    <div class="settings-row" style="margin-bottom: 1.5rem;">
+                                        <div class="settings-label">
+                                            <h3 class="input-group-title" style="margin: 0; border: none;"
+                                                data-i18n-key="tools.homepage.show_features">إظهار قسم
+                                                المميزات</h3>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" id="hp_featuresVisible">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label data-i18n-key="tools.homepage.section_title_ar">عنوان القسم
+                                                (عربي)</label>
+                                            <input type="text" id="hp_featuresTitleAr" class="input">
+                                        </div>
+                                        <div class="form-group">
+                                            <label data-i18n-key="tools.homepage.section_title_en">عنوان القسم
+                                                (إنجليزي)</label>
+                                            <input type="text" id="hp_featuresTitleEn" class="input">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Plans Tab -->
+                                <div id="tab-plans" class="settings-tab-pane">
+                                    <div class="settings-row" style="margin-bottom: 1.5rem;">
+                                        <div class="settings-label">
+                                            <h3 class="input-group-title" style="margin: 0; border: none;"
+                                                data-i18n-key="tools.homepage.show_plans">إظهار قسم
+                                                الباقات</h3>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" id="hp_plansVisible">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label data-i18n-key="tools.homepage.section_title_ar">عنوان القسم
+                                                (عربي)</label>
+                                            <input type="text" id="hp_plansTitleAr" class="input">
+                                        </div>
+                                        <div class="form-group">
+                                            <label data-i18n-key="tools.homepage.section_title_en">عنوان القسم
+                                                (إنجليزي)</label>
+                                            <input type="text" id="hp_plansTitleEn" class="input">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- About Tab -->
+                                <div id="tab-about" class="settings-tab-pane">
+                                    <div class="settings-row" style="margin-bottom: 1.5rem;">
+                                        <div class="settings-label">
+                                            <h3 class="input-group-title" style="margin: 0; border: none;"
+                                                data-i18n-key="tools.homepage.show_about">إظهار قسم من
+                                                نحن</h3>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" id="hp_aboutVisible">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label data-i18n-key="tools.homepage.about_title_ar">العنوان (عربي)</label>
+                                            <input type="text" id="hp_aboutTitleAr" class="input">
+                                        </div>
+                                        <div class="form-group">
+                                            <label data-i18n-key="tools.homepage.about_title_en">العنوان
+                                                (إنجليزي)</label>
+                                            <input type="text" id="hp_aboutTitleEn" class="input">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label data-i18n-key="tools.homepage.content_ar">المحتوى (عربي)</label>
+                                            <textarea id="hp_aboutContentAr" rows="5" class="input"></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label data-i18n-key="tools.homepage.content_en">المحتوى (إنجليزي)</label>
+                                            <textarea id="hp_aboutContentEn" rows="5" class="input"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Contact Tab -->
+                                <div id="tab-contact" class="settings-tab-pane">
+                                    <div class="settings-row" style="margin-bottom: 1.5rem;">
+                                        <div class="settings-label">
+                                            <h3 class="input-group-title" style="margin: 0; border: none;"
+                                                data-i18n-key="tools.homepage.show_contact">إظهار قسم
+                                                التواصل</h3>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" id="hp_contactVisible">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label data-i18n-key="tools.homepage.section_title_ar">عنوان القسم
+                                                (عربي)</label>
+                                            <input type="text" id="hp_contactTitleAr" class="input">
+                                        </div>
+                                        <div class="form-group">
+                                            <label data-i18n-key="tools.homepage.section_title_en">عنوان القسم
+                                                (إنجليزي)</label>
+                                            <input type="text" id="hp_contactTitleEn" class="input">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row" style="margin-top: 1rem;">
+                                        <div class="form-group">
+                                            <label data-i18n-key="tools.homepage.whatsapp_label">رقم الواتساب
+                                                (للتواصل)</label>
+                                            <input type="text" id="hp_whatsappNumber" class="input"
+                                                placeholder="966...">
+                                        </div>
+                                        <div class="form-group">
+                                            <label data-i18n-key="tools.homepage.email_label">البريد الإلكتروني
+                                                للدعم</label>
+                                            <input type="email" id="hp_supportEmail" class="input"
+                                                placeholder="support@example.com">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Footer Tab -->
+                                <div id="tab-footer" class="settings-tab-pane">
+                                    <h3 class="input-group-title" data-i18n-key="tools.homepage.footer_settings">إعدادات
+                                        الفوتر</h3>
+
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label data-i18n-key="tools.homepage.copyright_ar">نص الحقوق (عربي)</label>
+                                            <input type="text" id="hp_footerTextAr" class="input">
+                                        </div>
+                                        <div class="form-group">
+                                            <label data-i18n-key="tools.homepage.copyright_en">نص الحقوق
+                                                (إنجليزي)</label>
+                                            <input type="text" id="hp_footerTextEn" class="input">
+                                        </div>
+                                    </div>
+
+                                    <div style="margin-top: 2rem;">
+                                        <h3 class="input-group-title" data-i18n-key="tools.homepage.quick_links">الروابط
+                                            السريعة</h3>
+                                        <div id="footerLinksContainer">
+                                            <!-- Managed via JS -->
+                                        </div>
+                                        <button class="btn btn-secondary btn-block" onclick="addFooterLink()"
+                                            style="margin-top: 1rem;" data-i18n-key="tools.homepage.add_link_btn">
+                                            + إضافة رابط جديد
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!-- Quick Links Management Section -->
+                <div class="tab-content" id="content-quicklinks">
+                    <div class="glass-card" id="quickLinksSection">
+                        <div class="section-header">
+                            <h2>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                                    <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                                </svg>
+                                <span data-i18n-key="tools.quicklinks.title">إدارة الروابط السريعة</span>
+                            </h2>
+                            <button class="btn btn-primary" onclick="openQuickLinkModal()">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="12" y1="5" x2="12" y2="19" />
+                                    <line x1="5" y1="12" x2="19" y2="12" />
+                                </svg>
+                                <span data-i18n-key="tools.quicklinks.create">إضافة رابط جديد</span>
+                            </button>
+                        </div>
+
+                        <p style="color: #94a3b8; margin-bottom: 1rem;" data-i18n-key="tools.quicklinks.description">
+                            أضف روابط سريعة تظهر في أعلى لوحة التحكم. يمكنك إضافة روابط لمواقع مهمة مثل يوتيوب، تويتر،
+                            أو أي موقع آخر.
+                        </p>
+
+                        <div class="announcements-list" id="quickLinksList">
+                            <div class="loading-overlay">
+                                <div class="spinner"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Telegram Settings Section -->
+                <div class="tab-content" id="content-telegram">
+                    <div class="glass-card" id="telegramSection">
+                        <div class="section-header">
+                            <h2>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2">
+                                    <path
+                                        d="M21.198 2.433a2.242 2.242 0 0 0-1.022.215l-8.609 3.33c-2.068.8-4.133 1.598-5.724 2.21a405.15 405.15 0 0 1-2.849 1.09c-.42.147-.99.332-1.473.901-.728.855-.749 1.957-.22 2.89.485.855 1.324 1.313 1.857 1.54.614.261 1.312.49 1.907.686l.025.008c.586.192 1.173.385 1.759.578l1.072 3.22c.203.609.572 1.04 1.079 1.241.506.2 1.048.15 1.523-.155l2.403-1.542 2.904 2.203c.458.349 1.011.539 1.592.539 1.098 0 2.045-.726 2.343-1.796l2.733-12.29c.08-.364.116-.738.108-1.11-.016-.747-.208-1.5-.764-2.116a2.392 2.392 0 0 0-1.644-.642z" />
+                                </svg>
+                                <span data-i18n-key="tools.telegram.title">إعدادات التلجرام</span>
+                            </h2>
+                        </div>
+
+                        <p style="color: #94a3b8; margin-bottom: 1.5rem;" data-i18n-key="tools.telegram.description">
+                            اربط النظام مع بوت تلجرام لتلقي إشعارات فورية عند ورود طلبات الاشتراك الجديدة.
+                        </p>
+
+                        <!-- Connection Status -->
+                        <div id="telegramStatus" class="settings-card" style="margin-bottom: 1.5rem;">
+                            <div class="settings-row" style="border: none;">
+                                <div class="settings-label">
+                                    <span style="font-size: 1.1rem; font-weight: 600;">📡 <span
+                                            data-i18n-key="tools.telegram.connection_status">Connection
+                                            Status</span></span>
+                                    <small id="telegramStatusText" style="color: #94a3b8;"
+                                        data-i18n-key="tools.telegram.checking">Checking...</small>
+                                </div>
+                                <div id="telegramStatusBadge" class="status-badge inactive"
+                                    data-i18n-key="tools.telegram.not_connected">
+                                    Not Connected
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bot Token -->
+                        <div class="form-group" style="margin-bottom: 1.5rem;">
+                            <label style="color: white; font-weight: 600; margin-bottom: 0.5rem; display: block;">
+                                🤖 <span data-i18n-key="tools.telegram.bot_token">Bot Token</span>
+                            </label>
+                            <small style="color: #94a3b8; display: block; margin-bottom: 0.75rem;"
+                                data-i18n-key="tools.telegram.bot_token_help">
+                                Get it from @BotFather on Telegram
+                            </small>
+                            <input type="password" id="telegramBotToken" class="input"
+                                placeholder="1234567890:ABCdefGHIjklMNOpqrsTUVwxyz"
+                                style="font-family: monospace; direction: ltr; text-align: left;">
+                        </div>
+
+                        <!-- Chat ID -->
+                        <div class="form-group" style="margin-bottom: 1.5rem;">
+                            <label style="color: white; font-weight: 600; margin-bottom: 0.5rem; display: block;">
+                                💬 <span data-i18n-key="tools.telegram.chat_id">Chat ID</span>
+                            </label>
+                            <small style="color: #94a3b8; display: block; margin-bottom: 0.75rem;"
+                                data-i18n-key="tools.telegram.chat_id_help">
+                                ID of the person or group that will receive notifications
+                            </small>
+                            <input type="text" id="telegramChatId" class="input" placeholder="-1001234567890"
+                                style="font-family: monospace; direction: ltr; text-align: left;">
+                        </div>
+
+                        <!-- Notification Settings -->
+                        <div class="settings-card" style="margin-bottom: 1.5rem;">
+                            <h3 style="color: white; margin-bottom: 1rem; font-size: 1rem;">⚙️ <span
+                                    data-i18n-key="tools.telegram.notification_settings">Notification Settings</span>
+                            </h3>
+
+                            <div class="settings-row">
+                                <div class="settings-label">
+                                    <span data-i18n-key="tools.telegram.enable_notifications">Enable Telegram
+                                        Notifications</span>
+                                    <small data-i18n-key="tools.telegram.enable_notifications_desc">Turn on/off all
+                                        notifications</small>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="telegramEnabled">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+
+                            <div class="settings-row">
+                                <div class="settings-label">
+                                    <span>🆕 <span data-i18n-key="tools.telegram.notify_new_requests">New Registration
+                                            Requests</span></span>
+                                    <small data-i18n-key="tools.telegram.notify_new_requests_desc">Notify when a new
+                                        institution or branch registers</small>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="telegramNotifyNew" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+
+                            <div class="settings-row" style="border: none;">
+                                <div class="settings-label">
+                                    <span>🔄 <span data-i18n-key="tools.telegram.notify_renewals">Renewal
+                                            Requests</span></span>
+                                    <small data-i18n-key="tools.telegram.notify_renewals_desc">Notify when a
+                                        subscription renewal is requested</small>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="telegramNotifyRenewals" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+
+                            <div class="settings-row" style="border: none;">
+                                <div class="settings-label">
+                                    <span>🔘 <span data-i18n-key="tools.telegram.allow_action_buttons">التفاعل مع
+                                            الإشعارات</span></span>
+                                    <small data-i18n-key="tools.telegram.allow_action_buttons_desc">دعم أزرار القبول
+                                        والرفض التفاعلية في تلجرام</small>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="telegramAllowActions" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                            <button class="btn btn-secondary" onclick="testTelegramConnection()" id="testTelegramBtn">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                                    <polyline points="22 4 12 14.01 9 11.01" />
+                                </svg>
+                                <span data-i18n-key="tools.telegram.test_connection">Test Connection</span>
+                            </button>
+                            <button class="btn btn-primary" onclick="saveTelegramSettings()">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
+                                    <polyline points="17 21 17 13 7 13 7 21" />
+                                    <polyline points="7 3 7 8 15 8" />
+                                </svg>
+                                <span data-i18n-key="tools.telegram.save_settings">Save Settings</span>
+                            </button>
+                        </div>
+
+                        <!-- Help Section -->
+                        <div
+                            style="margin-top: 2rem; padding: 1.5rem; background: rgba(59, 130, 246, 0.1); border-radius: 12px; border: 1px solid rgba(59, 130, 246, 0.2);">
+                            <h4 style="color: #60a5fa; margin-bottom: 1rem;">📖 <span
+                                    data-i18n-key="tools.telegram.help_title">How to set up the bot</span></h4>
+                            <ol style="color: #94a3b8; padding-inline-start: 1.5rem; line-height: 1.8;">
+                                <li><span data-i18n-key="tools.telegram.help_step1">Open Telegram and search for</span>
+                                    <code
+                                        style="background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px;">@BotFather</code>
+                                </li>
+                                <li><span data-i18n-key="tools.telegram.help_step2">Send the command</span> <code
+                                        style="background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px;">/newbot</code>
+                                </li>
+                                <li data-i18n-key="tools.telegram.help_step3">Copy the token you receive and paste it in
+                                    the field above</li>
+                                <li><span data-i18n-key="tools.telegram.help_step4">To get the Chat ID, send a message
+                                        to the bot then use</span> <code
+                                        style="background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px;">@userinfobot</code>
+                                </li>
+                                <li data-i18n-key="tools.telegram.help_step5">Click Test Connection to verify the
+                                    settings</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Announcement Modal -->
+    <div id="announcementModal" class="announcement-modal">
+        <div class="announcement-modal-content">
+            <h3 id="announcementModalTitle">📢 إنشاء إعلان جديد</h3>
+
+            <!-- Preview Banner -->
+            <div class="preview-banner" id="previewBanner" style="background: #3b82f6; color: #ffffff;">
+                <span>📢</span> <span id="previewText">معاينة الإعلان...</span>
+            </div>
+
+            <div class="form-group">
+                <label>النص بالعربية *</label>
+                <textarea id="announcementTextAr" rows="2" placeholder="مثال: نعلن عن صيانة مجدولة يوم الخميس"
+                    oninput="updatePreview()"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>النص بالإنجليزية *</label>
+                <textarea id="announcementTextEn" rows="2" placeholder="e.g., Scheduled maintenance on Thursday"
+                    oninput="updatePreview()"></textarea>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>لون الخلفية</label>
+                    <div class="color-picker-group">
+                        <input type="color" class="color-picker" id="bgColor" value="#3b82f6"
+                            onchange="updatePreview()">
+                        <div class="color-presets" id="bgColorPresets">
+                            <div class="color-preset" style="background: #3b82f6;" onclick="setBgColor('#3b82f6')"
+                                title="أزرق"></div>
+                            <div class="color-preset" style="background: #10b981;" onclick="setBgColor('#10b981')"
+                                title="أخضر"></div>
+                            <div class="color-preset" style="background: #f59e0b;" onclick="setBgColor('#f59e0b')"
+                                title="برتقالي"></div>
+                            <div class="color-preset" style="background: #ef4444;" onclick="setBgColor('#ef4444')"
+                                title="أحمر"></div>
+                            <div class="color-preset" style="background: #8b5cf6;" onclick="setBgColor('#8b5cf6')"
+                                title="بنفسجي"></div>
+                            <div class="color-preset" style="background: #1e293b;" onclick="setBgColor('#1e293b')"
+                                title="داكن"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>لون الخط</label>
+                    <div class="color-picker-group">
+                        <input type="color" class="color-picker" id="textColor" value="#ffffff"
+                            onchange="updatePreview()">
+                        <div class="color-presets" id="textColorPresets">
+                            <div class="color-preset" style="background: #ffffff; border: 1px solid #ccc;"
+                                onclick="setTextColor('#ffffff')" title="أبيض"></div>
+                            <div class="color-preset" style="background: #1e293b;" onclick="setTextColor('#1e293b')"
+                                title="داكن"></div>
+                            <div class="color-preset" style="background: #fbbf24;" onclick="setTextColor('#fbbf24')"
+                                title="ذهبي"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" style="display: flex; align-items: center; gap: 1rem; margin-top: 1rem;">
+                <label class="toggle-switch">
+                    <input type="checkbox" id="announcementIsActive">
+                    <span class="toggle-slider"></span>
+                </label>
+                <label style="color: white; margin: 0;" data-i18n-key="tools.announcements.activate_now">تفعيل
+                    الإعلان
+                    فوراً</label>
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeAnnouncementModal()"
+                    data-i18n-key="tools.announcements.cancel">Cancel</button>
+                <button class="btn btn-primary" onclick="saveAnnouncement()"><span
+                        data-i18n-key="tools.announcements.save">💾 Save Announcement</span></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Link Modal -->
+    <div id="quickLinkModal" class="announcement-modal">
+        <div class="announcement-modal-content">
+            <h3 id="quickLinkModalTitle">🔗 إضافة رابط جديد</h3>
+
+            <div class="form-group">
+                <label>اسم الرابط *</label>
+                <input type="text" id="quickLinkName" class="input" placeholder="مثال: يوتيوب">
+            </div>
+
+            <div class="form-group">
+                <label>الرابط (URL) *</label>
+                <input type="url" id="quickLinkUrl" class="input" placeholder="https://youtube.com">
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeQuickLinkModal()">إلغاء</button>
+                <button class="btn btn-primary" onclick="saveQuickLink()">💾 حفظ الرابط</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+
+    <!-- Force correct API config -->
+    <script>
+        window.API_CONFIG = { baseUrl: 'http://localhost:3001/api' };
+    </script>
+    <script src="../js/config.js?v=3"></script>
+    <script src="../js/i18n.js"></script>
+    <script src="../js/api.js?v=4"></script>
+    <script src="../js/ui-utils.js?v=3"></script>
+    <script src="../components/sidebar.js?v=12"></script>
+    <script src="../components/header.js?v=3"></script>
+    <script>
+        let plans = [];
+        let announcements = [];
+        let originalPrices = {};
+        let editingAnnouncementId = null;
+
+        // ==================== TAB SWITCHING ====================
+        function switchTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.tool-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.getElementById(`tab-${tabName}`).classList.add('active');
+
+            // Update tab content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(`content-${tabName}`).classList.add('active');
+        }
+
+        async function initPage() {
+            await waitForI18n();
+
+            if (!requireAuth()) return;
+
+            // Refresh profile to get latest subscription data
+            try {
+                await api.auth.getProfile();
+            } catch (e) {
+                console.error('Failed to refresh profile:', e);
+            }
+
+            const user = getCurrentUser();
+
+            // Only Super Admin can access this page
+            if (user.roleName !== 'Super Admin' && user.role_name !== 'Super Admin') {
+                window.location.href = 'dashboard.html';
+                return;
+            }
+
+            document.getElementById('sidebar').innerHTML = createSidebar(user);
+            document.getElementById('header').innerHTML = createHeader(t('tools.title'), t('tools.subtitle'));
+            if (typeof initializeLanguageSwitcher === 'function') initializeLanguageSwitcher();
+            setActiveNav('tools');
+
+            await Promise.all([loadPlans(), loadAnnouncements(), loadHomepageSettings(), loadQuickLinksAdmin(), loadTelegramSettings()]);
+        }
+
+        // Add event listener for language changes to re-render dynamic content
+        window.addEventListener('localeChanged', () => {
+            renderPlansTable();
+            renderAnnouncements();
+            updatePreview();
+        });
+
+        // ==================== HOMEPAGE SETTINGS ====================
+        let homepageSettings = null;
+
+        async function loadHomepageSettings() {
+            try {
+                homepageSettings = await api.homepage.getSettings();
+                populateHomepageForm(homepageSettings);
+            } catch (error) {
+                console.error('Error loading homepage settings:', error);
+            }
+        }
+
+        // Quick Links Logic
+        let currentQuickLinks = [];
+
+        function renderQuickLinksUI() {
+            const list = document.getElementById('hp_quickLinksList');
+            if (!list) return;
+
+            list.innerHTML = currentQuickLinks.map((link, index) => `
+                <div class="form-row" style="background: rgba(0,0,0,0.2); padding: 0.75rem; border-radius: 6px; align-items: flex-end;">
+                    <div class="form-group" style="flex: 1;">
+                        <label style="font-size: 0.8rem;">الاسم (عربي)</label>
+                        <input type="text" value="${link.titleAr || ''}" class="input ql-title-ar" data-index="${index}" placeholder="الرئيسية">
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label style="font-size: 0.8rem;">الاسم (إنجليزي)</label>
+                        <input type="text" value="${link.titleEn || ''}" class="input ql-title-en" data-index="${index}" placeholder="Home">
+                    </div>
+                    <div class="form-group" style="flex: 2;">
+                        <label style="font-size: 0.8rem;">الرابط</label>
+                        <input type="text" value="${link.url || ''}" class="input ql-url" data-index="${index}" placeholder="/#hero" dir="ltr">
+                    </div>
+                    <button class="btn btn-danger" onclick="removeQuickLinkUI(${index})" style="padding: 0.75rem;">
+                        🗑️
+                    </button>
+                </div>
+            `).join('');
+
+            // Add listeners to update currentQuickLinks on change
+            list.querySelectorAll('input').forEach(input => {
+                input.addEventListener('input', (e) => {
+                    const index = e.target.dataset.index;
+                    const field = e.target.classList.contains('ql-title-ar') ? 'titleAr' :
+                        e.target.classList.contains('ql-title-en') ? 'titleEn' : 'url';
+                    currentQuickLinks[index][field] = e.target.value;
+                });
+            });
+        }
+
+        function addQuickLinkUI() {
+            currentQuickLinks.push({ titleAr: '', titleEn: '', url: '' });
+            renderQuickLinksUI();
+        }
+
+        function removeQuickLinkUI(index) {
+            currentQuickLinks.splice(index, 1);
+            renderQuickLinksUI();
+        }
+
+        function populateHomepageForm(settings) {
+            if (!settings) return;
+
+            // Hero
+            document.getElementById('hp_heroTitleAr').value = settings.heroTitleAr || '';
+            document.getElementById('hp_heroTitleEn').value = settings.heroTitleEn || '';
+            document.getElementById('hp_heroSubtitleAr').value = settings.heroSubtitleAr || '';
+            document.getElementById('hp_heroSubtitleEn').value = settings.heroSubtitleEn || '';
+
+            // Buttons
+            document.getElementById('hp_loginBtnTextAr').value = settings.loginButtonTextAr || '';
+            document.getElementById('hp_loginBtnTextEn').value = settings.loginButtonTextEn || '';
+            document.getElementById('hp_loginBtnVisible').checked = settings.loginButtonVisible !== false;
+
+            document.getElementById('hp_registerBtnTextAr').value = settings.registerButtonTextAr || '';
+            document.getElementById('hp_registerBtnTextEn').value = settings.registerButtonTextEn || '';
+            document.getElementById('hp_registerBtnVisible').checked = settings.registerButtonVisible !== false;
+
+            // Sections Visibility
+            if (document.getElementById('hp_featuresVisible'))
+                document.getElementById('hp_featuresVisible').checked = settings.featuresSectionVisible !== false;
+            if (document.getElementById('hp_plansVisible'))
+                document.getElementById('hp_plansVisible').checked = settings.plansSectionVisible !== false;
+            if (document.getElementById('hp_aboutVisible'))
+                document.getElementById('hp_aboutVisible').checked = settings.aboutSectionVisible !== false;
+            if (document.getElementById('hp_contactVisible'))
+                document.getElementById('hp_contactVisible').checked = settings.contactSectionVisible !== false;
+
+            // Features
+            document.getElementById('hp_featuresTitleAr').value = settings.featuresTitleAr || '';
+            document.getElementById('hp_featuresTitleEn').value = settings.featuresTitleEn || '';
+
+            // Plans
+            if (document.getElementById('hp_plansTitleAr'))
+                document.getElementById('hp_plansTitleAr').value = settings.plansTitleAr || '';
+            if (document.getElementById('hp_plansTitleEn'))
+                document.getElementById('hp_plansTitleEn').value = settings.plansTitleEn || '';
+
+            // Contact (Added here for grouping, though ID order in HTML might differ)
+            if (document.getElementById('hp_contactTitleAr'))
+                document.getElementById('hp_contactTitleAr').value = settings.contactTitleAr || '';
+            if (document.getElementById('hp_contactTitleEn'))
+                document.getElementById('hp_contactTitleEn').value = settings.contactTitleEn || '';
+
+            if (document.getElementById('hp_whatsappNumber'))
+                document.getElementById('hp_whatsappNumber').value = settings.whatsappNumber || settings.whatsapp_number || '';
+            if (document.getElementById('hp_supportEmail'))
+                document.getElementById('hp_supportEmail').value = settings.supportEmail || settings.support_email || '';
+
+            // About
+            if (document.getElementById('hp_aboutTitleAr'))
+                document.getElementById('hp_aboutTitleAr').value = settings.aboutTitleAr || '';
+            if (document.getElementById('hp_aboutTitleEn'))
+                document.getElementById('hp_aboutTitleEn').value = settings.aboutTitleEn || '';
+            if (document.getElementById('hp_aboutContentAr'))
+                document.getElementById('hp_aboutContentAr').value = settings.aboutContentAr || '';
+            if (document.getElementById('hp_aboutContentEn'))
+                document.getElementById('hp_aboutContentEn').value = settings.aboutContentEn || '';
+
+            // Footer
+            if (document.getElementById('hp_footerTextAr'))
+                document.getElementById('hp_footerTextAr').value = settings.footerTextAr || '';
+            if (document.getElementById('hp_footerTextEn'))
+                document.getElementById('hp_footerTextEn').value = settings.footerTextEn || '';
+
+            // Quick Links
+            if (settings.quickLinks) {
+                try {
+                    currentQuickLinks = typeof settings.quickLinks === 'string' ? JSON.parse(settings.quickLinks) : settings.quickLinks;
+                } catch (e) { currentQuickLinks = []; }
+            } else {
+                currentQuickLinks = [];
+            }
+            renderQuickLinksUI();
+        }
+
+        async function saveHomepageSettings() {
+            showConfirmModal({
+                title: t('tools.homepage.save_confirm_title'),
+                message: t('tools.homepage.save_confirm_msg'),
+                confirmText: t('common.button.save'),
+                icon: '💾',
+                btnClass: 'btn-primary',
+                onConfirm: async () => {
+                    try {
+                        // Helper to safely get value/checked
+                        const getVal = (id) => {
+                            const el = document.getElementById(id);
+                            if (!el) {
+                                console.error(`Element with ID '${id}' not found!`);
+                                return '';
+                            }
+                            return el.value;
+                        };
+                        const getCheck = (id) => {
+                            const el = document.getElementById(id);
+                            if (!el) {
+                                console.error(`Element with ID '${id}' not found!`);
+                                return false;
+                            }
+                            return el.checked;
+                        };
+
+                        const updateData = {
+                            heroTitleAr: getVal('hp_heroTitleAr'),
+                            heroTitleEn: getVal('hp_heroTitleEn'),
+                            heroSubtitleAr: getVal('hp_heroSubtitleAr'),
+                            heroSubtitleEn: getVal('hp_heroSubtitleEn'),
+
+                            loginButtonTextAr: getVal('hp_loginBtnTextAr'),
+                            loginButtonTextEn: getVal('hp_loginBtnTextEn'),
+                            loginButtonVisible: getCheck('hp_loginBtnVisible'),
+
+                            registerButtonTextAr: getVal('hp_registerBtnTextAr'),
+                            registerButtonTextEn: getVal('hp_registerBtnTextEn'),
+                            registerButtonVisible: getCheck('hp_registerBtnVisible'),
+
+                            featuresSectionVisible: getCheck('hp_featuresVisible'),
+                            plansSectionVisible: getCheck('hp_plansVisible'),
+                            aboutSectionVisible: getCheck('hp_aboutVisible'),
+                            contactSectionVisible: getCheck('hp_contactVisible'),
+
+                            featuresTitleAr: getVal('hp_featuresTitleAr'),
+                            featuresTitleEn: getVal('hp_featuresTitleEn'),
+
+                            plansTitleAr: getVal('hp_plansTitleAr'),
+                            plansTitleEn: getVal('hp_plansTitleEn'),
+
+                            aboutTitleAr: getVal('hp_aboutTitleAr'),
+                            aboutTitleEn: getVal('hp_aboutTitleEn'),
+                            aboutContentAr: getVal('hp_aboutContentAr'),
+                            aboutContentEn: getVal('hp_aboutContentEn'),
+
+                            contactTitleAr: getVal('hp_contactTitleAr'),
+                            contactTitleEn: getVal('hp_contactTitleEn'),
+                            whatsappNumber: getVal('hp_whatsappNumber'),
+                            supportEmail: getVal('hp_supportEmail'),
+
+                            footerTextAr: getVal('hp_footerTextAr'),
+                            footerTextEn: getVal('hp_footerTextEn'),
+
+                            quickLinks: JSON.stringify(currentQuickLinks),
+                        };
+
+                        console.log('Saving settings:', updateData);
+                        await api.homepage.updateSettings(updateData);
+                        showToast(t('common.message.success') || 'تم حفظ التغييرات بنجاح', 'success');
+                        // Update local state if needed
+                        if (typeof homepageSettings !== 'undefined' && homepageSettings) {
+                            Object.assign(homepageSettings, updateData);
+                        }
+                    } catch (error) {
+                        console.error('Error saving homepage settings:', error);
+                        showToast(t('common.message.error') || 'فشل في حفظ التغييرات', 'error');
+                    }
+                }
+            });
+        }
+
+        // ==================== PLANS ====================
+
+        async function loadPlans() {
+            try {
+                plans = await api.subscriptions.getPlans(true);
+                renderPlansTable();
+            } catch (error) {
+                console.error('Error loading plans:', error);
+                showToast(t('institutions.form.load_plans_error') || 'فشل في تحميل الباقات', 'error');
+            }
+        }
+
+        function renderPlansTable() {
+            const tbody = document.getElementById('plansTableBody');
+
+            if (!plans || plans.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="5" style="text-align: center; padding: 2rem; color: #94a3b8;">
+                            ${t('tools.plans.table.empty') || 'لا توجد باقات. قم بإضافة باقة جديدة.'}
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            // Store original prices
+            plans.forEach(p => {
+                originalPrices[p.id] = p.price;
+            });
+
+            tbody.innerHTML = plans.map(plan => `
+                <tr data-plan-id="${plan.id}">
+                    <td>
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <span style="font-size: 1.5rem;">${getDurationEmoji(plan.durationMonths)}</span>
+                            <div>
+                                <strong style="color: white;">${plan.name}</strong>
+                                ${plan.nameEn ? `<br><small style="color: #64748b;">${plan.nameEn}</small>` : ''}
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <span style="color: #818cf8; font-weight: 600;">${plan.durationMonths}</span> ${plan.durationMonths === 1 ? t('common.label.month') : t('common.label.months')}
+                    </td>
+                    <td>
+                        <input type="number" 
+                               class="price-input" 
+                               value="${plan.price}" 
+                               data-plan-id="${plan.id}"
+                               onchange="markPriceChanged(${plan.id})"
+                               min="0" 
+                               step="0.01">
+                    </td>
+                    <td>
+                        <span class="status-badge ${plan.isActive ? 'active' : 'inactive'}">
+                            ${plan.isActive ? '✓ ' + t('common.label.active') : '○ ' + t('common.label.inactive')}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="action-btns">
+                            <button class="btn-icon" onclick="togglePlanVisibility(${plan.id})" title="${plan.isActive ? 'إخفاء' : 'إظهار'}">
+                                ${plan.isActive ?
+                    '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>'
+                    : '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>'
+                }
+                            </button>
+                            <button class="btn-icon danger" onclick="deletePlan(${plan.id}, '${plan.name}')" title="حذف">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="3 6 5 6 21 6"/>
+                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function getDurationEmoji(months) {
+            if (months === 1) return '📅';
+            if (months <= 3) return '📆';
+            if (months <= 6) return '🗓️';
+            return '📅';
+        }
+
+        function markPriceChanged(planId) {
+            document.getElementById('saveAllBtn').style.display = 'inline-flex';
+        }
+
+        async function saveAllPrices() {
+            const inputs = document.querySelectorAll('.price-input');
+            const changes = [];
+
+            // Identify changes first
+            for (const input of inputs) {
+                const planId = parseInt(input.dataset.planId);
+                const newPrice = parseFloat(input.value);
+
+                if (originalPrices[planId] !== newPrice) {
+                    changes.push({ planId, price: newPrice });
+                }
+            }
+
+            if (changes.length === 0) return;
+
+            showConfirmModal({
+                title: 'حفظ التغييرات',
+                message: 'هل أنت متأكد من حفظ تغيرات الأسعار؟',
+                confirmText: 'حفظ',
+                icon: '💾',
+                btnClass: 'btn-primary',
+                onConfirm: async () => {
+                    let errorOccurred = false;
+                    for (const change of changes) {
+                        try {
+                            await api.subscriptions.updatePlan(change.planId, { price: change.price });
+                            originalPrices[change.planId] = change.price;
+                        } catch (error) {
+                            console.error(`Error updating plan ${change.planId}:`, error);
+                            errorOccurred = true;
+                        }
+                    }
+
+                    if (!errorOccurred) {
+                        showToast('تم حفظ جميع التغييرات بنجاح', 'success');
+                        document.getElementById('saveAllBtn').style.display = 'none';
+                    } else {
+                        showToast('حدث خطأ أثناء حفظ بعض التغييرات', 'warning');
+                        // Keep button visible to retry
+                    }
+                }
+            });
+        }
+
+        async function togglePlanVisibility(planId) {
+            try {
+                await api.subscriptions.togglePlanVisibility(planId);
+                await loadPlans();
+                showToast('تم تحديث حالة الباقة', 'success');
+            } catch (error) {
+                console.error('Error toggling plan:', error);
+                showToast('فشل في تحديث الباقة', 'error');
+            }
+        }
+
+        function deletePlan(planId, planName) {
+            showConfirmModal({
+                title: t('tools.plans.delete_title') || 'Delete Plan',
+                message: (t('tools.plans.delete_message') || 'Are you sure you want to delete plan') + ` "${planName}"?`,
+                confirmText: t('common.button.delete'),
+                icon: '🗑️',
+                btnClass: 'btn-danger',
+                onConfirm: async () => {
+                    try {
+                        await api.subscriptions.deletePlan(planId);
+                        await loadPlans();
+                        showToast('تم حذف الباقة بنجاح', 'success');
+                    } catch (error) {
+                        console.error('Error deleting plan:', error);
+                        showToast(error.message || 'فشل في حذف الباقة', 'error');
+                    }
+                }
+            });
+        }
+
+        function toggleAddPlanForm() {
+            const form = document.getElementById('addPlanForm');
+            form.classList.toggle('active');
+
+            if (!form.classList.contains('active')) {
+                // Clear form
+                document.getElementById('newPlanName').value = '';
+                document.getElementById('newPlanNameEn').value = '';
+                document.getElementById('newPlanDuration').value = '';
+                document.getElementById('newPlanPrice').value = '';
+            }
+        }
+
+        async function savePlan() {
+            const name = document.getElementById('newPlanName').value.trim();
+            const nameEn = document.getElementById('newPlanNameEn').value.trim();
+            const durationMonths = parseInt(document.getElementById('newPlanDuration').value);
+            const price = parseFloat(document.getElementById('newPlanPrice').value);
+
+            if (!name) {
+                showToast('يرجى إدخال اسم الباقة', 'error');
+                return;
+            }
+
+            if (!durationMonths || durationMonths < 1) {
+                showToast('يرجى إدخال مدة صحيحة', 'error');
+                return;
+            }
+
+            if (isNaN(price) || price < 0) {
+                showToast('يرجى إدخال سعر صحيح', 'error');
+                return;
+            }
+
+            try {
+                await api.subscriptions.createPlan({
+                    name,
+                    nameEn,
+                    durationMonths,
+                    price,
+                    sortOrder: plans.length + 1,
+                });
+
+                toggleAddPlanForm();
+                await loadPlans();
+                showToast('تم إضافة الباقة بنجاح', 'success');
+            } catch (error) {
+                console.error('Error creating plan:', error);
+                showToast('فشل في إضافة الباقة', 'error');
+            }
+        }
+
+        function toggleFreeTrial() {
+            const isEnabled = document.getElementById('freeTrialToggle').checked;
+            showToast(isEnabled ? 'تم تفعيل الشهر المجاني' : 'تم إلغاء الشهر المجاني', 'success');
+            // TODO: Save to settings
+        }
+
+        // ==================== ANNOUNCEMENTS ====================
+
+        async function loadAnnouncements() {
+            try {
+                announcements = await api.announcements.getAll();
+                renderAnnouncements();
+            } catch (error) {
+                console.error('Error loading announcements:', error);
+                document.getElementById('announcementsList').innerHTML = `
+                    <p style="color: #94a3b8; text-align: center;">فشل في تحميل الإعلانات</p>
+                `;
+            }
+        }
+
+        function renderAnnouncements() {
+            const container = document.getElementById('announcementsList');
+
+            if (!announcements || announcements.length === 0) {
+                container.innerHTML = `
+                    <p style="color: #94a3b8; text-align: center; padding: 2rem;">
+                        ${t('tools.announcements.list_empty') || 'لا توجد إعلانات. قم بإنشاء إعلان جديد.'}
+                    </p>
+                `;
+                return;
+            }
+
+            container.innerHTML = announcements.map(ann => {
+                const currentLang = localStorage.getItem('locale') || 'ar';
+                const text = currentLang === 'ar' ? ann.textAr : (ann.textEn || ann.textAr);
+
+                return `
+                <div class="announcement-item">
+                    <div class="announcement-preview" style="background: ${ann.backgroundColor}; color: ${ann.textColor};">
+                        📢 ${text}
+                    </div>
+                    <div class="announcement-info">
+                        <span class="status-badge ${ann.isActive ? 'active' : 'inactive'}">
+                            ${ann.isActive ? '✓ ' + t('common.label.active') : '○ ' + t('common.label.inactive')}
+                        </span>
+                        <small>${formatDate(ann.createdAt)}</small>
+                    </div>
+                    <div class="action-btns">
+                        <button class="btn-icon" onclick="toggleAnnouncementStatus(${ann.id})" title="${ann.isActive ? 'إلغاء التفعيل' : 'تفعيل'}">
+                            ${ann.isActive ?
+                        '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"/><line x1="12" y1="2" x2="12" y2="12"/></svg>'
+                        : '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>'
+                    }
+                        </button>
+                        <button class="btn-icon" onclick="editAnnouncement(${ann.id})" title="تعديل">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                            </svg>
+                        </button>
+                        <button class="btn-icon danger" onclick="deleteAnnouncement(${ann.id})" title="حذف">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="3 6 5 6 21 6"/>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            `;
+            }).join('');
+        }
+
+        function openAnnouncementModal(announcement = null) {
+            editingAnnouncementId = announcement ? announcement.id : null;
+
+            document.getElementById('announcementModalTitle').textContent =
+                announcement ? t('tools.announcements.modal_edit') : t('tools.announcements.modal_create');
+
+            document.getElementById('announcementTextAr').value = announcement?.textAr || '';
+            document.getElementById('announcementTextEn').value = announcement?.textEn || '';
+            document.getElementById('bgColor').value = announcement?.backgroundColor || '#3b82f6';
+            document.getElementById('textColor').value = announcement?.textColor || '#ffffff';
+            document.getElementById('announcementIsActive').checked = announcement?.isActive || false;
+
+            updatePreview();
+            document.getElementById('announcementModal').classList.add('active');
+        }
+
+        function closeAnnouncementModal() {
+            document.getElementById('announcementModal').classList.remove('active');
+            editingAnnouncementId = null;
+        }
+
+        function updatePreview() {
+            const textAr = document.getElementById('announcementTextAr').value || 'معاينة الإعلان...';
+            const textEn = document.getElementById('announcementTextEn').value || 'Announcement preview...';
+            const bgColor = document.getElementById('bgColor').value;
+            const textColor = document.getElementById('textColor').value;
+
+            const preview = document.getElementById('previewBanner');
+            preview.style.backgroundColor = bgColor;
+            preview.style.color = textColor;
+
+            const currentLang = localStorage.getItem('locale') || 'ar';
+            document.getElementById('previewText').textContent = currentLang === 'ar' ? textAr : textEn;
+        }
+
+        function setBgColor(color) {
+            document.getElementById('bgColor').value = color;
+            updatePreview();
+        }
+
+        function setTextColor(color) {
+            document.getElementById('textColor').value = color;
+            updatePreview();
+        }
+
+        async function saveAnnouncement() {
+            const textAr = document.getElementById('announcementTextAr').value.trim();
+            const textEn = document.getElementById('announcementTextEn').value.trim();
+            const backgroundColor = document.getElementById('bgColor').value;
+            const textColor = document.getElementById('textColor').value;
+            const isActive = document.getElementById('announcementIsActive').checked;
+
+            if (!textAr || !textEn) {
+                showToast('يرجى إدخال النص بالعربية والإنجليزية', 'error');
+                return;
+            }
+
+            const actionText = editingAnnouncementId ? t('tools.announcements.modal_edit') : t('tools.announcements.create');
+
+            const confirmMessage = editingAnnouncementId ?
+                t('tools.announcements.save_confirm_msg_update') :
+                t('tools.announcements.save_confirm_msg_create');
+
+            showConfirmModal({
+                title: actionText,
+                message: confirmMessage,
+                confirmText: t('common.button.save'),
+                icon: '💾',
+                btnClass: 'btn-danger',
+                onConfirm: async () => {
+                    try {
+                        if (editingAnnouncementId) {
+                            await api.announcements.update(editingAnnouncementId, {
+                                textAr,
+                                textEn,
+                                backgroundColor,
+                                textColor,
+                                isActive,
+                            });
+                            showToast(t('common.message.success'), 'success');
+                        } else {
+                            await api.announcements.create({
+                                textAr,
+                                textEn,
+                                backgroundColor,
+                                textColor,
+                                isActive,
+                            });
+                            showToast(t('common.message.success'), 'success');
+                        }
+
+                        closeAnnouncementModal();
+                        await loadAnnouncements();
+                    } catch (error) {
+                        console.error('Error saving announcement:', error);
+                        showToast(t('common.message.error'), 'error');
+                    }
+                }
+            });
+        }
+
+        function editAnnouncement(id) {
+            const announcement = announcements.find(a => a.id === id);
+            if (announcement) {
+                openAnnouncementModal(announcement);
+            }
+        }
+
+        async function toggleAnnouncementStatus(id) {
+            try {
+                await api.announcements.toggle(id);
+                await loadAnnouncements();
+                showToast('تم تحديث حالة الإعلان', 'success');
+            } catch (error) {
+                console.error('Error toggling announcement:', error);
+                showToast('فشل في تحديث الإعلان', 'error');
+            }
+        }
+
+        function deleteAnnouncement(id) {
+            showConfirmModal({
+                title: t('tools.announcements.delete_title'),
+                message: t('tools.announcements.delete_message'),
+                confirmText: t('common.button.delete'),
+                icon: '🗑️',
+                btnClass: 'btn-danger',
+                onConfirm: async () => {
+                    try {
+                        await api.announcements.delete(id);
+                        await loadAnnouncements();
+                        showToast('تم حذف الإعلان بنجاح', 'success');
+                    } catch (error) {
+                        console.error('Error deleting announcement:', error);
+                        showToast('فشل في حذف الإعلان', 'error');
+                    }
+                }
+            });
+        }
+
+        function scrollToSection(sectionId) {
+            document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // ==================== QUICK LINKS MANAGEMENT ====================
+        let quickLinks = [];
+        let editingQuickLinkId = null;
+
+        async function loadQuickLinksAdmin() {
+            try {
+                quickLinks = await api.quickLinks.getAll();
+                renderQuickLinksList();
+            } catch (error) {
+                console.error('Error loading quick links:', error);
+                document.getElementById('quickLinksList').innerHTML = `
+                    <div style="text-align: center; color: #64748b; padding: 2rem;">
+                        فشل في تحميل الروابط
+                    </div>
+                `;
+            }
+        }
+
+        function renderQuickLinksList() {
+            const container = document.getElementById('quickLinksList');
+
+            if (!quickLinks || quickLinks.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; color: #64748b; padding: 2rem;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" style="margin: 0 auto 1rem;">
+                            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                        </svg>
+                        <p>${t('tools.quicklinks.list_empty') || 'لا توجد روابط سريعة. قم بإضافة رابط جديد.'}</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = quickLinks.map(link => `
+                <div class="announcement-item" style="display: flex; align-items: center; justify-content: space-between;">
+                    <div style="display: flex; align-items: center; gap: 1rem; flex: 1;">
+                        <div style="width: 40px; height: 40px; background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(96, 165, 250, 0.2)); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2">
+                                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                                <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                            </svg>
+                        </div>
+                        <div style="flex: 1;">
+                            <div style="color: white; font-weight: 600; margin-bottom: 0.25rem;">${link.name}</div>
+                            <a href="${link.url}" target="_blank" style="color: #60a5fa; font-size: 0.85rem; text-decoration: none;">${link.url}</a>
+                        </div>
+                    </div>
+                    <div class="action-btns">
+                        <span class="status-badge ${link.isActive ? 'active' : 'inactive'}">${link.isActive ? '✓ مفعل' : 'غير مفعل'}</span>
+                        <button class="btn-icon" onclick="editQuickLink(${link.id})" title="تعديل">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                            </svg>
+                        </button>
+                        <button class="btn-icon danger" onclick="deleteQuickLink(${link.id})" title="حذف">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 6h18"></path>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function openQuickLinkModal(id = null) {
+            editingQuickLinkId = id;
+            const modal = document.getElementById('quickLinkModal');
+            const title = document.getElementById('quickLinkModalTitle');
+
+            if (id) {
+                title.textContent = '✏️ تعديل الرابط';
+                const link = quickLinks.find(l => l.id === id);
+                if (link) {
+                    document.getElementById('quickLinkName').value = link.name;
+                    document.getElementById('quickLinkUrl').value = link.url;
+                }
+            } else {
+                title.textContent = '🔗 إضافة رابط جديد';
+                document.getElementById('quickLinkName').value = '';
+                document.getElementById('quickLinkUrl').value = '';
+            }
+
+            modal.classList.add('active');
+        }
+
+        function closeQuickLinkModal() {
+            document.getElementById('quickLinkModal').classList.remove('active');
+            editingQuickLinkId = null;
+        }
+
+        async function saveQuickLink() {
+            const name = document.getElementById('quickLinkName').value.trim();
+            const url = document.getElementById('quickLinkUrl').value.trim();
+
+            if (!name || !url) {
+                showToast('يرجى ملء جميع الحقول المطلوبة', 'error');
+                return;
+            }
+
+            // Validate URL
+            try {
+                new URL(url);
+            } catch {
+                showToast('يرجى إدخال رابط صحيح', 'error');
+                return;
+            }
+
+            try {
+                if (editingQuickLinkId) {
+                    await api.quickLinks.update(editingQuickLinkId, { name, url });
+                    showToast('تم تحديث الرابط بنجاح', 'success');
+                } else {
+                    await api.quickLinks.create({ name, url, isActive: true });
+                    showToast('تم إضافة الرابط بنجاح', 'success');
+                }
+
+                closeQuickLinkModal();
+                await loadQuickLinksAdmin();
+
+                // Refresh dashboard quick links if function exists
+                if (typeof window.loadQuickLinks === 'function') {
+                    window.loadQuickLinks();
+                }
+            } catch (error) {
+                console.error('Error saving quick link:', error);
+                showToast('فشل في حفظ الرابط', 'error');
+            }
+        }
+
+        function editQuickLink(id) {
+            openQuickLinkModal(id);
+        }
+
+        function deleteQuickLink(id) {
+            showConfirmModal({
+                title: 'حذف الرابط',
+                message: 'هل أنت متأكد من حذف هذا الرابط؟',
+                confirmText: 'حذف',
+                onConfirm: async () => {
+                    try {
+                        await api.quickLinks.delete(id);
+                        await loadQuickLinksAdmin();
+                        showToast('تم حذف الرابط بنجاح', 'success');
+
+                        // Refresh dashboard quick links
+                        if (typeof window.loadQuickLinks === 'function') {
+                            window.loadQuickLinks();
+                        }
+                    } catch (error) {
+                        console.error('Error deleting quick link:', error);
+                        showToast('فشل في حذف الرابط', 'error');
+                    }
+                }
+            });
+        }
+
+        // Homepage Internal Tabs Navigation
+        function switchSettingsTab(tabName, element) {
+            // Remove active from all buttons
+            document.querySelectorAll('.settings-nav-item').forEach(btn => btn.classList.remove('active'));
+            // Remove active from all panes
+            document.querySelectorAll('.settings-tab-pane').forEach(pane => pane.classList.remove('active'));
+
+            // Set active button
+            if (element) {
+                element.classList.add('active');
+            }
+
+            // Show active pane
+            const pane = document.getElementById(`tab-${tabName}`);
+            if (pane) pane.classList.add('active');
+        }
+
+        // ==================== TELEGRAM SETTINGS ====================
+        let telegramSettings = null;
+
+        async function loadTelegramSettings() {
+            try {
+                const response = await fetch(`${window.API_CONFIG.baseUrl}/telegram/settings`, {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    console.error('[Telegram] Error response:', data);
+                    throw new Error(data.error || 'Failed to load telegram settings');
+                }
+
+                // Check if we got an error object instead of settings
+                if (data.error || data.statusCode) {
+                    console.error('[Telegram] API returned error:', data);
+                    updateTelegramStatus({ lastTestSuccess: false, lastTestAt: null });
+                    return;
+                }
+
+                telegramSettings = data;
+                populateTelegramForm(telegramSettings);
+                updateTelegramStatus(telegramSettings);
+            } catch (error) {
+                console.error('Error loading telegram settings:', error);
+                updateTelegramStatus({ lastTestSuccess: false, lastTestAt: null });
+            }
+        }
+
+        function populateTelegramForm(settings) {
+            if (!settings) return;
+
+            // Only populate token if it exists (it will be masked from server)
+            if (settings.botToken) {
+                document.getElementById('telegramBotToken').value = settings.botToken;
+                document.getElementById('telegramBotToken').placeholder = 'التوكن محفوظ (أدخل توكن جديد للتغيير)';
+            }
+
+            document.getElementById('telegramChatId').value = settings.chatId || '';
+            document.getElementById('telegramEnabled').checked = settings.isEnabled || false;
+            document.getElementById('telegramNotifyNew').checked = settings.notifyNewRequests !== false;
+            document.getElementById('telegramNotifyRenewals').checked = settings.notifyRenewals !== false;
+            document.getElementById('telegramAllowActions').checked = settings.allowActionButtons !== false;
+        }
+
+        function updateTelegramStatus(settings) {
+            const statusBadge = document.getElementById('telegramStatusBadge');
+            const statusText = document.getElementById('telegramStatusText');
+
+            if (settings && settings.lastTestSuccess) {
+                statusBadge.className = 'status-badge active';
+                statusBadge.textContent = '✓ متصل';
+
+                if (settings.lastTestAt) {
+                    const lastTest = new Date(settings.lastTestAt);
+                    statusText.textContent = `آخر اختبار ناجح: ${lastTest.toLocaleDateString('ar-SA')} ${lastTest.toLocaleTimeString('ar-SA')}`;
+                }
+            } else {
+                statusBadge.className = 'status-badge inactive';
+                statusBadge.textContent = 'غير متصل';
+
+                if (settings && settings.lastTestError) {
+                    statusText.textContent = `خطأ: ${settings.lastTestError}`;
+                } else if (settings && !settings.botToken) {
+                    statusText.textContent = 'لم يتم إعداد البوت بعد';
+                } else {
+                    statusText.textContent = 'يرجى اختبار الاتصال';
+                }
+            }
+        }
+
+        async function saveTelegramSettings() {
+            const botToken = document.getElementById('telegramBotToken').value.trim();
+            const chatId = document.getElementById('telegramChatId').value.trim();
+            const isEnabled = document.getElementById('telegramEnabled').checked;
+            const notifyNewRequests = document.getElementById('telegramNotifyNew').checked;
+            const notifyRenewals = document.getElementById('telegramNotifyRenewals').checked;
+            const allowActionButtons = document.getElementById('telegramAllowActions').checked;
+
+            // Validate before showing confirmation
+            if (isEnabled && (!botToken || botToken.startsWith('••')) && !telegramSettings?.botTokenExists) {
+                showToast(t('tools.telegram.enter_token') || 'Please enter the bot token', 'error');
+                return;
+            }
+
+            if (isEnabled && !chatId) {
+                showToast(t('tools.telegram.enter_chat_id') || 'Please enter the chat ID', 'error');
+                return;
+            }
+
+            // Show confirmation modal
+            showConfirmModal({
+                title: t('tools.telegram.save_confirm_title') || 'Save Telegram Settings',
+                message: t('tools.telegram.save_confirm_message') || 'Are you sure you want to save these Telegram settings?',
+                confirmText: t('tools.telegram.save_settings') || 'Save Settings',
+                icon: '💾',
+                btnClass: 'btn-primary',
+                onConfirm: async () => {
+                    await performSaveTelegramSettings(botToken, chatId, isEnabled, notifyNewRequests, notifyRenewals, allowActionButtons);
+                }
+            });
+        }
+
+        async function performSaveTelegramSettings(botToken, chatId, isEnabled, notifyNewRequests, notifyRenewals, allowActionButtons) {
+            try {
+                const body = {
+                    chatId: chatId,
+                    isEnabled: isEnabled,
+                    notifyNewRequests: notifyNewRequests,
+                    notifyRenewals: notifyRenewals,
+                    allowActionButtons: allowActionButtons
+                };
+
+                // Only send token if it's not masked or empty
+                if (botToken && !botToken.includes('***') && !botToken.includes('••')) {
+                    body.botToken = botToken;
+                }
+
+                const response = await fetch(`${window.API_CONFIG.baseUrl}/telegram/settings`, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(body)
+                });
+
+                const result = await response.json();
+
+                if (response.ok && result.success) {
+                    showToast(t('tools.telegram.save_success') || 'Settings saved successfully', 'success');
+                    await loadTelegramSettings();
+                } else {
+                    console.error('[Telegram] Save failed:', result);
+                    showToast(result.error || t('tools.telegram.save_failed') || 'Failed to save settings', 'error');
+                }
+            } catch (error) {
+                console.error('Error saving telegram settings:', error);
+                showToast(t('tools.telegram.save_failed') || 'Failed to save settings', 'error');
+            }
+        }
+
+        async function testTelegramConnection() {
+            const btn = document.getElementById('testTelegramBtn');
+            const originalText = btn.innerHTML;
+
+            btn.innerHTML = '<span class="spinner" style="width: 16px; height: 16px;"></span> جاري الاختبار...';
+            btn.disabled = true;
+
+            try {
+                // First save the settings
+                const botToken = document.getElementById('telegramBotToken').value.trim();
+                const chatId = document.getElementById('telegramChatId').value.trim();
+
+                if (!botToken || (!telegramSettings?.botTokenExists && botToken.startsWith('••'))) {
+                    showToast('يرجى إدخال توكن البوت أولاً', 'error');
+                    return;
+                }
+
+                if (!chatId) {
+                    showToast('يرجى إدخال معرف المحادثة', 'error');
+                    return;
+                }
+
+                // Save first
+                const body = { chatId: chatId };
+                if (botToken && !botToken.includes('***') && !botToken.includes('••')) {
+                    body.botToken = botToken;
+                }
+
+                await fetch(`${window.API_CONFIG.baseUrl}/telegram/settings`, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(body)
+                });
+
+                // Then test
+                const response = await fetch(`${window.API_CONFIG.baseUrl}/telegram/test`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    showToast('✅ تم إرسال رسالة الاختبار بنجاح! تحقق من التلجرام', 'success');
+                    updateTelegramStatus({ lastTestSuccess: true, lastTestAt: new Date() });
+                } else {
+                    showToast(`❌ فشل الاختبار: ${result.message}`, 'error');
+                    updateTelegramStatus({ lastTestSuccess: false, lastTestError: result.message });
+                }
+
+                // Reload settings to get updated status
+                await loadTelegramSettings();
+            } catch (error) {
+                console.error('Error testing telegram:', error);
+                showToast('فشل في اختبار الاتصال', 'error');
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        }
+
+        // Initialize
+        initPage();
+    </script>
+</body>
+
+</html>
