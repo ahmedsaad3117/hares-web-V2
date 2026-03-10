@@ -292,7 +292,7 @@ async function updatePendingRequestsCount() {
     if (!badge) return;
 
     const result = await api.subscriptions.getPendingCount();
-    const count = result.count || 0;
+    const count = result?.count || 0;
 
     if (count > 0) {
       badge.textContent = count > 99 ? '99+' : count;

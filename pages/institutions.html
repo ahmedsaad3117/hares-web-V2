@@ -155,12 +155,12 @@
     async function loadInstitutions(page = 1) {
       try {
         const response = await api.institutions.getAll(page, pageSize);
-        
+        console.log('Institutions API response:', response);
         // Handle null or invalid response
         if (!response) {
           throw new Error('No response from server. Please check your connection.');
         }
-        
+        console.log('Institutions API response:', response);
         if (!response?.meta) {
           // Check if user needs to re-authenticate
           const user = getCurrentUser();

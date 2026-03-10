@@ -10,7 +10,7 @@ const API_BASE_URL = (window.API_CONFIG && window.API_CONFIG.baseUrl)
   ? window.API_CONFIG.baseUrl
   : (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
     ? 'http://localhost:3001/api'
-    : window.location.origin.replace(/:\d+$/, ':3001/api');
+    : window.location.origin + '/api';
 
 // Default timeout in milliseconds (60 seconds)
 const API_TIMEOUT = 60000;
@@ -1160,10 +1160,11 @@ function formatDate(dateString) {
     year: 'numeric',
     month: 'short',
     day: 'numeric',
+    timeZone: 'Asia/Riyadh',
   });
 }
 
-// Format datetime
+// Format datetime (always in Asia/Riyadh timezone)
 function formatDateTime(dateString) {
   if (!dateString) return '-';
   const date = new Date(dateString);
@@ -1176,14 +1177,20 @@ function formatDateTime(dateString) {
     day: 'numeric',
     hour: '2-digit',
     minute: '2-digit',
+    timeZone: 'Asia/Riyadh',
   });
 }
 
-// Format relative time (e.g., "2 hours ago")
+// Format relative time (e.g., "2 hours ago") - uses Asia/Riyadh timezone
 function formatRelativeTime(dateString) {
   const date = new Date(dateString);
-  const now = new Date();
-  const diffMs = now - date;
+  // Get current time in Riyadh timezone
+  const nowStr = new Date().toLocaleString('en-US', { timeZone: 'Asia/Riyadh' });
+  const now = new Date(nowStr);
+  // Convert date to Riyadh timezone for comparison
+  const dateStr = date.toLocaleString('en-US', { timeZone: 'Asia/Riyadh' });
+  const dateInRiyadh = new Date(dateStr);
+  const diffMs = now - dateInRiyadh;
   const diffSecs = Math.floor(diffMs / 1000);
   const diffMins = Math.floor(diffSecs / 60);
   const diffHours = Math.floor(diffMins / 60);
