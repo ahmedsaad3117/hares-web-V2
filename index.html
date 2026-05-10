@@ -8,13 +8,12 @@
             document.documentElement.setAttribute('lang', lang);
             document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
 
-            // Simple redirect if already logged in - api.js will handle the strict checks
-            if (localStorage.getItem('token')) {
-                // We'll let the api.js and homepage.js handle the redirection logic
-                // but as a fallback for direct index.html access:
-                const user = JSON.parse(localStorage.getItem('user') || '{}');
-                if (user.userId) {
-                    // Just a placeholder, homepage.js will handle the real redirect
+            // Redirect logged-in users away from index.html immediately
+            var token = localStorage.getItem('token');
+            if (token) {
+                var user = JSON.parse(localStorage.getItem('user') || '{}');
+                if (user && user.userId) {
+                    window.location.replace('pages/dashboard.html');
                 }
             }
         })();
@@ -409,8 +408,17 @@
                             <div class="form-group">
                                 <label data-text-ar="كلمة المرور" data-text-en="Password">كلمة المرور <span
                                         class="required-star">*</span></label>
-                                <input type="password" id="subAdminPassword" required minlength="6" autocomplete="off"
-                                    data-placeholder-ar="كلمة المرور" data-placeholder-en="Password">
+                                <div class="input-wrapper password-wrapper">
+                                    <input type="password" id="subAdminPassword" required minlength="6" autocomplete="off"
+                                        data-placeholder-ar="كلمة المرور" data-placeholder-en="Password">
+                                    <button type="button" class="toggle-password" onclick="toggleSubscribePassword()">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            id="subscribeEyeIcon">
+                                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                            <circle cx="12" cy="12" r="3" />
+                                        </svg>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
