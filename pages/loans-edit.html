@@ -125,7 +125,7 @@
                 <option value="Active" data-i18n-key="loans.status.active">Active</option>
                 <option value="Late" data-i18n-key="loans.status.late">Late</option>
                 <option value="Paid" data-i18n-key="loans.status.paid">Paid</option>
-                <option value="Finished" data-i18n-key="loans.status.finished">Finished</option>
+                <option value="Finished" data-i18n-key="common.status.finished">Finished</option>
               </select>
               <div id="statusError" class="error-text hidden"></div>
             </div>
@@ -217,7 +217,7 @@
 
         if (principalAmount && paymentPlanMonths && principalAmount > 0) {
           const totalAmount = principalAmount + profitAmount;
-          const monthlyPayment = totalAmount / paymentPlanMonths;
+          const monthlyPayment = Math.ceil(totalAmount / paymentPlanMonths);
           document.getElementById('monthlyPayment').textContent = formatCurrency(monthlyPayment);
           document.getElementById('installmentCount').textContent = paymentPlanMonths;
           document.getElementById('installmentPreview').classList.remove('hidden');

@@ -573,7 +573,7 @@
 
         if (principalAmount && paymentPlanMonths && principalAmount > 0) {
           const totalAmount = principalAmount + profitAmount;
-          const monthlyPayment = totalAmount / paymentPlanMonths;
+          const monthlyPayment = Math.ceil(totalAmount / paymentPlanMonths);
           document.getElementById('monthlyPayment').textContent = formatCurrency(monthlyPayment);
           document.getElementById('installmentCount').textContent = paymentPlanMonths;
           document.getElementById('installmentPreview').classList.remove('hidden');
