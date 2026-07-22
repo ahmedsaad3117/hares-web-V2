@@ -177,7 +177,7 @@
         </div>
         <div class="modal-card-body">
           <div class="modal-icon" style="background: ${themeBg}; color: ${themeColor};">${icon}</div>
-          <p class="delete-warning-text" style="color: #e2e8f0;">${message}</p>
+          <p class="delete-warning-text">${message}</p>
           ${subMessage ? `<span class="item-to-delete" style="color: ${themeColor}; border-color: ${themeBorder}; background: ${themeBg};">${subMessage}</span>` : ''}
         </div>
         <div class="modal-card-footer">
@@ -330,7 +330,9 @@
       // Ignore error if not logged in
     }
 
-    const isSuperAdmin = user && user.roleName === 'Super Admin';
+    const isSuperAdmin = typeof isSuperAdminUser === 'function'
+      ? isSuperAdminUser(user)
+      : user && (user.roleName === 'Super Admin' || user.role_name === 'Super Admin' || user.roleName === 'admin');
 
     // Remove existing modal if any
     const existingModal = document.querySelector('.modal-overlay');

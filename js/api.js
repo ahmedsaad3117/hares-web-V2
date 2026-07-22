@@ -43,11 +43,57 @@ function getRefreshToken() {
 
 function getCurrentUser() {
   const userStr = localStorage.getItem('user');
-  return userStr ? JSON.parse(userStr) : null;
+  if (!userStr) return null;
+
+  try {
+    return normalizeAuthUser(JSON.parse(userStr));
+  } catch (error) {
+    console.warn('[Auth] Invalid saved user data. Clearing local auth user.', error);
+    localStorage.removeItem('user');
+    return null;
+  }
 }
 
 function isAuthenticated() {
   return !!getToken();
+}
+
+function getUserRoleName(user) {
+  if (!user) return '';
+
+  const rawRole =
+    user.roleName ||
+    user.role_name ||
+    (typeof user.role === 'string' ? user.role : user.role?.roleName) ||
+    '';
+
+  const normalized = String(rawRole).trim();
+  const lower = normalized.toLowerCase();
+
+  if (lower === 'admin' || lower === 'superadmin' || lower === 'super admin') {
+    return 'Super Admin';
+  }
+
+  if (lower === 'institution') return 'Institution';
+  if (lower === 'branch') return 'Branch';
+
+  return normalized;
+}
+
+function isSuperAdminUser(user) {
+  return getUserRoleName(user) === 'Super Admin';
+}
+
+function normalizeAuthUser(user) {
+  if (!user || typeof user !== 'object') return user;
+
+  const roleName = getUserRoleName(user);
+  return {
+    ...user,
+    roleName,
+    role_name: roleName,
+    name: user.name || user.fullName || user.email || 'User',
+  };
 }
 
 /**
@@ -100,7 +146,7 @@ function requireAuth() {
 
   // --- ADDED: Strict Subscription Check in requirement ---
   const user = getCurrentUser();
-  if (user && user.roleName !== 'Super Admin') {
+  if (user && !isSuperAdminUser(user)) {
     const isExpired = isSubscriptionExpired(user.expirationDate);
     const path = window.location.pathname.toLowerCase();
     const isSubscriptionPage = path.endsWith('/my-subscription.html');
@@ -118,14 +164,19 @@ function requireAuth() {
 
 function saveAuthData(token, user, refreshToken) {
   localStorage.setItem('token', token);
-  localStorage.setItem('user', JSON.stringify(user));
+  const normalizedUser = normalizeAuthUser(user);
+  if (normalizedUser) {
+    localStorage.setItem('user', JSON.stringify(normalizedUser));
+  } else {
+    localStorage.removeItem('user');
+  }
   if (refreshToken) {
     localStorage.setItem('refresh_token', refreshToken);
   }
 
   // LOGIC PLAN 11: Set Session Validity Flag
   // If subscription is valid NOW, gave a "Pass" for the entire session
-  const isExpired = user.roleName !== 'Super Admin' && isSubscriptionExpired(user.expirationDate);
+  const isExpired = !isSuperAdminUser(normalizedUser) && isSubscriptionExpired(normalizedUser?.expirationDate);
   if (!isExpired) {
     localStorage.setItem('session_valid', 'true');
   } else {
@@ -189,14 +240,14 @@ function clearAuthData() {
     try {
       // Get current status BEFORE sync
       const userBefore = getCurrentUser();
-      const expiredBefore = userBefore && userBefore.roleName !== 'Super Admin' ? isSubscriptionExpired(userBefore.expirationDate) : false;
+      const expiredBefore = userBefore && !isSuperAdminUser(userBefore) ? isSubscriptionExpired(userBefore.expirationDate) : false;
 
       // RADICAL FIX: Sync local data with server (updates localStorage)
       await api.auth.getProfile();
 
       // Get status AFTER sync
       const userAfter = getCurrentUser();
-      const expiredAfter = userAfter && userAfter.roleName !== 'Super Admin' ? isSubscriptionExpired(userAfter.expirationDate) : false;
+      const expiredAfter = userAfter && !isSuperAdminUser(userAfter) ? isSubscriptionExpired(userAfter.expirationDate) : false;
 
       // 1. AUTO-UNLOCK: If it was expired and now it's valid -> Reload to unlock UI
       // 2. AUTO-LOCK: If it's expired and we are not on subscription page -> Redirect
@@ -379,7 +430,7 @@ async function apiRequest(endpoint, options = {}) {
   const isProfileReq = endpoint.includes('/users/me');
   const isAuthReq = endpoint.includes('/auth/login') || endpoint.includes('/auth/verify-session') || endpoint.includes('/auth/refresh');
 
-  if (user && user.roleName !== 'Super Admin' && !isProfileReq && !isAuthReq) {
+  if (user && !isSuperAdminUser(user) && !isProfileReq && !isAuthReq) {
     const isExpired = isSubscriptionExpired(user.expirationDate);
     const path = window.location.pathname.toLowerCase();
     const isSubscriptionPage = path.endsWith('/my-subscription.html');
@@ -609,11 +660,11 @@ const api = {
         // SYNC: Overwrite stored user data to ensure expirationDate is correctly reflected
         // We use spread but ensure user object from server takes priority for critical fields
         const stored = JSON.parse(localStorage.getItem('user') || '{}');
-        const updatedUser = {
+        const updatedUser = normalizeAuthUser({
           ...stored,
           ...user,
           expirationDate: user.expirationDate // Explicitly take server value
-        };
+        });
         localStorage.setItem('user', JSON.stringify(updatedUser));
         console.log('User profile synced with server:', updatedUser.email, 'Expires:', updatedUser.expirationDate);
       }
@@ -780,6 +831,7 @@ const api = {
     }),
     getInstallments: (loanId) => apiRequest(`/loans/${loanId}/installments`),
     delete: (id) => apiRequest(`/loans/${id}`, { method: 'DELETE' }),
+    deleteFromHistory: (id) => apiRequest(`/loans/${id}/history`, { method: 'DELETE' }),
   },
 
   // Installments
@@ -1247,6 +1299,9 @@ window.formatDateTime = formatDateTime;
 window.formatCurrency = formatCurrency;
 window.formatRelativeTime = formatRelativeTime;
 window.formatTrustStatusBadge = formatTrustStatusBadge;
+window.getUserRoleName = getUserRoleName;
+window.isSuperAdminUser = isSuperAdminUser;
+window.normalizeAuthUser = normalizeAuthUser;
 
 // Expose additional utilities
 window.API_BASE_URL = API_BASE_URL;

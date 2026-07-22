@@ -14,8 +14,34 @@ function translateRole(roleName) {
 
 // function isSubscriptionExpired is now globally defined in api.js
 
+function getSidebarRoleName(user) {
+  if (typeof getUserRoleName === 'function') {
+    return getUserRoleName(user);
+  }
+
+  const rawRole =
+    user?.roleName ||
+    user?.role_name ||
+    (typeof user?.role === 'string' ? user.role : user?.role?.roleName) ||
+    '';
+  const lower = String(rawRole).trim().toLowerCase();
+
+  if (lower === 'admin' || lower === 'superadmin' || lower === 'super admin') return 'Super Admin';
+  if (lower === 'institution') return 'Institution';
+  if (lower === 'branch') return 'Branch';
+  return String(rawRole || 'Guest').trim();
+}
+
+function isSidebarSuperAdmin(user) {
+  return getSidebarRoleName(user) === 'Super Admin';
+}
+
 function createSidebar(user) {
-  const isStrictlyExpired = user.roleName !== 'Super Admin' && isSubscriptionExpired(user.expirationDate);
+  const roleName = getSidebarRoleName(user);
+  const isSuperAdmin = isSidebarSuperAdmin(user);
+  const isInstitution = roleName === 'Institution';
+  const isBranch = roleName === 'Branch';
+  const isStrictlyExpired = !isSuperAdmin && isSubscriptionExpired(user.expirationDate);
 
   // LOGIC: Strict Enforcement - No more "session_valid" bypass. 
   // If it's expired in DB, it's expired in UI.
@@ -30,9 +56,9 @@ function createSidebar(user) {
   const sidebarHTML = `
     <div class="sidebar ${isExpired ? 'subscription-expired' : ''}">
       <button class="mobile-close-sidebar" onclick="toggleSidebar()" aria-label="Close Menu">&times;</button>
-      <div class="sidebar-header" style="display: flex; justify-content: center; align-items: center; padding: 1.5rem 0;">
+      <div class="sidebar-header" style="display: flex; justify-content: center; align-items: center; padding: 1.25rem 0 1rem;">
         <a href="dashboard.html" style="display: block; cursor: pointer;">
-          <img src="../logo.png" alt="Logo" style="height: 140px; width: auto; max-width: 90%;">
+          <img src="../logo.png" alt="Q1KEY" style="height: 118px; width: auto; max-width: 96%;">
         </a>
       </div>
       
@@ -58,7 +84,7 @@ function createSidebar(user) {
             </a>
           </li>
           
-          ${user.roleName === 'Super Admin' ? `
+          ${isSuperAdmin ? `
           <li class="sidebar-nav-item">
             <a href="subscriptions.html" class="sidebar-nav-link" id="nav-subscriptions">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -84,7 +110,7 @@ function createSidebar(user) {
           </li>
           ` : ''}
           
-          ${user.roleName === 'Super Admin' ? `
+          ${isSuperAdmin ? `
           <li class="sidebar-nav-item">
             <a href="institutions.html" class="sidebar-nav-link" id="nav-institutions">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -96,7 +122,7 @@ function createSidebar(user) {
           </li>
           ` : ''}
           
-          ${(user.roleName === 'Super Admin' || (user.roleName === 'Institution' && user.canCreateBranches !== false)) ? `
+          ${(isSuperAdmin || (isInstitution && user.canCreateBranches !== false)) ? `
           <li class="sidebar-nav-item ${isExpired ? 'expired' : ''}">
             <a href="branches.html" class="sidebar-nav-link" id="nav-branches">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -186,7 +212,7 @@ function createSidebar(user) {
             </a>
           </li>
           
-          ${user.roleName === 'Super Admin' || (user.roleName === 'Institution' && user.canCreateBranches !== false) ? `
+          ${isSuperAdmin || (isInstitution && user.canCreateBranches !== false) ? `
           <li class="sidebar-nav-item ${isExpired ? 'expired' : ''}">
             <a href="users.html" class="sidebar-nav-link" id="nav-users">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -198,7 +224,7 @@ function createSidebar(user) {
           </li>
           ` : ''}
           
-          ${user.roleName === 'Super Admin' ? `
+          ${isSuperAdmin ? `
           <li class="sidebar-nav-item">
             <a href="search-logs.html" class="sidebar-nav-link" id="nav-search-logs">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -217,7 +243,7 @@ function createSidebar(user) {
           </li>
           ` : ''}
  
-          ${user.roleName === 'Institution' || user.roleName === 'Branch' ? `
+          ${isInstitution || isBranch ? `
           <li class="sidebar-nav-item expired-exception">
             <a href="my-subscription.html" class="sidebar-nav-link" id="nav-my-subscription">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -257,7 +283,7 @@ function createSidebar(user) {
               ${user.name}
             </div>
             <div id="sidebarUserContext" style="font-size: 0.75rem; color: #94a3b8;">
-              ${translateRole(user.roleName || user.role)}
+              ${translateRole(roleName)}
             </div>
           </div>
         </div>
@@ -275,7 +301,7 @@ function createSidebar(user) {
   `;
 
   // After returning HTML, trigger count update if super admin
-  if (user.roleName === 'Super Admin') {
+  if (isSidebarSuperAdmin(user)) {
     setTimeout(updatePendingRequestsCount, 100);
   }
 
@@ -340,11 +366,36 @@ window.handleLogout = handleLogout;
   style.id = 'sidebar-expired-styles';
   style.textContent = `
     .sidebar-nav-item.expired {
-      opacity: 0.3 !important;
+      opacity: 0.88 !important;
       position: relative !important;
       cursor: not-allowed !important;
-      filter: grayscale(100%) !important;
-      transition: all 0.3s ease;
+      filter: none !important;
+      transition: opacity 0.2s ease, transform 0.2s ease, background 0.2s ease;
+    }
+    .sidebar-nav-item.expired .sidebar-nav-link {
+      background: rgba(255, 255, 255, 0.045) !important;
+      border: 1px solid rgba(155, 185, 251, 0.14) !important;
+      color: #dbe8ff !important;
+      -webkit-text-fill-color: #dbe8ff !important;
+      font-weight: 800 !important;
+      opacity: 1 !important;
+      text-shadow: 0 1px 10px rgba(255, 255, 255, 0.08) !important;
+    }
+    .sidebar-nav-item.expired .sidebar-nav-link svg,
+    .sidebar-nav-item.expired .sidebar-nav-link span {
+      color: inherit !important;
+      -webkit-text-fill-color: currentColor !important;
+      opacity: 1 !important;
+    }
+    .sidebar-nav-item.expired:hover {
+      opacity: 1 !important;
+    }
+    .sidebar-nav-item.expired:hover .sidebar-nav-link {
+      background: rgba(255, 255, 255, 0.13) !important;
+      border-color: rgba(155, 185, 251, 0.34) !important;
+      color: #ffffff !important;
+      -webkit-text-fill-color: #ffffff !important;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05), 0 10px 24px rgba(1, 71, 247, 0.18) !important;
     }
     .sidebar-nav-item.expired a,
     .sidebar-nav-item.expired button {
@@ -357,9 +408,17 @@ window.handleLogout = handleLogout;
       left: 1rem;
       top: 50%;
       transform: translateY(-50%);
-      font-size: 0.9rem;
+      width: 1.5rem;
+      height: 1.5rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      background: rgba(155, 185, 251, 0.12);
+      color: #b9c8ff;
+      font-size: 0.78rem;
       z-index: 20;
-      opacity: 0.8;
+      opacity: 1;
     }
     [dir="ltr"] .sidebar-nav-item.expired::after {
       left: auto;

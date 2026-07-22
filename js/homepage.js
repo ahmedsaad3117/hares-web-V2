@@ -426,7 +426,24 @@ function updateAllTexts() {
         }
     }
 
-    // fallback: Update all other elements with data-text-ar and data-text-en attributes
+    // Fallback: update static bilingual copy whenever the API has no localized override.
+    // This keeps the landing page fully translated even when the public homepage
+    // settings endpoint is unavailable during local development.
+    const hasUsableLocalizedValue = value => Boolean(
+        typeof value === 'string' &&
+        value.trim() &&
+        (isAr || !/[\u0600-\u06FF]/.test(value))
+    );
+    const dynamicElementValues = {
+        heroTitle: hasUsableLocalizedValue(isAr ? homepageData?.hero?.titleAr : homepageData?.hero?.titleEn),
+        heroSubtitle: hasUsableLocalizedValue(isAr ? homepageData?.hero?.subtitleAr : homepageData?.hero?.subtitleEn),
+        featuresTitle: hasUsableLocalizedValue(isAr ? homepageData?.features?.titleAr : homepageData?.features?.titleEn),
+        plansTitle: hasUsableLocalizedValue(isAr ? homepageData?.plans?.titleAr : homepageData?.plans?.titleEn),
+        aboutTitle: hasUsableLocalizedValue(isAr ? homepageData?.about?.titleAr : homepageData?.about?.titleEn),
+        aboutText: hasUsableLocalizedValue(isAr ? homepageData?.about?.contentAr : homepageData?.about?.contentEn),
+        contactTitle: hasUsableLocalizedValue(isAr ? homepageData?.contact?.titleAr : homepageData?.contact?.titleEn)
+    };
+
     document.querySelectorAll('[data-text-ar][data-text-en]').forEach(el => {
         const text = isAr ? el.getAttribute('data-text-ar') : el.getAttribute('data-text-en');
         if (text) {
@@ -437,7 +454,7 @@ function updateAllTexts() {
                         node.textContent = text + ' ';
                     }
                 });
-            } else if (!el.id || !['heroTitle', 'heroSubtitle', 'featuresTitle', 'plansTitle', 'aboutTitle', 'aboutText', 'contactTitle'].includes(el.id)) {
+            } else if (!el.id || !dynamicElementValues[el.id]) {
                 el.textContent = text;
             }
         }
@@ -543,8 +560,9 @@ async function handleLogin(event) {
         if (response?.access_token) {
             saveAuthData(response.access_token, response.user, response.refresh_token);
 
-            const user = response.user;
-            const isExpired = user.roleName !== 'Super Admin' && isSubscriptionExpired(user.expirationDate);
+            const user = typeof normalizeAuthUser === 'function' ? normalizeAuthUser(response.user) : response.user;
+            const isExpired = !(typeof isSuperAdminUser === 'function' ? isSuperAdminUser(user) : user.roleName === 'Super Admin') &&
+                isSubscriptionExpired(user.expirationDate);
 
             if (isExpired) {
                 window.location.href = 'pages/my-subscription.html';
@@ -838,8 +856,13 @@ function setupEventListeners() {
     });
 }
 
-// Mobile menu toggle (placeholder - can be expanded)
 function toggleMobileMenu() {
-    // TODO: Implement mobile menu toggle
-    console.log('Mobile menu toggle');
+    const nav = document.getElementById('headerNav');
+    const button = document.getElementById('mobileMenuBtn');
+    if (!nav || !button) return;
+
+    const isOpen = nav.classList.toggle('active');
+    button.classList.toggle('active', isOpen);
+    button.setAttribute('aria-expanded', String(isOpen));
+    button.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
 }

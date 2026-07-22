@@ -5,7 +5,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Customer Details - Q1KEY Platform</title>
-  <link rel="stylesheet" href="../css/styles.css?v=13">
+  <link rel="icon" type="image/png" href="../logo.png">
+  <link rel="stylesheet" href="../css/styles.css?v=23">
   <script src="../js/i18n.js"></script>
 
   <style>
@@ -508,10 +509,10 @@
     </div>
   </div>
 
-  <script src="../js/api.js?v=4"></script>
-  <script src="../js/ui-utils.js?v=3"></script>
-  <script src="../components/sidebar.js?v=12"></script>
-  <script src="../components/header.js?v=3"></script>
+  <script src="../js/api.js?v=6"></script>
+  <script src="../js/ui-utils.js?v=5"></script>
+  <script src="../components/sidebar.js?v=15"></script>
+  <script src="../components/header.js?v=4"></script>
   <script>
     let user = null;
     let customerDataLoaded = null;
@@ -1021,6 +1022,10 @@
           console.log(`Loan #${l.loanId} - Phones: Branch=${l.branch?.phoneNumber}, Inst=${l.institution?.phoneNumber}`);
         });
         count.textContent = loans.length;
+        const currentUser = typeof getCurrentUser === 'function' ? getCurrentUser() : user;
+        const canRemoveDeletedLoanHistory = typeof isSuperAdminUser === 'function'
+          ? isSuperAdminUser(currentUser)
+          : !!currentUser && (currentUser.roleName === 'Super Admin' || currentUser.role_name === 'Super Admin');
 
         loading.style.display = 'none';
 
@@ -1058,12 +1063,19 @@
                   </p>
                 </div>
               </div>
-              ${(loan.principalAmount + (loan.profitAmount || 0) - (loan.paidAmount || 0)) > 0 ? `
+              ${loan.status !== 'Deleted' && (loan.principalAmount + (loan.profitAmount || 0) - (loan.paidAmount || 0)) > 0 ? `
                 <div style="margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid rgba(255,255,255,0.1);">
                   <div style="display: flex; justify-content: space-between; font-size: 0.875rem;">
                     <span class="text-muted">${t('reports.stats.remaining_amount')}</span>
                     <span class="text-warning" style="font-weight: 600;">${formatCurrency(loan.principalAmount + (loan.profitAmount || 0) - (loan.paidAmount || 0))}</span>
                   </div>
+                </div>
+              ` : ''}
+              ${canRemoveDeletedLoanHistory && loan.status === 'Deleted' ? `
+                <div style="margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid rgba(148, 163, 184, 0.24); display: flex; justify-content: flex-end;">
+                  <button class="btn btn-danger btn-sm" onclick="removeDeletedLoanFromHistory(${loan.loanId})">
+                    ${t('customers.view_page.remove_loan_history') || 'Remove from history'}
+                  </button>
                 </div>
               ` : ''}
             </div>
@@ -1073,6 +1085,41 @@
         console.error('Error loading loans:', error);
         loading.style.display = 'none';
         empty.style.display = 'block';
+      }
+    }
+
+    async function removeDeletedLoanFromHistory(loanId) {
+      const title = t('customers.view_page.remove_loan_history') || 'Remove from history';
+      const message = t('customers.view_page.remove_loan_history_confirm') || 'This will permanently remove this deleted loan from the customer loan history. This action is only available for admin users.';
+      const confirmText = t('common.button.delete') || 'Delete';
+
+      const runDelete = async () => {
+        try {
+          await api.loans.deleteFromHistory(loanId);
+          customerLoans = await api.loans.getByCustomer(targetCustomerId);
+          await loadLoansRecord();
+          showToast(t('customers.view_page.remove_loan_history_success') || 'Loan removed from customer history', 'success');
+        } catch (error) {
+          console.error('Error removing loan from customer history:', error);
+          showToast(error.message || t('customers.view_page.remove_loan_history_failed') || 'Failed to remove loan from customer history', 'error');
+        }
+      };
+
+      if (typeof showConfirmModal === 'function') {
+        showConfirmModal({
+          title,
+          message,
+          subMessage: `#${loanId}`,
+          confirmText,
+          icon: '🗑️',
+          btnClass: 'btn-danger',
+          onConfirm: runDelete,
+        });
+        return;
+      }
+
+      if (window.confirm(message)) {
+        await runDelete();
       }
     }
 
@@ -1398,7 +1445,8 @@
         'Pending': '#f59e0b',
         'Completed': '#6366f1',
         'Defaulted': '#ef4444',
-        'Cancelled': '#6b7280'
+        'Cancelled': '#6b7280',
+        'Deleted': '#475569'
       };
       return colors[status] || '#6b7280';
     }
@@ -1412,7 +1460,8 @@
         'Pending': t('common.status.pending'),
         'Completed': t('loans.status.completed') || 'Completed',
         'Defaulted': t('customer_analytics.segments.risk') || 'Defaulted',
-        'Cancelled': t('common.status.cancelled')
+        'Cancelled': t('common.status.cancelled'),
+        'Deleted': t('common.status.deleted') || 'Deleted'
       };
       return texts[status] || status;
     }

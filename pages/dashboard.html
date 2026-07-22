@@ -14,7 +14,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title data-i18n-key="navigation.dashboard">Dashboard - Q1KEY Platform</title>
-  <link rel="stylesheet" href="../css/styles.css?v=12">
+  <link rel="icon" type="image/png" href="../logo.png">
+  <link rel="stylesheet" href="../css/styles.css?v=23">
   <script src="../js/i18n.js"></script>
   <style>
     /* Disable text selection globally */
@@ -173,10 +174,10 @@
     window.API_CONFIG = { baseUrl: 'http://localhost:3001/api' };
   </script>
   <script src="../js/config.js?v=3"></script>
-  <script src="../js/api.js?v=4"></script>
-  <script src="../js/ui-utils.js?v=6"></script>
-  <script src="../components/sidebar.js?v=5"></script>
-  <script src="../components/header.js?v=3"></script>
+  <script src="../js/api.js?v=5"></script>
+  <script src="../js/ui-utils.js?v=5"></script>
+  <script src="../components/sidebar.js?v=15"></script>
+  <script src="../components/header.js?v=4"></script>
   <script>
     console.log('Dashboard loading...');
     console.log('Token:', getToken()?.substring(0, 20) + '...');
@@ -207,13 +208,6 @@
     }
 
     async function initializeDashboard() {
-      // Refresh profile to get latest subscription data
-      try {
-        await api.auth.getProfile();
-      } catch (e) {
-        console.error('Failed to refresh profile:', e);
-      }
-
       const user = getCurrentUser();
       console.log('Initializing dashboard for user:', user);
 
@@ -227,6 +221,25 @@
       // Initialize dashboard
       console.log('Calling initDashboard...');
       initDashboard();
+
+      // Refresh profile in the background. Do not block the sidebar/header on this call.
+      api.auth.getProfile()
+        .then(() => {
+          const refreshedUser = getCurrentUser();
+          if (!refreshedUser) return;
+
+          document.getElementById('sidebar').innerHTML = createSidebar(refreshedUser);
+          document.getElementById('header').innerHTML = createHeader(
+            t('navigation.dashboard'),
+            t('dashboard.welcome_back') + ', ' + refreshedUser.name
+          );
+          initializeLanguageSwitcher();
+          setActiveNav('dashboard');
+          i18n.translatePage();
+        })
+        .catch((e) => {
+          console.warn('Profile refresh skipped after initial dashboard render:', e);
+        });
     }
 
     async function initDashboard() {
@@ -278,17 +291,22 @@
     }
 
     function renderStatsGrid(data, user) {
-      const { stats, systemCounts } = data;
-      const roleName = (user.roleName || user.role_name || '').toLowerCase();
+      const stats = data?.stats || {};
+      const systemCounts = data?.systemCounts || {};
+      const roleName = (typeof getUserRoleName === 'function'
+        ? getUserRoleName(user)
+        : (user.roleName || user.role_name || '')
+      ).toLowerCase();
+      const safeNumber = (value) => Number(value || 0);
       let statsHTML = '<div class="premium-dashboard-grid">';
 
       // --- Super Admin System Stats ---
-      if (roleName === 'super admin' && systemCounts) {
+      if (roleName === 'super admin') {
         statsHTML += `
           <a href="institutions.html" class="premium-card theme-violet clickable-card">
             <div class="premium-icon-box">🏛️</div>
             <div class="premium-content">
-              <div class="premium-value">${systemCounts.institutions}</div>
+              <div class="premium-value">${safeNumber(systemCounts.institutions)}</div>
               <div class="premium-label">
                 ${t('dashboard.stats.total_institutions')}
                 <span class="premium-indicator" style="background: rgba(139, 92, 246, 0.2); color: #a78bfa;">${t('common.label.active')}</span>
@@ -298,7 +316,7 @@
           <a href="branches.html" class="premium-card theme-blue clickable-card">
             <div class="premium-icon-box">🏢</div>
             <div class="premium-content">
-              <div class="premium-value">${systemCounts.branches}</div>
+              <div class="premium-value">${safeNumber(systemCounts.branches)}</div>
               <div class="premium-label">
                 ${t('dashboard.stats.total_branches')}
                 <span class="premium-indicator" style="background: rgba(59, 130, 246, 0.2); color: #60a5fa;">${t('dashboard.stats.all_time')}</span>
@@ -309,7 +327,7 @@
       }
       // --- Institution Specific Stats ---
       else if (roleName === 'institution') {
-        const branchCount = stats.totalBranches || (systemCounts ? systemCounts.branches : 0);
+        const branchCount = safeNumber(stats.totalBranches || systemCounts.branches);
         statsHTML += `
           <a href="branches.html" class="premium-card theme-blue clickable-card">
             <div class="premium-icon-box">🏢</div>
@@ -329,7 +347,7 @@
         <a href="customers.html" class="premium-card theme-indigo clickable-card">
           <div class="premium-icon-box">👥</div>
           <div class="premium-content">
-            <div class="premium-value">${stats.totalCustomers}</div>
+            <div class="premium-value">${safeNumber(stats.totalCustomers)}</div>
             <div class="premium-label">
               ${t('dashboard.stats.total_customers')}
               <span class="premium-indicator" style="background: rgba(99, 102, 241, 0.2); color: #818cf8;">${t('dashboard.stats.all_time')}</span>
@@ -340,10 +358,10 @@
         <a href="loans.html" class="premium-card theme-emerald clickable-card">
           <div class="premium-icon-box">💰</div>
           <div class="premium-content">
-            <div class="premium-value">${stats.totalLoans}</div>
+            <div class="premium-value">${safeNumber(stats.totalLoans)}</div>
             <div class="premium-label">
               ${t('dashboard.stats.total_loans')}
-              <span class="premium-indicator" style="background: rgba(16, 185, 129, 0.2); color: #34d399;">${formatCurrency(stats.totalLoanAmount)}</span>
+              <span class="premium-indicator" style="background: rgba(16, 185, 129, 0.2); color: #34d399;">${formatCurrency(safeNumber(stats.totalLoanAmount))}</span>
             </div>
           </div>
         </a>
@@ -351,7 +369,7 @@
         <a href="loans.html?filter=late" class="premium-card theme-amber clickable-card">
           <div class="premium-icon-box">⚠️</div>
           <div class="premium-content">
-            <div class="premium-value">${(stats.loansByStatus || []).find(s => s.status === 'Late')?.count || 0}</div>
+            <div class="premium-value">${safeNumber((stats.loansByStatus || []).find(s => s.status === 'Late')?.count)}</div>
             <div class="premium-label">
               ${t('dashboard.stats.late_loans')}
               <span class="premium-indicator" style="background: rgba(245, 158, 11, 0.2); color: #fbbf24;">${t('dashboard.stats.late')}</span>
@@ -388,12 +406,15 @@
 
     function renderQuickActions() {
       const user = getCurrentUser();
+      const isSuperAdmin = typeof isSuperAdminUser === 'function'
+        ? isSuperAdminUser(user)
+        : (user.roleName === 'Super Admin' || user.role_name === 'Super Admin');
       const actions = [
         { icon: '👤', title: t('dashboard.actions.add_customer'), subtitle: t('dashboard.actions.add_customer_desc'), href: 'customers-new.html', color: 'indigo' },
         { icon: '💰', title: t('dashboard.actions.issue_loan'), subtitle: t('dashboard.actions.issue_loan_desc'), href: 'loans-new.html', color: 'emerald' },
       ];
 
-      if (user.roleName === 'Super Admin' || user.role_name === 'Super Admin') {
+      if (isSuperAdmin) {
         actions.push({ icon: '🏛️', title: t('dashboard.actions.add_institution'), subtitle: t('dashboard.actions.add_institution_desc'), href: 'institutions-new.html', color: 'violet' });
       }
 
@@ -494,9 +515,13 @@
     function printDashboard() {
       const content = document.querySelector('.page-content').innerHTML;
       const printWindow = window.open('', '', 'height=600,width=800');
-      printWindow.document.write('<html><head><title>' + (t('common.button.print') || 'طباعة لوحة التحكم') + '</title>');
-      printWindow.document.write('<style>');
-      printWindow.document.write(`
+      const printDoc = printWindow.document;
+      const closingTitle = '<' + '/title>';
+      const closingStyle = '<' + '/style>';
+      const closingHead = '<' + '/head>';
+      const closingBody = '<' + '/body>';
+      const closingHtml = '<' + '/html>';
+      const printStyles = `
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333; padding: 20px; direction: ${i18n.isRTL() ? 'rtl' : 'ltr'}; }
         h1 { text-align: center; color: #4f46e5; margin-bottom: 20px; }
         .glass-card, .premium-card {
@@ -525,13 +550,24 @@
         a { text-decoration: none; color: inherit; }
         .flex.justify-end { display: none; }
         .premium-card:hover { transform: none!important; box-shadow: none!important; }
-      `);
-      printWindow.document.write('</style></head><body>');
-      printWindow.document.write(`<h1>${t('navigation.dashboard')} - Q1KEY</h1>`);
-      printWindow.document.write(`<div style="text-align: center; margin-bottom: 20px; color: #666;">${new Date().toLocaleString()}</div>`);
-      printWindow.document.write(content);
-      printWindow.document.write('</body></html>');
-      printWindow.document.close();
+      `;
+      printDoc.open();
+      printDoc.write(
+        '<!doctype html><html><head><title>' +
+        (t('common.button.print') || 'طباعة لوحة التحكم') +
+        closingTitle +
+        '<style>' +
+        printStyles +
+        closingStyle +
+        closingHead +
+        '<body>' +
+        `<h1>${t('navigation.dashboard')} - Q1KEY</h1>` +
+        `<div style="text-align: center; margin-bottom: 20px; color: #666;">${new Date().toLocaleString()}</div>` +
+        content +
+        closingBody +
+        closingHtml
+      );
+      printDoc.close();
       printWindow.focus();
       setTimeout(() => {
         printWindow.print();

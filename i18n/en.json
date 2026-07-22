@@ -84,6 +84,7 @@
       "pending": "Pending",
       "overdue": "Overdue",
       "cancelled": "Cancelled",
+      "deleted": "Deleted",
       "approved": "Approved",
       "rejected": "Rejected",
       "trusted": "Trusted",
@@ -423,6 +424,10 @@
       "move_to_deleted_confirm": "Are you sure you want to move this customer to the deleted list?\n\nYou can restore them later from the deleted customers page.",
       "move_to_deleted_success": "Customer moved to deleted list successfully",
       "move_to_deleted_failed": "Failed to move customer to deleted list",
+      "remove_loan_history": "Remove from customer history",
+      "remove_loan_history_confirm": "This will permanently remove this deleted loan from the customer's loan history. This action is available to admin users only and cannot be undone.",
+      "remove_loan_history_success": "Loan removed from customer history successfully",
+      "remove_loan_history_failed": "Failed to remove loan from customer history",
       "select_status_req": "Please select a status first",
       "status_update_failed": "Failed to update status"
     },
@@ -600,8 +605,8 @@
       "loan_id": "Loan ID",
       "remaining_amount": "Remaining",
       "delete_confirm_title": "Confirm Loan Deletion",
-      "delete_warning": "Warning: This will remove the loan and all its installments permanently. Only loans with no paid installments can be deleted.",
-      "cascade_delete_warning": "Are you sure you want to delete this loan? This will permanently remove all associated installments and records. This action cannot be undone."
+      "delete_warning": "The loan will be marked as Deleted and kept in the customer's loan history. Its installments will be removed and the financial balances will be reversed.",
+      "cascade_delete_warning": "Are you sure you want to delete this loan? The loan record will remain in the customer history with Deleted status and cannot be edited."
     }
   },
   "installments": {

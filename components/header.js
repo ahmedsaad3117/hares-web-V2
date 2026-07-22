@@ -157,7 +157,7 @@ function createHeader(title, subtitle = '') {
       <!-- Main Layer: Navigation & Profile -->
       <div class="header-main-bar">
         <div class="header-breadcrumb">
-          <button class="mobile-toggle-btn md:hidden" onclick="toggleSidebar()">
+          <button class="mobile-toggle-btn md:hidden" onclick="toggleSidebar()" aria-label="Open Menu">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <line x1="3" y1="12" x2="21" y2="12"></line>
               <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -181,11 +181,11 @@ function createHeader(title, subtitle = '') {
           </button>
 
           <!-- Notification (Optional) -->
-          <div class="action-btn-glass theme-toggle" onclick="toggleTheme?.()">
+          <button type="button" class="action-btn-glass theme-toggle" onclick="window.toggleTheme()" aria-label="Toggle Theme" aria-pressed="false">
              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
              </svg>
-          </div>
+          </button>
 
           <div class="user-profile-premium">
             <div class="user-details text-right hidden md:block">
@@ -426,6 +426,63 @@ async function loadQuickLinks() {
 window.loadQuickLinks = loadQuickLinks;
 window.startDateTime = startDateTime;
 
+const APP_THEME_STORAGE_KEY = 'q1key-theme';
+
+function updateThemeToggleButton(theme) {
+  const toggleButton = document.querySelector('.theme-toggle');
+  if (!toggleButton) return;
+
+  const isDark = theme === 'dark';
+  toggleButton.setAttribute('aria-pressed', String(isDark));
+  toggleButton.setAttribute('title', isDark ? 'Light mode' : 'Night mode');
+  toggleButton.innerHTML = isDark
+    ? `
+       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="4"></circle>
+          <path d="M12 2v2"></path>
+          <path d="M12 20v2"></path>
+          <path d="m4.93 4.93 1.41 1.41"></path>
+          <path d="m17.66 17.66 1.41 1.41"></path>
+          <path d="M2 12h2"></path>
+          <path d="M20 12h2"></path>
+          <path d="m6.34 17.66-1.41 1.41"></path>
+          <path d="m19.07 4.93-1.41 1.41"></path>
+       </svg>
+      `
+    : `
+       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+       </svg>
+      `;
+}
+
+function applyTheme(theme) {
+  const normalizedTheme = theme === 'dark' ? 'dark' : 'light';
+  const isDark = normalizedTheme === 'dark';
+
+  document.documentElement.classList.toggle('theme-dark', isDark);
+  if (document.body) {
+    document.body.classList.toggle('theme-dark', isDark);
+  }
+
+  localStorage.setItem(APP_THEME_STORAGE_KEY, normalizedTheme);
+  updateThemeToggleButton(normalizedTheme);
+}
+
+function toggleTheme() {
+  const isDark = document.documentElement.classList.contains('theme-dark');
+  applyTheme(isDark ? 'light' : 'dark');
+}
+
+function initializeTheme() {
+  const savedTheme = localStorage.getItem(APP_THEME_STORAGE_KEY) || 'light';
+  applyTheme(savedTheme);
+}
+
+window.applyTheme = applyTheme;
+window.toggleTheme = toggleTheme;
+initializeTheme();
+
 // Language switcher functionality
 function initializeLanguageSwitcher() {
   const switcher = document.getElementById('languageSwitcher');
@@ -444,6 +501,7 @@ function initializeLanguageSwitcher() {
 
   // Initial update
   updateLanguageLabel();
+  updateThemeToggleButton(localStorage.getItem(APP_THEME_STORAGE_KEY) || 'light');
 
   // Handle click
   switcher.addEventListener('click', async () => {
