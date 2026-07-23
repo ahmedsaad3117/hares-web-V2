@@ -475,7 +475,13 @@ function toggleTheme() {
 }
 
 function initializeTheme() {
-  const savedTheme = localStorage.getItem(APP_THEME_STORAGE_KEY) || 'light';
+  let savedTheme = localStorage.getItem(APP_THEME_STORAGE_KEY);
+
+  if (savedTheme !== 'dark' && savedTheme !== 'light') {
+    savedTheme = 'light';
+    localStorage.setItem(APP_THEME_STORAGE_KEY, savedTheme);
+  }
+
   applyTheme(savedTheme);
 }
 
