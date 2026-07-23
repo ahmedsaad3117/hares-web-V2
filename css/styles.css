@@ -6547,6 +6547,47 @@ body.theme-dark .sidebar button.btn-secondary:hover {
   border-color: rgba(155, 185, 251, 0.34) !important;
 }
 
+/* Branch cards light-mode badge audit. */
+html:not(.theme-dark) body:not(.theme-dark) #branchesGrid .glass-card .badge {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.45rem !important;
+  padding: 0.36rem 0.8rem !important;
+  border-radius: 999px !important;
+  font-weight: 800 !important;
+  text-shadow: none !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) #branchesGrid .glass-card .badge::before {
+  content: '' !important;
+  width: 0.45rem !important;
+  height: 0.45rem !important;
+  border-radius: 999px !important;
+  background: currentColor !important;
+  flex: 0 0 auto !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) #branchesGrid .glass-card .badge-success {
+  background: rgba(16, 185, 129, 0.14) !important;
+  color: #047857 !important;
+  -webkit-text-fill-color: #047857 !important;
+  border-color: rgba(16, 185, 129, 0.28) !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) #branchesGrid .glass-card .badge-danger {
+  background: rgba(239, 68, 68, 0.14) !important;
+  color: #b91c1c !important;
+  -webkit-text-fill-color: #b91c1c !important;
+  border-color: rgba(239, 68, 68, 0.28) !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) #branchesGrid .glass-card span[style*="color: #ef4444"] {
+  color: #b91c1c !important;
+  -webkit-text-fill-color: #b91c1c !important;
+  font-weight: 800 !important;
+}
+
 /* Requests page dark-mode card/text audit. */
 html.theme-dark .requests-list,
 html.theme-dark .request-card,
