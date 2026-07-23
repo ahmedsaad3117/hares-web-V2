@@ -5225,3 +5225,525 @@ html.theme-dark .date-divider,
 body.theme-dark .date-divider {
   background: rgba(155, 185, 251, 0.22) !important;
 }
+
+/* Post-typography layout guard: keep card action icons/buttons inside their boxes. */
+.btn svg,
+.action-btn svg,
+.action-btn-glass svg,
+.inst-action-btn svg,
+.filter-btn svg,
+.tab-btn svg,
+.report-tab svg,
+.rank-tab svg {
+  width: 1.05em !important;
+  height: 1.05em !important;
+  min-width: 1.05em !important;
+  flex: 0 0 auto !important;
+}
+
+.btn-icon,
+.btn-whatsapp,
+.meatball-btn {
+  width: 42px !important;
+  height: 42px !important;
+  min-width: 42px !important;
+  min-height: 42px !important;
+  max-width: 42px !important;
+  max-height: 42px !important;
+  flex: 0 0 42px !important;
+  padding: 0 !important;
+  aspect-ratio: 1 / 1 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  line-height: 1 !important;
+  overflow: hidden !important;
+}
+
+.btn-icon svg,
+.btn-whatsapp svg,
+.meatball-btn svg {
+  width: 20px !important;
+  height: 20px !important;
+  min-width: 20px !important;
+  flex: 0 0 20px !important;
+}
+
+.glass-card > .flex.items-center.gap-2,
+.premium-card > .flex.items-center.gap-2,
+.dashboard-card > .flex.items-center.gap-2,
+.table-card > .flex.items-center.gap-2,
+.card-actions,
+.action-row,
+.actions-row {
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  min-width: 0 !important;
+  overflow: hidden !important;
+}
+
+.glass-card > .flex.items-center.gap-2 > .btn,
+.premium-card > .flex.items-center.gap-2 > .btn,
+.dashboard-card > .flex.items-center.gap-2 > .btn,
+.table-card > .flex.items-center.gap-2 > .btn,
+.card-actions > .btn,
+.action-row > .btn,
+.actions-row > .btn {
+  flex: 1 1 0 !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  padding: 0.5rem 0.55rem !important;
+  font-size: clamp(0.86rem, 0.9vw, 0.94rem) !important;
+  line-height: 1.25 !important;
+  white-space: nowrap !important;
+  gap: 0.32rem !important;
+}
+
+.glass-card > .flex.items-center.gap-2 > .btn-whatsapp,
+.premium-card > .flex.items-center.gap-2 > .btn-whatsapp,
+.dashboard-card > .flex.items-center.gap-2 > .btn-whatsapp,
+.table-card > .flex.items-center.gap-2 > .btn-whatsapp,
+.card-actions > .btn-whatsapp,
+.action-row > .btn-whatsapp,
+.actions-row > .btn-whatsapp {
+  flex: 0 0 42px !important;
+}
+
+/* Header title de-duplication: pages already render their own content headline. */
+.header-container-premium .title-group {
+  display: none !important;
+}
+
+.header-container-premium .header-breadcrumb {
+  flex: 0 0 auto !important;
+}
+
+.header-container-premium .header-main-bar {
+  justify-content: space-between !important;
+}
+
+.header-container-premium .mobile-toggle-btn {
+  display: inline-flex !important;
+}
+
+@media (min-width: 768px) {
+  .header-container-premium .mobile-toggle-btn {
+    display: none !important;
+  }
+}
+
+/* Light-mode table/search input audit. */
+html:not(.theme-dark) body:not(.theme-dark) .table-card .search-container,
+html:not(.theme-dark) body:not(.theme-dark) .table-container .search-container,
+html:not(.theme-dark) body:not(.theme-dark) .filter-section .search-container,
+html:not(.theme-dark) body:not(.theme-dark) .filter-bar .search-container,
+html:not(.theme-dark) body:not(.theme-dark) .list-header-actions .search-container,
+html:not(.theme-dark) body:not(.theme-dark) .search-box-premium,
+html:not(.theme-dark) body:not(.theme-dark) .search-container {
+  background: transparent !important;
+  color: var(--app-ink) !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .search-input,
+html:not(.theme-dark) body:not(.theme-dark) .table-card input[type="search"],
+html:not(.theme-dark) body:not(.theme-dark) .table-card input[type="text"],
+html:not(.theme-dark) body:not(.theme-dark) .table-container input[type="search"],
+html:not(.theme-dark) body:not(.theme-dark) .table-container input[type="text"],
+html:not(.theme-dark) body:not(.theme-dark) .filter-bar input[type="search"],
+html:not(.theme-dark) body:not(.theme-dark) .filter-bar input[type="text"],
+html:not(.theme-dark) body:not(.theme-dark) .filter-section input[type="search"],
+html:not(.theme-dark) body:not(.theme-dark) .filter-section input[type="text"],
+html:not(.theme-dark) body:not(.theme-dark) .search-box-premium input,
+html:not(.theme-dark) body:not(.theme-dark) input[id*="search" i],
+html:not(.theme-dark) body:not(.theme-dark) input[name*="search" i] {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  color: var(--app-ink) !important;
+  -webkit-text-fill-color: var(--app-ink) !important;
+  border: 1px solid #d8e2f4 !important;
+  border-radius: 12px !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 4px 12px rgba(1, 15, 64, 0.035) !important;
+  caret-color: var(--app-primary) !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .search-input::placeholder,
+html:not(.theme-dark) body:not(.theme-dark) .table-card input::placeholder,
+html:not(.theme-dark) body:not(.theme-dark) .table-container input::placeholder,
+html:not(.theme-dark) body:not(.theme-dark) .filter-bar input::placeholder,
+html:not(.theme-dark) body:not(.theme-dark) .filter-section input::placeholder,
+html:not(.theme-dark) body:not(.theme-dark) .search-box-premium input::placeholder,
+html:not(.theme-dark) body:not(.theme-dark) input[id*="search" i]::placeholder,
+html:not(.theme-dark) body:not(.theme-dark) input[name*="search" i]::placeholder {
+  color: #66728e !important;
+  -webkit-text-fill-color: #66728e !important;
+  opacity: 1 !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .search-input:focus,
+html:not(.theme-dark) body:not(.theme-dark) .table-card input[type="search"]:focus,
+html:not(.theme-dark) body:not(.theme-dark) .table-card input[type="text"]:focus,
+html:not(.theme-dark) body:not(.theme-dark) .table-container input[type="search"]:focus,
+html:not(.theme-dark) body:not(.theme-dark) .table-container input[type="text"]:focus,
+html:not(.theme-dark) body:not(.theme-dark) .filter-bar input[type="search"]:focus,
+html:not(.theme-dark) body:not(.theme-dark) .filter-bar input[type="text"]:focus,
+html:not(.theme-dark) body:not(.theme-dark) .filter-section input[type="search"]:focus,
+html:not(.theme-dark) body:not(.theme-dark) .filter-section input[type="text"]:focus,
+html:not(.theme-dark) body:not(.theme-dark) .search-box-premium input:focus,
+html:not(.theme-dark) body:not(.theme-dark) input[id*="search" i]:focus,
+html:not(.theme-dark) body:not(.theme-dark) input[name*="search" i]:focus {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  color: var(--app-ink) !important;
+  -webkit-text-fill-color: var(--app-ink) !important;
+  border-color: var(--app-primary) !important;
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(1, 71, 247, 0.10), 0 6px 16px rgba(1, 15, 64, 0.055) !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .search-icon,
+html:not(.theme-dark) body:not(.theme-dark) .search-container svg,
+html:not(.theme-dark) body:not(.theme-dark) .search-box-premium svg {
+  color: var(--app-muted) !important;
+  stroke: currentColor !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .search-input:focus + .search-icon,
+html:not(.theme-dark) body:not(.theme-dark) .search-container:focus-within .search-icon,
+html:not(.theme-dark) body:not(.theme-dark) .search-container:focus-within svg,
+html:not(.theme-dark) body:not(.theme-dark) .search-box-premium:focus-within svg {
+  color: var(--app-primary) !important;
+}
+
+/* Light-mode search wrappers: avoid stacked borders around search bars. */
+html:not(.theme-dark) body:not(.theme-dark) .page-content > .glass-card:has(input[id*="search" i]),
+html:not(.theme-dark) body:not(.theme-dark) .main-content .glass-card:has(input[id*="search" i]):not(:has(table)),
+html:not(.theme-dark) body:not(.theme-dark) .filter-section:has(input[id*="search" i]),
+html:not(.theme-dark) body:not(.theme-dark) .filter-bar:has(input[id*="search" i]) {
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .page-content > .glass-card:has(input[id*="search" i])::before,
+html:not(.theme-dark) body:not(.theme-dark) .main-content .glass-card:has(input[id*="search" i]):not(:has(table))::before,
+html:not(.theme-dark) body:not(.theme-dark) .filter-section:has(input[id*="search" i])::before,
+html:not(.theme-dark) body:not(.theme-dark) .filter-bar:has(input[id*="search" i])::before {
+  display: none !important;
+}
+
+/* Subscriptions/data table light-mode text audit. */
+html:not(.theme-dark) body:not(.theme-dark) .subscriptions-container .table-container {
+  background: #ffffff !important;
+  border-color: #d8e2f4 !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .subscriptions-container .data-table {
+  background: #ffffff !important;
+  color: var(--app-ink) !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .subscriptions-container .data-table thead th,
+html:not(.theme-dark) body:not(.theme-dark) .subscriptions-container .data-table th {
+  background: #eef5ff !important;
+  color: #172342 !important;
+  -webkit-text-fill-color: #172342 !important;
+  border-bottom: 1px solid #c8d6f2 !important;
+  text-shadow: none !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .subscriptions-container .data-table tbody td,
+html:not(.theme-dark) body:not(.theme-dark) .subscriptions-container .data-table td {
+  background: #ffffff !important;
+  color: #24314f !important;
+  -webkit-text-fill-color: #24314f !important;
+  border-bottom: 1px solid #e5ecf8 !important;
+  text-shadow: none !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .subscriptions-container .data-table tbody tr:hover td {
+  background: #f6f9ff !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .subscriptions-container .data-table [style*="color: white"],
+html:not(.theme-dark) body:not(.theme-dark) .subscriptions-container .data-table [style*="color:white"],
+html:not(.theme-dark) body:not(.theme-dark) .subscriptions-container .data-table .text-white {
+  color: #172342 !important;
+  -webkit-text-fill-color: #172342 !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .subscriptions-container .data-table [style*="color: #64748b"],
+html:not(.theme-dark) body:not(.theme-dark) .subscriptions-container .data-table .text-muted {
+  color: #66728e !important;
+  -webkit-text-fill-color: #66728e !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .subscriptions-container .status-badge.active {
+  background: rgba(16, 185, 129, 0.14) !important;
+  color: #047857 !important;
+  -webkit-text-fill-color: #047857 !important;
+  border: 1px solid rgba(16, 185, 129, 0.26) !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .subscriptions-container .status-badge.expiring {
+  background: rgba(245, 158, 11, 0.16) !important;
+  color: #92400e !important;
+  -webkit-text-fill-color: #92400e !important;
+  border: 1px solid rgba(245, 158, 11, 0.28) !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .subscriptions-container .status-badge.expired {
+  background: rgba(239, 68, 68, 0.14) !important;
+  color: #b91c1c !important;
+  -webkit-text-fill-color: #b91c1c !important;
+  border: 1px solid rgba(239, 68, 68, 0.26) !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .subscriptions-container .status-badge.inactive {
+  background: rgba(100, 116, 139, 0.13) !important;
+  color: #475569 !important;
+  -webkit-text-fill-color: #475569 !important;
+  border: 1px solid rgba(100, 116, 139, 0.22) !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .subscriptions-container .type-badge.institution {
+  background: rgba(1, 71, 247, 0.1) !important;
+  color: #0130a1 !important;
+  -webkit-text-fill-color: #0130a1 !important;
+  border: 1px solid rgba(1, 71, 247, 0.18) !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .subscriptions-container .type-badge.branch {
+  background: rgba(47, 111, 255, 0.1) !important;
+  color: #0147f7 !important;
+  -webkit-text-fill-color: #0147f7 !important;
+  border: 1px solid rgba(47, 111, 255, 0.18) !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .subscriptions-container .days-remaining.positive {
+  color: #047857 !important;
+  -webkit-text-fill-color: #047857 !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .subscriptions-container .days-remaining.warning {
+  color: #92400e !important;
+  -webkit-text-fill-color: #92400e !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .subscriptions-container .days-remaining.negative {
+  color: #b91c1c !important;
+  -webkit-text-fill-color: #b91c1c !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .subscriptions-container .data-table .action-btn {
+  background: #ffffff !important;
+  color: #0130a1 !important;
+  -webkit-text-fill-color: #0130a1 !important;
+  border: 1px solid rgba(1, 71, 247, 0.28) !important;
+  box-shadow: 0 6px 16px rgba(1, 15, 64, 0.06) !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .subscriptions-container .data-table .action-btn:hover {
+  background: linear-gradient(135deg, var(--app-primary), var(--app-primary-dark)) !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  border-color: transparent !important;
+}
+
+/* Comparisons page light-mode card/text audit. */
+html:not(.theme-dark) body:not(.theme-dark) .comparisons-container {
+  color: var(--app-ink) !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .comparisons-container .comparison-hero {
+  background: linear-gradient(135deg, #eff5ff 0%, #f7f3ff 100%) !important;
+  border: 1.5px solid #b8cbff !important;
+  box-shadow: 0 16px 36px rgba(1, 15, 64, 0.08) !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .comparisons-container .comparison-hero h1,
+html:not(.theme-dark) body:not(.theme-dark) .comparisons-container .comparison-hero p,
+html:not(.theme-dark) body:not(.theme-dark) .comparisons-container .comparison-hero [style*="color: rgba(255, 255, 255"] {
+  color: #172342 !important;
+  -webkit-text-fill-color: #172342 !important;
+  text-shadow: none !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .comparisons-container .chart-section {
+  background: #ffffff !important;
+  border: 1.5px solid #d8e2f4 !important;
+  box-shadow: 0 18px 40px rgba(1, 15, 64, 0.08) !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .comparisons-container .chart-title,
+html:not(.theme-dark) body:not(.theme-dark) .comparisons-container .rank-name {
+  color: #172342 !important;
+  -webkit-text-fill-color: #172342 !important;
+  text-shadow: none !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .comparisons-container .rankings-list .rank-item {
+  background: #ffffff !important;
+  border: 1.5px solid #d8e2f4 !important;
+  box-shadow: 0 12px 28px rgba(1, 15, 64, 0.065) !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .comparisons-container .rankings-list .rank-item:hover {
+  background: #f8fbff !important;
+  border-color: var(--app-primary) !important;
+  box-shadow: 0 16px 34px rgba(1, 71, 247, 0.12) !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .comparisons-container .rank-other .rank-number {
+  background: #eef5ff !important;
+  color: #0130a1 !important;
+  -webkit-text-fill-color: #0130a1 !important;
+  border: 1px solid rgba(1, 71, 247, 0.18) !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .comparisons-container .rank-value {
+  color: #0147f7 !important;
+  -webkit-text-fill-color: #0147f7 !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .comparisons-container .rank-meta {
+  color: #66728e !important;
+  -webkit-text-fill-color: #66728e !important;
+}
+
+/* Products page badge light-mode text audit. */
+html:not(.theme-dark) body:not(.theme-dark) #productsTableBody .badge,
+html:not(.theme-dark) body:not(.theme-dark) .products-container .badge {
+  border: 1px solid transparent !important;
+  text-shadow: none !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) #productsTableBody .badge-success,
+html:not(.theme-dark) body:not(.theme-dark) .products-container .badge-success {
+  background: rgba(16, 185, 129, 0.14) !important;
+  color: #047857 !important;
+  border-color: rgba(16, 185, 129, 0.26) !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) #productsTableBody .badge-warning,
+html:not(.theme-dark) body:not(.theme-dark) .products-container .badge-warning {
+  background: rgba(245, 158, 11, 0.16) !important;
+  color: #92400e !important;
+  border-color: rgba(245, 158, 11, 0.28) !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) #productsTableBody .badge-danger,
+html:not(.theme-dark) body:not(.theme-dark) .products-container .badge-danger {
+  background: rgba(239, 68, 68, 0.14) !important;
+  color: #b91c1c !important;
+  border-color: rgba(239, 68, 68, 0.26) !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) #productsTableBody .badge-info,
+html:not(.theme-dark) body:not(.theme-dark) .products-container .badge-info {
+  background: rgba(47, 111, 255, 0.12) !important;
+  color: #0147f7 !important;
+  border-color: rgba(47, 111, 255, 0.24) !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) #productsTableBody .badge-primary,
+html:not(.theme-dark) body:not(.theme-dark) .products-container .badge-primary {
+  background: rgba(1, 71, 247, 0.12) !important;
+  color: #0130a1 !important;
+  border-color: rgba(1, 71, 247, 0.24) !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) #productsTableBody .badge-secondary,
+html:not(.theme-dark) body:not(.theme-dark) .products-container .badge-secondary {
+  background: rgba(100, 116, 139, 0.13) !important;
+  color: #475569 !important;
+  border-color: rgba(100, 116, 139, 0.22) !important;
+}
+
+/* Generic table badge light-mode audit across all data tables. */
+html:not(.theme-dark) body:not(.theme-dark) table .badge,
+html:not(.theme-dark) body:not(.theme-dark) .table .badge,
+html:not(.theme-dark) body:not(.theme-dark) .data-table .badge,
+html:not(.theme-dark) body:not(.theme-dark) .report-table .badge,
+html:not(.theme-dark) body:not(.theme-dark) .table-container .badge {
+  text-shadow: none !important;
+  -webkit-text-fill-color: currentColor !important;
+  border: 1px solid transparent !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) table .badge-success,
+html:not(.theme-dark) body:not(.theme-dark) .table .badge-success,
+html:not(.theme-dark) body:not(.theme-dark) .data-table .badge-success,
+html:not(.theme-dark) body:not(.theme-dark) .report-table .badge-success,
+html:not(.theme-dark) body:not(.theme-dark) .table-container .badge-success {
+  background: rgba(16, 185, 129, 0.14) !important;
+  color: #047857 !important;
+  border-color: rgba(16, 185, 129, 0.26) !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) table .badge-warning,
+html:not(.theme-dark) body:not(.theme-dark) .table .badge-warning,
+html:not(.theme-dark) body:not(.theme-dark) .data-table .badge-warning,
+html:not(.theme-dark) body:not(.theme-dark) .report-table .badge-warning,
+html:not(.theme-dark) body:not(.theme-dark) .table-container .badge-warning {
+  background: rgba(245, 158, 11, 0.16) !important;
+  color: #92400e !important;
+  border-color: rgba(245, 158, 11, 0.28) !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) table .badge-danger,
+html:not(.theme-dark) body:not(.theme-dark) .table .badge-danger,
+html:not(.theme-dark) body:not(.theme-dark) .data-table .badge-danger,
+html:not(.theme-dark) body:not(.theme-dark) .report-table .badge-danger,
+html:not(.theme-dark) body:not(.theme-dark) .table-container .badge-danger,
+html:not(.theme-dark) body:not(.theme-dark) table .badge-error,
+html:not(.theme-dark) body:not(.theme-dark) .table .badge-error,
+html:not(.theme-dark) body:not(.theme-dark) .data-table .badge-error,
+html:not(.theme-dark) body:not(.theme-dark) .report-table .badge-error,
+html:not(.theme-dark) body:not(.theme-dark) .table-container .badge-error {
+  background: rgba(239, 68, 68, 0.14) !important;
+  color: #b91c1c !important;
+  border-color: rgba(239, 68, 68, 0.26) !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) table .badge-info,
+html:not(.theme-dark) body:not(.theme-dark) .table .badge-info,
+html:not(.theme-dark) body:not(.theme-dark) .data-table .badge-info,
+html:not(.theme-dark) body:not(.theme-dark) .report-table .badge-info,
+html:not(.theme-dark) body:not(.theme-dark) .table-container .badge-info {
+  background: rgba(47, 111, 255, 0.12) !important;
+  color: #0147f7 !important;
+  border-color: rgba(47, 111, 255, 0.24) !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) table .badge-primary,
+html:not(.theme-dark) body:not(.theme-dark) .table .badge-primary,
+html:not(.theme-dark) body:not(.theme-dark) .data-table .badge-primary,
+html:not(.theme-dark) body:not(.theme-dark) .report-table .badge-primary,
+html:not(.theme-dark) body:not(.theme-dark) .table-container .badge-primary {
+  background: rgba(1, 71, 247, 0.12) !important;
+  color: #0130a1 !important;
+  border-color: rgba(1, 71, 247, 0.24) !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) table .badge-secondary,
+html:not(.theme-dark) body:not(.theme-dark) .table .badge-secondary,
+html:not(.theme-dark) body:not(.theme-dark) .data-table .badge-secondary,
+html:not(.theme-dark) body:not(.theme-dark) .report-table .badge-secondary,
+html:not(.theme-dark) body:not(.theme-dark) .table-container .badge-secondary {
+  background: rgba(100, 116, 139, 0.13) !important;
+  color: #475569 !important;
+  border-color: rgba(100, 116, 139, 0.22) !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) table .status-badge,
+html:not(.theme-dark) body:not(.theme-dark) .table .status-badge,
+html:not(.theme-dark) body:not(.theme-dark) .data-table .status-badge,
+html:not(.theme-dark) body:not(.theme-dark) .table-container .status-badge,
+html:not(.theme-dark) body:not(.theme-dark) table .type-badge,
+html:not(.theme-dark) body:not(.theme-dark) .table .type-badge,
+html:not(.theme-dark) body:not(.theme-dark) .data-table .type-badge,
+html:not(.theme-dark) body:not(.theme-dark) .table-container .type-badge {
+  text-shadow: none !important;
+  -webkit-text-fill-color: currentColor !important;
+}

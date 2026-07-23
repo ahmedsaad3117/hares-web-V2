@@ -15,7 +15,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title data-i18n-key="navigation.comparisons">تصنيفات الأداء | منصة Q1KEY</title>
   <link rel="icon" type="image/png" href="../logo.png">
-    <link rel="stylesheet" href="../css/styles.css?v=32">
+    <link rel="stylesheet" href="../css/styles.css?v=41">
     <script src="../js/i18n.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 
@@ -527,6 +527,10 @@
 
         function renderChart(data, color) {
             const ctx = document.getElementById('rankChart').getContext('2d');
+            const isDarkMode = document.documentElement.classList.contains('theme-dark') || document.body.classList.contains('theme-dark');
+            const chartTextColor = isDarkMode ? 'rgba(255, 255, 255, 0.82)' : '#24314f';
+            const chartMutedColor = isDarkMode ? 'rgba(255, 255, 255, 0.62)' : '#66728e';
+            const chartGridColor = isDarkMode ? 'rgba(255, 255, 255, 0.06)' : 'rgba(23, 35, 66, 0.10)';
 
             if (mainChart) mainChart.destroy();
 
@@ -571,9 +575,9 @@
                     scales: {
                         y: {
                             beginAtZero: true,
-                            grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                            grid: { color: chartGridColor },
                             ticks: {
-                                color: 'rgba(255, 255, 255, 0.6)',
+                                color: chartMutedColor,
                                 precision: 0,
                                 callback: function (value) {
                                     if (value >= 1000000) return (value / 1000000).toFixed(1) + 'M';
@@ -584,7 +588,7 @@
                         },
                         x: {
                             grid: { display: false },
-                            ticks: { color: 'rgba(255, 255, 255, 0.8)', font: { weight: '600' } }
+                            ticks: { color: chartTextColor, font: { weight: '600' } }
                         }
                     }
                 }
