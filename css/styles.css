@@ -5747,3 +5747,281 @@ html:not(.theme-dark) body:not(.theme-dark) .table-container .type-badge {
   text-shadow: none !important;
   -webkit-text-fill-color: currentColor !important;
 }
+
+/* Customers cards layout/readability audit. */
+#customersGrid.grid-responsive-lg {
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 1.6rem !important;
+}
+
+@media (max-width: 1280px) {
+  #customersGrid.grid-responsive-lg {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 760px) {
+  #customersGrid.grid-responsive-lg {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+#customersGrid > .glass-card {
+  overflow: hidden !important;
+  min-width: 0 !important;
+}
+
+#customersGrid > .glass-card > .flex.items-center.gap-2,
+#customersGrid > .glass-card .flex.items-center.gap-2:has(.btn-whatsapp) {
+  flex-wrap: nowrap !important;
+  gap: 0.65rem !important;
+  overflow: visible !important;
+  min-width: 0 !important;
+}
+
+#customersGrid > .glass-card > .flex.items-center.gap-2 > .btn,
+#customersGrid > .glass-card .flex.items-center.gap-2:has(.btn-whatsapp) > .btn {
+  flex: 1 1 0 !important;
+  min-width: 0 !important;
+}
+
+#customersGrid .btn-whatsapp {
+  position: static !important;
+  inset: auto !important;
+  margin: 0 !important;
+  transform: none !important;
+  flex: 0 0 42px !important;
+}
+
+#customersGrid .btn-whatsapp:hover {
+  transform: translateY(-1px) !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) #customersGrid .glass-card div[style*="color: #64748b"],
+html:not(.theme-dark) body:not(.theme-dark) #customersGrid .glass-card svg[style*="color: #64748b"] {
+  color: #475569 !important;
+  stroke: currentColor !important;
+}
+
+html.theme-dark #customersGrid .glass-card,
+body.theme-dark #customersGrid .glass-card {
+  background: linear-gradient(135deg, rgba(9, 22, 52, 0.96), rgba(12, 28, 62, 0.9)) !important;
+  border-color: rgba(155, 185, 251, 0.24) !important;
+}
+
+html.theme-dark #customersGrid .glass-card h3,
+html.theme-dark #customersGrid .glass-card .text-white,
+body.theme-dark #customersGrid .glass-card h3,
+body.theme-dark #customersGrid .glass-card .text-white {
+  color: #f8fbff !important;
+  -webkit-text-fill-color: #f8fbff !important;
+}
+
+html.theme-dark #customersGrid .glass-card p,
+html.theme-dark #customersGrid .glass-card .text-muted,
+html.theme-dark #customersGrid .glass-card div[style*="color: #64748b"],
+html.theme-dark #customersGrid .glass-card svg[style*="color: #64748b"],
+body.theme-dark #customersGrid .glass-card p,
+body.theme-dark #customersGrid .glass-card .text-muted,
+body.theme-dark #customersGrid .glass-card div[style*="color: #64748b"],
+body.theme-dark #customersGrid .glass-card svg[style*="color: #64748b"] {
+  color: #b8c8e8 !important;
+  -webkit-text-fill-color: #b8c8e8 !important;
+  stroke: currentColor !important;
+}
+
+html.theme-dark #customersGrid .glass-card div[style*="border-top"],
+body.theme-dark #customersGrid .glass-card div[style*="border-top"] {
+  border-top-color: rgba(155, 185, 251, 0.18) !important;
+  border-bottom-color: rgba(155, 185, 251, 0.18) !important;
+}
+
+/* Global light-mode detail fields audit: customer/user/branch/institution/loan details. */
+html:not(.theme-dark) body:not(.theme-dark) .glass-card .text-muted,
+html:not(.theme-dark) body:not(.theme-dark) .premium-card .text-muted,
+html:not(.theme-dark) body:not(.theme-dark) .dashboard-card .text-muted,
+html:not(.theme-dark) body:not(.theme-dark) .info-card .text-muted,
+html:not(.theme-dark) body:not(.theme-dark) .info-section .text-muted,
+html:not(.theme-dark) body:not(.theme-dark) .record-card .text-muted,
+html:not(.theme-dark) body:not(.theme-dark) .table-card .text-muted,
+html:not(.theme-dark) body:not(.theme-dark) .modal-card .text-muted,
+html:not(.theme-dark) body:not(.theme-dark) .modal-content .text-muted,
+html:not(.theme-dark) body:not(.theme-dark) .process-modal-content .text-muted,
+html:not(.theme-dark) body:not(.theme-dark) .extend-modal-content .text-muted,
+html:not(.theme-dark) body:not(.theme-dark) .announcement-modal-content .text-muted,
+html:not(.theme-dark) body:not(.theme-dark) .detail-label,
+html:not(.theme-dark) body:not(.theme-dark) .detail-row .label,
+html:not(.theme-dark) body:not(.theme-dark) .info-row .label,
+html:not(.theme-dark) body:not(.theme-dark) .meta-row .label,
+html:not(.theme-dark) body:not(.theme-dark) .field-row .label,
+html:not(.theme-dark) body:not(.theme-dark) .request-field .label,
+html:not(.theme-dark) body:not(.theme-dark) .customer-meta,
+html:not(.theme-dark) body:not(.theme-dark) .card-meta,
+html:not(.theme-dark) body:not(.theme-dark) .meta-text {
+  color: #5b6b86 !important;
+  -webkit-text-fill-color: #5b6b86 !important;
+  text-shadow: none !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .glass-card .text-white:not(.btn):not(.badge):not(.status-badge):not(.type-badge),
+html:not(.theme-dark) body:not(.theme-dark) .premium-card .text-white:not(.btn):not(.badge):not(.status-badge):not(.type-badge),
+html:not(.theme-dark) body:not(.theme-dark) .modal-card .text-white:not(.btn):not(.badge):not(.status-badge):not(.type-badge),
+html:not(.theme-dark) body:not(.theme-dark) .info-section .text-white:not(.btn):not(.badge):not(.status-badge):not(.type-badge),
+html:not(.theme-dark) body:not(.theme-dark) .record-card .text-white:not(.btn):not(.badge):not(.status-badge):not(.type-badge),
+html:not(.theme-dark) body:not(.theme-dark) .detail-value,
+html:not(.theme-dark) body:not(.theme-dark) .detail-row .value,
+html:not(.theme-dark) body:not(.theme-dark) .info-row .value,
+html:not(.theme-dark) body:not(.theme-dark) .meta-row .value,
+html:not(.theme-dark) body:not(.theme-dark) .field-row .value,
+html:not(.theme-dark) body:not(.theme-dark) .request-field .value {
+  color: #172342 !important;
+  -webkit-text-fill-color: #172342 !important;
+  text-shadow: none !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .glass-card [style*="color: #64748b"]:not(.btn):not(.badge):not(.status-badge):not(.type-badge),
+html:not(.theme-dark) body:not(.theme-dark) .glass-card [style*="color:#64748b"]:not(.btn):not(.badge):not(.status-badge):not(.type-badge),
+html:not(.theme-dark) body:not(.theme-dark) .premium-card [style*="color: #64748b"]:not(.btn):not(.badge):not(.status-badge):not(.type-badge),
+html:not(.theme-dark) body:not(.theme-dark) .premium-card [style*="color:#64748b"]:not(.btn):not(.badge):not(.status-badge):not(.type-badge),
+html:not(.theme-dark) body:not(.theme-dark) .dashboard-card [style*="color: #64748b"]:not(.btn):not(.badge):not(.status-badge):not(.type-badge),
+html:not(.theme-dark) body:not(.theme-dark) .dashboard-card [style*="color:#64748b"]:not(.btn):not(.badge):not(.status-badge):not(.type-badge),
+html:not(.theme-dark) body:not(.theme-dark) .table-card [style*="color: #64748b"]:not(.btn):not(.badge):not(.status-badge):not(.type-badge),
+html:not(.theme-dark) body:not(.theme-dark) .table-card [style*="color:#64748b"]:not(.btn):not(.badge):not(.status-badge):not(.type-badge),
+html:not(.theme-dark) body:not(.theme-dark) .info-section [style*="color: #64748b"]:not(.btn):not(.badge):not(.status-badge):not(.type-badge),
+html:not(.theme-dark) body:not(.theme-dark) .info-section [style*="color:#64748b"]:not(.btn):not(.badge):not(.status-badge):not(.type-badge),
+html:not(.theme-dark) body:not(.theme-dark) .record-card [style*="color: #64748b"]:not(.btn):not(.badge):not(.status-badge):not(.type-badge),
+html:not(.theme-dark) body:not(.theme-dark) .record-card [style*="color:#64748b"]:not(.btn):not(.badge):not(.status-badge):not(.type-badge),
+html:not(.theme-dark) body:not(.theme-dark) .modal-card [style*="color: #64748b"]:not(.btn):not(.badge):not(.status-badge):not(.type-badge),
+html:not(.theme-dark) body:not(.theme-dark) .modal-card [style*="color:#64748b"]:not(.btn):not(.badge):not(.status-badge):not(.type-badge),
+html:not(.theme-dark) body:not(.theme-dark) .modal-content [style*="color: #64748b"]:not(.btn):not(.badge):not(.status-badge):not(.type-badge),
+html:not(.theme-dark) body:not(.theme-dark) .modal-content [style*="color:#64748b"]:not(.btn):not(.badge):not(.status-badge):not(.type-badge),
+html:not(.theme-dark) body:not(.theme-dark) .process-modal-content [style*="color: #64748b"]:not(.btn):not(.badge):not(.status-badge):not(.type-badge),
+html:not(.theme-dark) body:not(.theme-dark) .process-modal-content [style*="color:#64748b"]:not(.btn):not(.badge):not(.status-badge):not(.type-badge) {
+  color: #475569 !important;
+  -webkit-text-fill-color: #475569 !important;
+  text-shadow: none !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .glass-card [style*="color: #94a3b8"]:not(.btn):not(.badge):not(.status-badge):not(.type-badge),
+html:not(.theme-dark) body:not(.theme-dark) .glass-card [style*="color:#94a3b8"]:not(.btn):not(.badge):not(.status-badge):not(.type-badge),
+html:not(.theme-dark) body:not(.theme-dark) .premium-card [style*="color: #94a3b8"]:not(.btn):not(.badge):not(.status-badge):not(.type-badge),
+html:not(.theme-dark) body:not(.theme-dark) .premium-card [style*="color:#94a3b8"]:not(.btn):not(.badge):not(.status-badge):not(.type-badge),
+html:not(.theme-dark) body:not(.theme-dark) .dashboard-card [style*="color: #94a3b8"]:not(.btn):not(.badge):not(.status-badge):not(.type-badge),
+html:not(.theme-dark) body:not(.theme-dark) .dashboard-card [style*="color:#94a3b8"]:not(.btn):not(.badge):not(.status-badge):not(.type-badge),
+html:not(.theme-dark) body:not(.theme-dark) .table-card [style*="color: #94a3b8"]:not(.btn):not(.badge):not(.status-badge):not(.type-badge),
+html:not(.theme-dark) body:not(.theme-dark) .table-card [style*="color:#94a3b8"]:not(.btn):not(.badge):not(.status-badge):not(.type-badge),
+html:not(.theme-dark) body:not(.theme-dark) .info-section [style*="color: #94a3b8"]:not(.btn):not(.badge):not(.status-badge):not(.type-badge),
+html:not(.theme-dark) body:not(.theme-dark) .info-section [style*="color:#94a3b8"]:not(.btn):not(.badge):not(.status-badge):not(.type-badge),
+html:not(.theme-dark) body:not(.theme-dark) .record-card [style*="color: #94a3b8"]:not(.btn):not(.badge):not(.status-badge):not(.type-badge),
+html:not(.theme-dark) body:not(.theme-dark) .record-card [style*="color:#94a3b8"]:not(.btn):not(.badge):not(.status-badge):not(.type-badge),
+html:not(.theme-dark) body:not(.theme-dark) .modal-card [style*="color: #94a3b8"]:not(.btn):not(.badge):not(.status-badge):not(.type-badge),
+html:not(.theme-dark) body:not(.theme-dark) .modal-card [style*="color:#94a3b8"]:not(.btn):not(.badge):not(.status-badge):not(.type-badge),
+html:not(.theme-dark) body:not(.theme-dark) .modal-content [style*="color: #94a3b8"]:not(.btn):not(.badge):not(.status-badge):not(.type-badge),
+html:not(.theme-dark) body:not(.theme-dark) .modal-content [style*="color:#94a3b8"]:not(.btn):not(.badge):not(.status-badge):not(.type-badge),
+html:not(.theme-dark) body:not(.theme-dark) .process-modal-content [style*="color: #94a3b8"]:not(.btn):not(.badge):not(.status-badge):not(.type-badge),
+html:not(.theme-dark) body:not(.theme-dark) .process-modal-content [style*="color:#94a3b8"]:not(.btn):not(.badge):not(.status-badge):not(.type-badge) {
+  color: #5b6b86 !important;
+  -webkit-text-fill-color: #5b6b86 !important;
+  text-shadow: none !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .glass-card [style*="color: rgba(255, 255, 255"]:not(.btn):not(.badge):not(.status-badge):not(.type-badge),
+html:not(.theme-dark) body:not(.theme-dark) .premium-card [style*="color: rgba(255, 255, 255"]:not(.btn):not(.badge):not(.status-badge):not(.type-badge),
+html:not(.theme-dark) body:not(.theme-dark) .dashboard-card [style*="color: rgba(255, 255, 255"]:not(.btn):not(.badge):not(.status-badge):not(.type-badge),
+html:not(.theme-dark) body:not(.theme-dark) .table-card [style*="color: rgba(255, 255, 255"]:not(.btn):not(.badge):not(.status-badge):not(.type-badge),
+html:not(.theme-dark) body:not(.theme-dark) .info-section [style*="color: rgba(255, 255, 255"]:not(.btn):not(.badge):not(.status-badge):not(.type-badge),
+html:not(.theme-dark) body:not(.theme-dark) .record-card [style*="color: rgba(255, 255, 255"]:not(.btn):not(.badge):not(.status-badge):not(.type-badge),
+html:not(.theme-dark) body:not(.theme-dark) .modal-card [style*="color: rgba(255, 255, 255"]:not(.btn):not(.badge):not(.status-badge):not(.type-badge),
+html:not(.theme-dark) body:not(.theme-dark) .modal-content [style*="color: rgba(255, 255, 255"]:not(.btn):not(.badge):not(.status-badge):not(.type-badge) {
+  color: #24314f !important;
+  -webkit-text-fill-color: #24314f !important;
+  text-shadow: none !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .glass-card svg,
+html:not(.theme-dark) body:not(.theme-dark) .premium-card svg,
+html:not(.theme-dark) body:not(.theme-dark) .dashboard-card svg,
+html:not(.theme-dark) body:not(.theme-dark) .table-card svg,
+html:not(.theme-dark) body:not(.theme-dark) .info-section svg,
+html:not(.theme-dark) body:not(.theme-dark) .record-card svg,
+html:not(.theme-dark) body:not(.theme-dark) .modal-card svg,
+html:not(.theme-dark) body:not(.theme-dark) .modal-content svg {
+  stroke: currentColor;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .glass-card [style*="border-top: 1px solid rgba(255, 255, 255"],
+html:not(.theme-dark) body:not(.theme-dark) .premium-card [style*="border-top: 1px solid rgba(255, 255, 255"],
+html:not(.theme-dark) body:not(.theme-dark) .dashboard-card [style*="border-top: 1px solid rgba(255, 255, 255"],
+html:not(.theme-dark) body:not(.theme-dark) .table-card [style*="border-top: 1px solid rgba(255, 255, 255"],
+html:not(.theme-dark) body:not(.theme-dark) .info-section [style*="border-top: 1px solid rgba(255, 255, 255"],
+html:not(.theme-dark) body:not(.theme-dark) .record-card [style*="border-top: 1px solid rgba(255, 255, 255"],
+html:not(.theme-dark) body:not(.theme-dark) .modal-card [style*="border-top: 1px solid rgba(255, 255, 255"],
+html:not(.theme-dark) body:not(.theme-dark) .modal-content [style*="border-top: 1px solid rgba(255, 255, 255"] {
+  border-top-color: #d8e2f4 !important;
+  border-bottom-color: #d8e2f4 !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .glass-card [style*="border-bottom: 1px solid rgba(255, 255, 255"],
+html:not(.theme-dark) body:not(.theme-dark) .premium-card [style*="border-bottom: 1px solid rgba(255, 255, 255"],
+html:not(.theme-dark) body:not(.theme-dark) .dashboard-card [style*="border-bottom: 1px solid rgba(255, 255, 255"],
+html:not(.theme-dark) body:not(.theme-dark) .table-card [style*="border-bottom: 1px solid rgba(255, 255, 255"],
+html:not(.theme-dark) body:not(.theme-dark) .info-section [style*="border-bottom: 1px solid rgba(255, 255, 255"],
+html:not(.theme-dark) body:not(.theme-dark) .record-card [style*="border-bottom: 1px solid rgba(255, 255, 255"],
+html:not(.theme-dark) body:not(.theme-dark) .modal-card [style*="border-bottom: 1px solid rgba(255, 255, 255"],
+html:not(.theme-dark) body:not(.theme-dark) .modal-content [style*="border-bottom: 1px solid rgba(255, 255, 255"] {
+  border-bottom-color: #d8e2f4 !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) #customersGrid .glass-card p,
+html:not(.theme-dark) body:not(.theme-dark) #customersGrid .glass-card span,
+html:not(.theme-dark) body:not(.theme-dark) #customersGrid .glass-card div[style*="color: #64748b"],
+html:not(.theme-dark) body:not(.theme-dark) #customersGrid .glass-card div[style*="color:#64748b"] {
+  color: #475569 !important;
+  -webkit-text-fill-color: #475569 !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) #customersGrid .glass-card h3,
+html:not(.theme-dark) body:not(.theme-dark) #customersGrid .glass-card .font-semibold:not(.btn) {
+  color: #172342 !important;
+  -webkit-text-fill-color: #172342 !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .info-section h3.text-muted,
+html:not(.theme-dark) body:not(.theme-dark) .record-card h3.text-muted,
+html:not(.theme-dark) body:not(.theme-dark) .glass-card h3.text-muted,
+html:not(.theme-dark) body:not(.theme-dark) .premium-card h3.text-muted {
+  color: #24314f !important;
+  -webkit-text-fill-color: #24314f !important;
+  letter-spacing: 0.04em;
+}
+
+/* Sidebar logo sizing: use the existing logo asset, displayed larger. */
+.sidebar .sidebar-header {
+  justify-content: center !important;
+  min-height: 226px !important;
+  padding-top: 1.35rem !important;
+  padding-bottom: 1.15rem !important;
+}
+
+.sidebar .sidebar-header a {
+  width: 100% !important;
+  text-align: center !important;
+}
+
+.sidebar .sidebar-header img {
+  height: 200px !important;
+  width: auto !important;
+  max-width: 98% !important;
+  object-fit: contain !important;
+  display: inline-block !important;
+}
+
+@media (max-width: 900px) {
+  .sidebar .sidebar-header {
+    min-height: 176px !important;
+  }
+
+  .sidebar .sidebar-header img {
+    height: 150px !important;
+  }
+}

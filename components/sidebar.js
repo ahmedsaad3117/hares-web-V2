@@ -56,9 +56,9 @@ function createSidebar(user) {
   const sidebarHTML = `
     <div class="sidebar ${isExpired ? 'subscription-expired' : ''}">
       <button class="mobile-close-sidebar" onclick="toggleSidebar()" aria-label="Close Menu">&times;</button>
-      <div class="sidebar-header" style="display: flex; justify-content: center; align-items: center; padding: 1.25rem 0 1rem;">
-        <a href="dashboard.html" style="display: block; cursor: pointer;">
-          <img src="../logo.png" alt="Q1KEY" style="height: 118px; width: auto; max-width: 96%;">
+      <div class="sidebar-header" style="display: flex; justify-content: center; align-items: center; padding: 1.35rem 0 1.15rem;">
+        <a href="dashboard.html" style="display: block; cursor: pointer; width: 100%; text-align: center;">
+          <img src="../logo.png" alt="Q1KEY" style="height: 200px; width: auto; max-width: 98%;">
         </a>
       </div>
       
