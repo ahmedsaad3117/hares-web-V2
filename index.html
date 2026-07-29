@@ -251,8 +251,8 @@
 
         .q1lp-hero-grid {
             display: grid;
-            grid-template-columns: minmax(0, 0.95fr) minmax(420px, 1.05fr);
-            gap: 42px;
+            grid-template-columns: minmax(0, 0.78fr) minmax(640px, 1.22fr);
+            gap: 36px;
             align-items: center;
         }
 
@@ -489,6 +489,203 @@
             color: #536077;
             font-weight: 800;
             text-align: center;
+        }
+
+        @keyframes q1lp-floaty {
+            0%, 100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes q1lp-draw-line {
+            from {
+                stroke-dashoffset: 270;
+            }
+
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        @keyframes q1lp-soft-pulse {
+            0%, 100% {
+                opacity: 0.78;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.04);
+            }
+        }
+
+        .q1lp-design-mock {
+            min-height: 700px;
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            padding: 18px 40px 30px 0;
+            animation: q1lp-floaty 6s ease-in-out infinite;
+        }
+
+        [dir="rtl"] .q1lp-design-mock {
+            padding: 18px 0 30px 40px;
+        }
+
+        .q1lp-design-panel,
+        .q1lp-design-phone {
+            background: #101d3d;
+            border: 1px solid rgba(139, 151, 189, 0.18);
+            box-shadow: 0 30px 60px -18px rgba(16, 29, 61, 0.45);
+        }
+
+        .q1lp-design-panel {
+            flex: 1;
+            min-width: 0;
+            min-height: 455px;
+            display: flex;
+            flex-direction: column;
+            border-radius: 22px;
+            padding: 20px 20px 26px;
+        }
+
+        .q1lp-design-window-dots {
+            display: flex;
+            gap: 7px;
+            margin-bottom: 16px;
+        }
+
+        .q1lp-design-window-dots span {
+            width: 10px;
+            height: 10px;
+            border-radius: 999px;
+        }
+
+        .q1lp-design-stats {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .q1lp-design-stat {
+            min-height: 122px;
+            padding: 16px 12px;
+            border-radius: 12px;
+            border-top: 3px solid var(--accent, #4d7cf0);
+            background: #182852;
+        }
+
+        .q1lp-design-stat span,
+        .q1lp-design-chart-title,
+        .q1lp-design-phone-stat span {
+            display: block;
+            color: #9ba9cf;
+            font-size: 11.5px;
+            line-height: 1.35;
+            font-weight: 800;
+        }
+
+        .q1lp-design-stat strong {
+            display: block;
+            margin-top: 9px;
+            color: #fff;
+            font-size: 21px;
+            line-height: 1.15;
+            font-weight: 950;
+            white-space: nowrap;
+        }
+
+        .q1lp-design-chart-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 12px;
+            flex: 1;
+        }
+
+        .q1lp-design-chart,
+        .q1lp-design-donut-card {
+            min-height: 245px;
+            border-radius: 14px;
+            background: #182852;
+            padding: 16px;
+        }
+
+        .q1lp-design-chart svg {
+            width: 100%;
+            height: 192px;
+            display: block;
+        }
+
+        .q1lp-design-chart-line {
+            stroke-dasharray: 270;
+            stroke-dashoffset: 270;
+            animation: q1lp-draw-line 1.8s ease-out 0.35s forwards;
+        }
+
+        .q1lp-design-donut-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .q1lp-design-donut-card .q1lp-design-chart-title {
+            align-self: stretch;
+        }
+
+        .q1lp-design-donut {
+            width: 104px;
+            height: 104px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #182852 47%, transparent 48%), conic-gradient(#4d7cf0 0 40%, #1ea34d 40% 70%, #f5a623 70% 100%);
+            box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.03);
+            animation: q1lp-soft-pulse 3.8s ease-in-out infinite;
+        }
+
+        .q1lp-design-phone {
+            position: relative;
+            inset: auto;
+            flex: 0 0 142px;
+            width: 142px;
+            min-height: 386px;
+            border: 3px solid #1b2c58;
+            border-radius: 30px;
+            padding: 16px 12px;
+        }
+
+        .q1lp-design-phone-notch {
+            width: 32px;
+            height: 4px;
+            margin: 0 auto 12px;
+            border-radius: 999px;
+            background: #3a4770;
+        }
+
+        .q1lp-design-phone-stat {
+            margin-bottom: 9px;
+            padding: 10px 7px;
+            border-radius: 9px;
+            border-top: 2px solid var(--accent, #4d7cf0);
+            background: #182852;
+        }
+
+        .q1lp-design-phone-stat strong {
+            display: block;
+            margin-top: 5px;
+            color: #fff;
+            font-size: 13px;
+            line-height: 1.15;
+            font-weight: 950;
+        }
+
+        .q1lp-old-hero-mock {
+            display: none;
         }
 
         .q1lp-section {
@@ -1042,6 +1239,72 @@
             color: #dbe7ff;
         }
 
+        html.theme-dark .q1lp .q1lp-hero-title,
+        html.theme-dark .q1lp .q1lp-section-title h2,
+        html.theme-dark .q1lp .q1lp-suitable-card,
+        html.theme-dark .q1lp .q1lp-suitable-card span:not(.q1lp-icon-box),
+        html.theme-dark .q1lp .q1lp-trust span,
+        html.theme-dark .q1lp .q1lp-step-card h3,
+        html.theme-dark .q1lp .q1lp-feature-card h3,
+        html.theme-dark .q1lp .feature-title,
+        html.theme-dark .q1lp .q1lp-plans .plan-name,
+        html.theme-dark .q1lp .q1lp-plans .plan-price,
+        html.theme-dark .q1lp .q1lp-plans .currency,
+        html.theme-dark .q1lp .q1lp-contact-cards h4,
+        html.theme-dark .q1lp .q1lp-compare-row>div:first-child,
+        html.theme-dark .q1lp .q1lp-footer {
+            color: #f8fbff !important;
+        }
+
+        html.theme-dark .q1lp .q1lp-hero-subtitle,
+        html.theme-dark .q1lp .q1lp-section-title p,
+        html.theme-dark .q1lp .q1lp-step-card p,
+        html.theme-dark .q1lp .q1lp-feature-card p,
+        html.theme-dark .q1lp .feature-desc,
+        html.theme-dark .q1lp .q1lp-plans .plan-duration,
+        html.theme-dark .q1lp .q1lp-contact-cards p,
+        html.theme-dark .q1lp .q1lp-footer span,
+        html.theme-dark .q1lp .q1lp-footer p {
+            color: #c8d4ea !important;
+        }
+
+        html.theme-dark .q1lp .q1lp-hero-title strong,
+        html.theme-dark .q1lp .q1lp-mark.yes,
+        html.theme-dark .q1lp .q1lp-trust i {
+            color: #4ade80 !important;
+        }
+
+        html.theme-dark .modal-content,
+        html.theme-dark .modal-content *,
+        html.theme-dark .success-view,
+        html.theme-dark .success-view *,
+        html.theme-dark .form-section,
+        html.theme-dark .form-section *,
+        html.theme-dark .request-info-box,
+        html.theme-dark .request-info-box *,
+        html.theme-dark .request-instructions,
+        html.theme-dark .request-instructions * {
+            color: #f8fbff;
+        }
+
+        html.theme-dark .modal-content p,
+        html.theme-dark .modal-content .modal-subtitle,
+        html.theme-dark .form-section p,
+        html.theme-dark .form-group small,
+        html.theme-dark .request-label,
+        html.theme-dark .instructions-list,
+        html.theme-dark .instructions-list li {
+            color: #c8d4ea !important;
+        }
+
+        html.theme-dark .plan-option-duration,
+        html.theme-dark .plan-option-price,
+        html.theme-dark .request-value,
+        html.theme-dark .instructions-title,
+        html.theme-dark .form-section-title {
+            color: #f8fbff !important;
+        }
+
         @media (max-width: 1080px) {
             .q1lp-nav {
                 position: fixed;
@@ -1128,6 +1391,42 @@
                 display: none;
             }
 
+            .q1lp-design-mock {
+                min-height: auto;
+                padding: 0;
+            }
+
+            [dir="rtl"] .q1lp-design-mock {
+                padding: 0;
+            }
+
+            .q1lp-design-panel {
+                min-height: auto;
+                padding: 14px;
+            }
+
+            .q1lp-design-stat {
+                min-height: 92px;
+            }
+
+            .q1lp-design-chart,
+            .q1lp-design-donut-card {
+                min-height: 145px;
+            }
+
+            .q1lp-design-chart svg {
+                height: 98px;
+            }
+
+            .q1lp-design-stats,
+            .q1lp-design-chart-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .q1lp-design-phone {
+                display: none;
+            }
+
             .q1lp-compare {
                 overflow-x: auto;
             }
@@ -1211,7 +1510,64 @@
                     </div>
                 </div>
 
-                <div class="q1lp-dashboard-mock" aria-hidden="true">
+                <div class="q1lp-dashboard-mock q1lp-design-mock" aria-hidden="true">
+                    <div class="q1lp-design-panel">
+                        <div class="q1lp-design-window-dots">
+                            <span style="background:#e0484f"></span>
+                            <span style="background:#f5a623"></span>
+                            <span style="background:#1ea34d"></span>
+                        </div>
+                        <div class="q1lp-design-stats">
+                            <div class="q1lp-design-stat" style="--accent:#e0484f">
+                                <span data-text-ar="&#1575;&#1604;&#1593;&#1605;&#1604;&#1575;&#1569; &#1575;&#1604;&#1605;&#1578;&#1571;&#1582;&#1585;&#1610;&#1606;" data-text-en="Late Customers">&#1575;&#1604;&#1593;&#1605;&#1604;&#1575;&#1569; &#1575;&#1604;&#1605;&#1578;&#1571;&#1582;&#1585;&#1610;&#1606;</span>
+                                <strong>5</strong>
+                            </div>
+                            <div class="q1lp-design-stat" style="--accent:#f5a623">
+                                <span data-text-ar="&#1573;&#1580;&#1605;&#1575;&#1604;&#1610; &#1575;&#1604;&#1610;&#1608;&#1605;" data-text-en="Today's Total">&#1573;&#1580;&#1605;&#1575;&#1604;&#1610; &#1575;&#1604;&#1610;&#1608;&#1605;</span>
+                                <strong>12,450</strong>
+                            </div>
+                            <div class="q1lp-design-stat" style="--accent:#1ea34d">
+                                <span data-text-ar="&#1573;&#1580;&#1605;&#1575;&#1604;&#1610; &#1575;&#1604;&#1588;&#1607;&#1585;" data-text-en="Monthly Total">&#1573;&#1580;&#1605;&#1575;&#1604;&#1610; &#1575;&#1604;&#1588;&#1607;&#1585;</span>
+                                <strong>18,760</strong>
+                            </div>
+                            <div class="q1lp-design-stat" style="--accent:#4d7cf0">
+                                <span data-text-ar="&#1573;&#1580;&#1605;&#1575;&#1604;&#1610; &#1575;&#1604;&#1593;&#1575;&#1605;" data-text-en="Yearly Total">&#1573;&#1580;&#1605;&#1575;&#1604;&#1610; &#1575;&#1604;&#1593;&#1575;&#1605;</span>
+                                <strong>75,230</strong>
+                            </div>
+                        </div>
+                        <div class="q1lp-design-chart-grid">
+                            <div class="q1lp-design-chart">
+                                <div class="q1lp-design-chart-title" data-text-ar="&#1578;&#1581;&#1589;&#1610;&#1604; &#1607;&#1584;&#1575; &#1575;&#1604;&#1571;&#1587;&#1576;&#1608;&#1593;" data-text-en="Weekly collection">&#1578;&#1581;&#1589;&#1610;&#1604; &#1607;&#1584;&#1575; &#1575;&#1604;&#1571;&#1587;&#1576;&#1608;&#1593;</div>
+                                <svg viewBox="0 0 200 76" preserveAspectRatio="none">
+                                    <polyline points="0,58 30,51 60,53 90,33 120,38 150,17 200,12" fill="none" stroke="#4d7cf0" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" class="q1lp-design-chart-line" />
+                                    <circle cx="150" cy="17" r="4" fill="#4d7cf0"></circle>
+                                    <circle cx="200" cy="12" r="4" fill="#4d7cf0"></circle>
+                                </svg>
+                            </div>
+                            <div class="q1lp-design-donut-card">
+                                <div class="q1lp-design-chart-title" data-text-ar="&#1578;&#1608;&#1586;&#1610;&#1593; &#1575;&#1604;&#1571;&#1606;&#1588;&#1591;&#1577;" data-text-en="Activity mix">&#1578;&#1608;&#1586;&#1610;&#1593; &#1575;&#1604;&#1571;&#1606;&#1588;&#1591;&#1577;</div>
+                                <div class="q1lp-design-donut"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="q1lp-design-phone">
+                        <div class="q1lp-design-phone-notch"></div>
+                        <div class="q1lp-design-phone-stat" style="--accent:#e0484f">
+                            <span data-text-ar="&#1605;&#1578;&#1571;&#1582;&#1585;" data-text-en="Late">&#1605;&#1578;&#1571;&#1582;&#1585;</span>
+                            <strong>5</strong>
+                        </div>
+                        <div class="q1lp-design-phone-stat" style="--accent:#f5a623">
+                            <span data-text-ar="&#1575;&#1604;&#1610;&#1608;&#1605;" data-text-en="Today">&#1575;&#1604;&#1610;&#1608;&#1605;</span>
+                            <strong>12,450</strong>
+                        </div>
+                        <div class="q1lp-design-phone-stat" style="--accent:#1ea34d">
+                            <span data-text-ar="&#1575;&#1604;&#1588;&#1607;&#1585;" data-text-en="Month">&#1575;&#1604;&#1588;&#1607;&#1585;</span>
+                            <strong>18,760</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="q1lp-dashboard-mock q1lp-old-hero-mock" aria-hidden="true">
                     <div class="q1lp-laptop">
                         <div class="q1lp-screen">
                             <div class="q1lp-screen-main">
