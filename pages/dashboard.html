@@ -15,7 +15,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title data-i18n-key="navigation.dashboard">Dashboard - Q1KEY Platform</title>
   <link rel="icon" type="image/png" href="../logo.png">
-  <link rel="stylesheet" href="../css/styles.css?v=49">
+  <link rel="stylesheet" href="../css/styles.css?v=52">
   <script src="../js/i18n.js"></script>
   <style>
     /* Disable text selection globally */
@@ -52,6 +52,79 @@
     <div id="header"></div>
 
     <div class="page-content">
+      <section class="q1-dashboard-hero mb-8" id="dashboardHero">
+        <div class="q1-hero-copy">
+          <span class="q1-hero-badge" data-i18n-key="dashboard.hero_badge">Live collection overview</span>
+          <h1>
+            <span data-i18n-key="dashboard.hero_title">Do not miss any installment</span>
+            <strong data-i18n-key="dashboard.hero_highlight">after today</strong>
+          </h1>
+          <p data-i18n-key="dashboard.hero_subtitle">
+            Follow customers, loans, installments and alerts from one smart, clear dashboard.
+          </p>
+          <div class="q1-hero-actions">
+            <a href="customers-new.html" class="btn btn-primary">
+              <span>+</span>
+              <span data-i18n-key="dashboard.actions.add_customer">Add Customer</span>
+            </a>
+            <a href="loans-new.html" class="btn btn-secondary">
+              <span>▶</span>
+              <span data-i18n-key="dashboard.actions.issue_loan">Issue Loan</span>
+            </a>
+          </div>
+          <div class="q1-hero-trust">
+            <span>✓ <span data-i18n-key="dashboard.hero_secure">Secure data</span></span>
+            <span>✓ <span data-i18n-key="dashboard.hero_reports">Smart reports</span></span>
+            <span>✓ <span data-i18n-key="dashboard.hero_alerts">Collection alerts</span></span>
+          </div>
+        </div>
+
+        <div class="q1-hero-visual">
+          <div class="q1-device-panel">
+            <div class="q1-mini-grid">
+              <div class="q1-mini-stat q1-blue">
+                <span data-i18n-key="dashboard.stats.total_portfolio">Total Portfolio</span>
+                <strong id="heroPortfolioAmount">0</strong>
+              </div>
+              <div class="q1-mini-stat q1-green">
+                <span data-i18n-key="dashboard.hero_collected_month">Collected</span>
+                <strong id="heroCollectedAmount">0</strong>
+              </div>
+              <div class="q1-mini-stat q1-orange">
+                <span data-i18n-key="dashboard.installments_report.pending">Pending</span>
+                <strong id="heroPendingAmount">0</strong>
+              </div>
+              <div class="q1-mini-stat q1-red">
+                <span data-i18n-key="dashboard.installments_report.overdue">Overdue</span>
+                <strong id="heroOverdueCount">0</strong>
+              </div>
+            </div>
+            <div class="q1-chart-row">
+              <div class="q1-line-chart" aria-hidden="true">
+                <span style="height: 30%"></span>
+                <span style="height: 46%"></span>
+                <span style="height: 38%"></span>
+                <span style="height: 62%"></span>
+                <span style="height: 56%"></span>
+                <span style="height: 74%"></span>
+                <span style="height: 88%"></span>
+              </div>
+              <div class="q1-donut" id="collectionDonut" style="--rate: 0;">
+                <strong id="collectionRateValue">0%</strong>
+                <span data-i18n-key="dashboard.collection_rate">Collection</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="q1-section-heading">
+        <div>
+          <span class="q1-section-chip" data-i18n-key="dashboard.overview_title">Platform Metrics</span>
+          <h2 data-i18n-key="dashboard.overview_subtitle">Your most important business numbers</h2>
+        </div>
+      </section>
+
       <!-- Dashboard Actions -->
       <div class="flex justify-end mb-6" style="display: flex; justify-content: flex-end; gap: 0.75rem;">
         <button onclick="printDashboard()" class="btn btn-secondary" title="Print Dashboard">
@@ -141,6 +214,53 @@
           </div>
         </div>
       </div>
+
+      <section class="glass-card q1-flow-section mb-8">
+        <div class="q1-section-heading compact">
+          <span class="q1-section-chip" data-i18n-key="dashboard.business_flow_title">How Q1KEY works</span>
+          <h2 data-i18n-key="dashboard.business_flow_subtitle">A clear flow from sale to collection</h2>
+        </div>
+        <div class="q1-flow-grid">
+          <div class="q1-flow-card">
+            <span class="q1-flow-number">1</span>
+            <div class="q1-flow-icon">👤</div>
+            <h3 data-i18n-key="dashboard.flow_customer_title">Add Customer</h3>
+            <p data-i18n-key="dashboard.flow_customer_desc">Register customer information once and keep it ready.</p>
+          </div>
+          <div class="q1-flow-card">
+            <span class="q1-flow-number">2</span>
+            <div class="q1-flow-icon">🛒</div>
+            <h3 data-i18n-key="dashboard.flow_sale_title">Record Sale</h3>
+            <p data-i18n-key="dashboard.flow_sale_desc">Connect the product, loan amount and responsible branch.</p>
+          </div>
+          <div class="q1-flow-card">
+            <span class="q1-flow-number">3</span>
+            <div class="q1-flow-icon">📆</div>
+            <h3 data-i18n-key="dashboard.flow_schedule_title">Schedule Installments</h3>
+            <p data-i18n-key="dashboard.flow_schedule_desc">Create a clear payment calendar for every customer.</p>
+          </div>
+          <div class="q1-flow-card">
+            <span class="q1-flow-number">4</span>
+            <div class="q1-flow-icon">💳</div>
+            <h3 data-i18n-key="dashboard.flow_collect_title">Follow Collection</h3>
+            <p data-i18n-key="dashboard.flow_collect_desc">Track paid, pending and late installments instantly.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="glass-card q1-dashboard-panel q1-health-panel mb-8">
+        <div class="q1-panel-title-row">
+          <div>
+            <span class="q1-section-chip" data-i18n-key="dashboard.health_title">Today Focus</span>
+            <h2 class="text-xl font-bold text-white" data-i18n-key="dashboard.health_desc">What needs attention now</h2>
+          </div>
+        </div>
+        <div id="dashboardHealth" class="q1-health-list">
+          <div class="skeleton skeleton-text"></div>
+          <div class="skeleton skeleton-text"></div>
+          <div class="skeleton skeleton-text"></div>
+        </div>
+      </section>
 
       <!-- Quick Actions and Recent Activity -->
       <div class="grid grid-cols-2 gap-6 mb-8">
@@ -263,16 +383,20 @@
           throw new Error(dashboardData.error);
         }
 
-        // 3. Render Statistics Grid
+        // 3. Render Q1KEY dashboard overview
+        renderDashboardHero(dashboardData, user);
+        renderDashboardHealth(dashboardData, user);
+
+        // 4. Render Statistics Grid
         renderStatsGrid(dashboardData, user);
 
-        // 4. Render Quick Actions
+        // 5. Render Quick Actions
         renderQuickActions();
 
-        // 5. Render Recent Activity
+        // 6. Render Recent Activity
         renderRecentActivity(dashboardData.activities || []);
 
-        // 6. Render Installments Report
+        // 7. Render Installments Report
         renderInstallmentsSummary(dashboardData.installments);
 
       } catch (error) {
@@ -482,6 +606,301 @@
       }).join('');
 
       container.innerHTML = `<div class="activity-container-new">${activitiesHTML}</div>`;
+    }
+
+    function q1Number(value) {
+      const locale = (window.i18n && i18n.currentLocale) || document.documentElement.lang || 'ar';
+      return new Intl.NumberFormat(locale, { maximumFractionDigits: 0 }).format(Number(value || 0));
+    }
+
+    function q1SafeNumber(value) {
+      return Number(value || 0);
+    }
+
+    function q1StatusCount(stats, names) {
+      const list = stats?.loansByStatus || [];
+      const wanted = names.map(name => String(name).toLowerCase());
+      return q1SafeNumber(list.find(item => wanted.includes(String(item.status || '').toLowerCase()))?.count);
+    }
+
+    function q1InstallmentStatus(installments, names) {
+      const list = installments?.byStatus || [];
+      const wanted = names.map(name => String(name).toLowerCase());
+      return list.find(item => wanted.includes(String(item.status || '').toLowerCase())) || { count: 0, amount: 0 };
+    }
+
+    function q1SetText(id, value) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = value;
+    }
+
+    function renderDashboardHero(data, user) {
+      const stats = data?.stats || {};
+      const installments = data?.installments || {};
+      const totals = installments?.totals || {};
+      const paid = q1InstallmentStatus(installments, ['Paid', 'paid']);
+      const pending = q1InstallmentStatus(installments, ['Pending', 'pending']);
+      const overdue = q1InstallmentStatus(installments, ['Overdue', 'overdue', 'Late', 'late']);
+      const totalCount = q1SafeNumber(totals.count);
+      const paidCount = q1SafeNumber(paid.count);
+      const collectionRate = totalCount > 0 ? Math.round((paidCount / totalCount) * 100) : 0;
+
+      q1SetText('heroPortfolioAmount', formatCurrency(q1SafeNumber(stats.totalLoanAmount)));
+      q1SetText('heroCollectedAmount', formatCurrency(q1SafeNumber(paid.amount)));
+      q1SetText('heroPendingAmount', formatCurrency(q1SafeNumber(pending.amount)));
+      q1SetText('heroOverdueCount', q1Number(overdue.count));
+      q1SetText('collectionRateValue', `${collectionRate}%`);
+
+      const donut = document.getElementById('collectionDonut');
+      if (donut) donut.style.setProperty('--rate', collectionRate);
+    }
+
+    function renderDashboardHealth(data, user) {
+      const container = document.getElementById('dashboardHealth');
+      if (!container) return;
+
+      const stats = data?.stats || {};
+      const installments = data?.installments || {};
+      const systemCounts = data?.systemCounts || {};
+      const paid = q1InstallmentStatus(installments, ['Paid', 'paid']);
+      const pending = q1InstallmentStatus(installments, ['Pending', 'pending']);
+      const overdue = q1InstallmentStatus(installments, ['Overdue', 'overdue', 'Late', 'late']);
+      const activeLoans = q1StatusCount(stats, ['Active', 'active']);
+      const lateLoans = q1StatusCount(stats, ['Late', 'late', 'Overdue', 'overdue']);
+      const totalInstallments = q1SafeNumber(installments?.totals?.count);
+      const paidRate = totalInstallments > 0 ? Math.round((q1SafeNumber(paid.count) / totalInstallments) * 100) : 0;
+      const riskLabel = lateLoans > 0 || q1SafeNumber(overdue.count) > 0
+        ? t('dashboard.risk_attention')
+        : t('dashboard.risk_low');
+
+      const items = [
+        {
+          icon: '⚠️',
+          tone: 'rose',
+          label: t('dashboard.stats.late_loans'),
+          value: q1Number(lateLoans || overdue.count),
+          meta: formatCurrency(q1SafeNumber(overdue.amount))
+        },
+        {
+          icon: '⌛',
+          tone: 'amber',
+          label: t('dashboard.installments_report.pending'),
+          value: q1Number(pending.count),
+          meta: formatCurrency(q1SafeNumber(pending.amount))
+        },
+        {
+          icon: '✅',
+          tone: 'green',
+          label: t('dashboard.collection_rate'),
+          value: `${paidRate}%`,
+          meta: riskLabel
+        },
+        {
+          icon: '💼',
+          tone: 'blue',
+          label: t('dashboard.stats.active_loans'),
+          value: q1Number(activeLoans || stats.totalLoans),
+          meta: `${q1Number(systemCounts.branches || stats.totalBranches)} ${t('dashboard.stats.locations')}`
+        }
+      ];
+
+      container.innerHTML = items.map(item => `
+        <div class="q1-health-item ${item.tone}">
+          <div class="q1-health-icon">${item.icon}</div>
+          <div>
+            <span>${item.label}</span>
+            <strong>${item.value}</strong>
+          </div>
+          <em>${item.meta}</em>
+        </div>
+      `).join('');
+    }
+
+    function renderStatsGrid(data, user) {
+      const stats = data?.stats || {};
+      const systemCounts = data?.systemCounts || {};
+      const roleName = (typeof getUserRoleName === 'function'
+        ? getUserRoleName(user)
+        : (user.roleName || user.role_name || '')
+      ).toLowerCase();
+      const totalBranches = q1SafeNumber(stats.totalBranches || systemCounts.branches);
+      const totalInstitutions = q1SafeNumber(systemCounts.institutions || stats.totalInstitutions);
+      const totalCustomers = q1SafeNumber(stats.totalCustomers);
+      const totalLoans = q1SafeNumber(stats.totalLoans);
+      const totalLoanAmount = q1SafeNumber(stats.totalLoanAmount);
+      const activeLoans = q1StatusCount(stats, ['Active', 'active']);
+      const lateLoans = q1StatusCount(stats, ['Late', 'late', 'Overdue', 'overdue']);
+      const pendingLoans = q1StatusCount(stats, ['Pending', 'pending']);
+      const finishedLoans = q1StatusCount(stats, ['Finished', 'finished', 'Completed', 'completed']);
+
+      const cards = [];
+      if (roleName === 'super admin') {
+        cards.push({
+          href: 'institutions.html',
+          icon: '🏛️',
+          theme: 'theme-violet',
+          value: totalInstitutions,
+          label: t('dashboard.stats.total_institutions'),
+          meta: t('dashboard.stats.all_time')
+        });
+      }
+
+      cards.push(
+        {
+          href: 'branches.html',
+          icon: '🏢',
+          theme: 'theme-blue',
+          value: totalBranches,
+          label: t('dashboard.stats.total_branches'),
+          meta: t('dashboard.stats.locations')
+        },
+        {
+          href: 'customers.html',
+          icon: '👥',
+          theme: 'theme-indigo',
+          value: totalCustomers,
+          label: t('dashboard.stats.total_customers'),
+          meta: t('dashboard.stats.all_time')
+        },
+        {
+          href: 'loans.html',
+          icon: '💰',
+          theme: 'theme-emerald',
+          value: totalLoans,
+          label: t('dashboard.stats.total_loans'),
+          meta: formatCurrency(totalLoanAmount)
+        },
+        {
+          href: 'loans.html?filter=active',
+          icon: '✅',
+          theme: 'theme-emerald',
+          value: activeLoans,
+          label: t('dashboard.stats.active_loans'),
+          meta: t('dashboard.stats.disbursed')
+        },
+        {
+          href: 'loans.html?filter=pending',
+          icon: '⌛',
+          theme: 'theme-amber',
+          value: pendingLoans,
+          label: t('dashboard.stats.pending_loans'),
+          meta: t('dashboard.installments_report.pending')
+        },
+        {
+          href: 'loans.html?filter=late',
+          icon: '⚠️',
+          theme: 'theme-rose',
+          value: lateLoans,
+          label: t('dashboard.stats.late_loans'),
+          meta: t('dashboard.stats.late')
+        },
+        {
+          href: 'loans.html?filter=finished',
+          icon: '📌',
+          theme: 'theme-blue',
+          value: finishedLoans,
+          label: t('dashboard.finished_loans'),
+          meta: t('dashboard.stats.all_time')
+        }
+      );
+
+      document.getElementById('statsGrid').innerHTML = `
+        <div class="q1-kpi-grid">
+          ${cards.map(card => `
+            <a href="${card.href}" class="premium-card dashboard-card q1-kpi-card ${card.theme} clickable-card">
+              <div class="premium-icon-box">${card.icon}</div>
+              <div class="premium-content">
+                <div class="premium-value">${q1Number(card.value)}</div>
+                <div class="premium-label">
+                  <span>${card.label}</span>
+                  <span class="premium-indicator">${card.meta}</span>
+                </div>
+              </div>
+            </a>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    function renderQuickActions() {
+      const user = getCurrentUser();
+      const isSuperAdmin = typeof isSuperAdminUser === 'function'
+        ? isSuperAdminUser(user)
+        : (user.roleName === 'Super Admin' || user.role_name === 'Super Admin');
+      const actions = [
+        { icon: '👤', title: t('dashboard.actions.add_customer'), subtitle: t('dashboard.actions.add_customer_desc'), href: 'customers-new.html', tone: 'blue' },
+        { icon: '💰', title: t('dashboard.actions.issue_loan'), subtitle: t('dashboard.actions.issue_loan_desc'), href: 'loans-new.html', tone: 'green' },
+        { icon: '📅', title: t('dashboard.installments_report.title'), subtitle: t('dashboard.open_installments'), href: 'installments.html', tone: 'amber' },
+      ];
+
+      if (isSuperAdmin) {
+        actions.push({ icon: '🏛️', title: t('dashboard.actions.add_institution'), subtitle: t('dashboard.actions.add_institution_desc'), href: 'institutions-new.html', tone: 'violet' });
+      } else {
+        actions.push({ icon: '🏢', title: t('dashboard.actions.add_branch'), subtitle: t('dashboard.actions.add_branch_desc'), href: 'branches-new.html', tone: 'violet' });
+      }
+
+      const target = document.getElementById('quickActions');
+      target.className = 'q1-quick-actions';
+      target.innerHTML = actions.map(action => `
+        <a href="${action.href}" class="q1-quick-action ${action.tone}">
+          <span class="q1-quick-icon">${action.icon}</span>
+          <span>
+            <strong>${action.title}</strong>
+            <small>${action.subtitle}</small>
+          </span>
+        </a>
+      `).join('');
+    }
+
+    function renderRecentActivity(activities) {
+      const container = document.getElementById('recentActivity');
+      if (!activities || activities.length === 0) {
+        container.innerHTML = `<div class="q1-empty-state">${t('dashboard.recent_activity.empty') || 'No recent activity found'}</div>`;
+        return;
+      }
+
+      const activitiesHTML = activities.slice(0, 6).map(activity => {
+        let icon = '📝';
+        let color = '#0147f7';
+        const type = activity.type || '';
+        const customerName = activity.customerName || activity.customer_name || t('dashboard.activity.customer_generic');
+        const amount = activity.amount !== undefined ? activity.amount : 0;
+        let description = '';
+
+        if (type === 'loan_created') {
+          icon = '💰';
+          color = '#10b981';
+          description = t('dashboard.activity.loan_created', {
+            amount: formatCurrency(amount),
+            customer: customerName
+          });
+        } else if (type === 'customer_added') {
+          icon = '👤';
+          color = '#6366f1';
+          description = t('dashboard.activity.customer_added', { name: customerName });
+        } else if (type === 'payment_received') {
+          icon = '✅';
+          color = '#10b981';
+          description = t('dashboard.activity.payment_received', { amount: formatCurrency(amount) });
+        } else {
+          description = activity.description || t('dashboard.activity.no_activity');
+        }
+
+        return `
+          <div class="activity-card-new q1-activity-card" style="--accent: ${color}">
+            <div class="activity-icon-new">${icon}</div>
+            <div class="activity-info-new">
+              <div class="activity-desc-new">${description}</div>
+              <div class="activity-time-new">
+                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                ${formatDateTime(activity.timestamp || activity.createdAt || new Date())}
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      container.innerHTML = `<div class="activity-container-new q1-activity-list">${activitiesHTML}</div>`;
     }
 
     // Load installments report for date filtering

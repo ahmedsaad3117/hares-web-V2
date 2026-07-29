@@ -14,6 +14,7 @@
 // ============================================== //
 
 let currentLang = localStorage.getItem('locale') || 'ar';
+let currentTheme = localStorage.getItem('theme') === 'dark' ? 'dark' : 'light';
 let homepageData = null;
 let subscriptionPlans = [];
 
@@ -40,6 +41,7 @@ async function initializeHomepage() {
 
     // Set language attributes
     updateLanguageDirection();
+    applyTheme(currentTheme);
 
     // Load data from API
     await loadHomepageData();
@@ -117,9 +119,10 @@ function renderHeaderLinks(isAr) {
         // Fallback to section-based links with visibility checks
         const links = [
             { id: 'hero', url: '#hero', textAr: 'الرئيسية', textEn: 'Home', visible: true },
+            { id: 'suitable', url: '#suitable', textAr: 'مناسب لـ', textEn: 'Suitable For', visible: true },
+            { id: 'how', url: '#how', textAr: 'كيف يعمل', textEn: 'How It Works', visible: true },
             { id: 'features', url: '#features', textAr: 'المميزات', textEn: 'Features', visible: homepageData?.features?.visible !== false },
-            { id: 'plans', url: '#plans', textAr: 'الباقات', textEn: 'Plans', visible: homepageData?.plans?.visible !== false },
-            { id: 'about', url: '#about', textAr: 'من نحن', textEn: 'About', visible: homepageData?.about?.visible !== false },
+            { id: 'plans', url: '#plans', textAr: 'الاشتراكات', textEn: 'Subscriptions', visible: homepageData?.plans?.visible !== false },
             { id: 'contact', url: '#contact', textAr: 'تواصل معنا', textEn: 'Contact', visible: homepageData?.contact?.visible !== false }
         ];
 
@@ -137,46 +140,60 @@ function renderFeatures(isAr) {
 
     const defaultFeatures = [
         {
+            icon: '🔔',
+            titleAr: 'تنبيهات ذكية',
+            titleEn: 'Smart Alerts',
+            descAr: 'تذكير بالأقساط ومواعيدها عبر إشعارات تلقائية قبل التأخير',
+            descEn: 'Automatic reminders for installments and due dates before delays'
+        },
+        {
             icon: '📊',
-            titleAr: 'إدارة القروض',
-            titleEn: 'Loan Management',
-            descAr: 'تتبع وإدارة جميع القروض والأقساط بكل سهولة',
-            descEn: 'Track and manage all loans and installments easily'
+            titleAr: 'تقارير شاملة',
+            titleEn: 'Comprehensive Reports',
+            descAr: 'تقارير تفصيلية تساعدك على اتخاذ قرارات ذكية',
+            descEn: 'Detailed reports that help you make smart decisions'
         },
         {
-            icon: '👥',
-            titleAr: 'إدارة العملاء',
-            titleEn: 'Customer Management',
-            descAr: 'قاعدة بيانات متكاملة لإدارة بيانات العملاء',
-            descEn: 'Integrated database for customer data management'
+            icon: '📄',
+            titleAr: 'كشف حساب دوري',
+            titleEn: 'Periodic Statements',
+            descAr: 'أرسل كشف حساب للعميل بضغطة واحدة',
+            descEn: 'Send a customer statement in a single click'
         },
         {
-            icon: '🏢',
-            titleAr: 'إدارة الفروع',
-            titleEn: 'Branch Management',
-            descAr: 'تحكم كامل بجميع فروع المؤسسة من مكان واحد',
-            descEn: 'Full control over all branches from one place'
+            icon: '🛡️',
+            titleAr: 'بيانات آمنة',
+            titleEn: 'Secure Data',
+            descAr: 'حماية عالية لبياناتك والتزام بأعلى معايير الأمان',
+            descEn: 'High-grade protection with strict security standards'
         },
         {
-            icon: '📈',
-            titleAr: 'تقارير متقدمة',
-            titleEn: 'Advanced Reports',
-            descAr: 'تقارير مالية وإحصائية شاملة لاتخاذ قرارات أفضل',
-            descEn: 'Comprehensive financial and statistical reports'
+            icon: '✅',
+            titleAr: 'سهل وبسيط',
+            titleEn: 'Simple & Easy',
+            descAr: 'واجهة سهلة ومناسبة لجميع المستخدمين من أي جهاز',
+            descEn: 'An easy interface suited to every user, on any device'
         },
         {
-            icon: '🔒',
-            titleAr: 'أمان عالي',
-            titleEn: 'High Security',
-            descAr: 'حماية متقدمة للبيانات وفقاً لأعلى المعايير',
-            descEn: 'Advanced data protection with highest standards'
+            icon: '☁️',
+            titleAr: 'من أي مكان',
+            titleEn: 'From Anywhere',
+            descAr: 'ادخل على بياناتك من أي جهاز وفي أي وقت',
+            descEn: 'Access your data from any device, anytime'
         },
         {
-            icon: '📱',
-            titleAr: 'متوافق مع الجوال',
-            titleEn: 'Mobile Compatible',
-            descAr: 'واجهة متجاوبة تعمل على جميع الأجهزة',
-            descEn: 'Responsive interface works on all devices'
+            icon: '⚡',
+            titleAr: 'سريع وموثوق',
+            titleEn: 'Fast & Reliable',
+            descAr: 'واجهة سريعة وموثوقة وآمنة لجميع المستخدمين',
+            descEn: 'A fast, reliable, secure interface for every user'
+        },
+        {
+            icon: '24',
+            titleAr: 'دعم فني',
+            titleEn: 'Technical Support',
+            descAr: 'فريق دعم متاح دائماً لمساعدتك عند الحاجة',
+            descEn: 'A support team always available whenever you need help'
         }
     ];
 
@@ -185,8 +202,8 @@ function renderFeatures(isAr) {
         : defaultFeatures;
 
     grid.innerHTML = features.map(f => `
-        <div class="feature-card">
-            <div class="feature-icon">${f.icon || f.iconAr || '✨'}</div>
+        <div class="feature-card q1lp-feature-card">
+            <div class="feature-icon q1lp-icon-box">${f.icon || f.iconAr || '✨'}</div>
             <h3 class="feature-title">${isAr ? (f.titleAr || f.title) : (f.titleEn || f.title)}</h3>
             <p class="feature-desc">${isAr ? (f.descAr || f.desc) : (f.descEn || f.desc)}</p>
         </div>
@@ -238,6 +255,14 @@ function renderContactCards(isAr) {
 
     const whatsapp = homepageData?.contact?.whatsappNumber || '+966500000000';
     const email = homepageData?.contact?.supportEmail || 'support@q1key.com';
+    const supportWhatsappLink = document.getElementById('q1SupportWhatsappLink');
+    const supportWhatsappText = document.getElementById('q1SupportWhatsappText');
+    if (supportWhatsappLink) {
+        supportWhatsappLink.href = `https://wa.me/${whatsapp.replace(/[^0-9]/g, '')}`;
+    }
+    if (supportWhatsappText) {
+        supportWhatsappText.textContent = whatsapp;
+    }
 
     container.innerHTML = `
         <a href="https://wa.me/${whatsapp.replace(/[^0-9]/g, '')}" class="contact-card" target="_blank">
@@ -275,8 +300,8 @@ function renderFooterLinks(isAr) {
 
     const defaultLinks = [
         { textAr: 'المميزات', textEn: 'Features', url: '#features' },
-        { textAr: 'الباقات', textEn: 'Plans', url: '#plans' },
-        { textAr: 'من نحن', textEn: 'About', url: '#about' },
+        { textAr: 'الاشتراكات', textEn: 'Subscriptions', url: '#plans' },
+        { textAr: 'كيف يعمل', textEn: 'How It Works', url: '#how' },
         { textAr: 'تواصل معنا', textEn: 'Contact', url: '#contact' }
     ];
 
@@ -319,6 +344,7 @@ function toggleLanguage() {
     currentLang = currentLang === 'ar' ? 'en' : 'ar';
     localStorage.setItem('locale', currentLang);
     updateLanguageDirection();
+    updateThemeToggle();
     updateAllTexts();
     renderPage();
 }
@@ -328,12 +354,48 @@ function updateLanguageDirection() {
     document.documentElement.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
 }
 
+// ============================================== //
+//                THEME MANAGEMENT                //
+// ============================================== //
+
+function toggleTheme() {
+    currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    localStorage.setItem('theme', currentTheme);
+    applyTheme(currentTheme);
+}
+
+function applyTheme(theme) {
+    const isDark = theme === 'dark';
+    document.documentElement.classList.toggle('theme-dark', isDark);
+    document.body?.classList.toggle('theme-dark', isDark);
+    updateThemeToggle();
+}
+
+function updateThemeToggle() {
+    const toggle = document.getElementById('themeToggle');
+    const icon = document.getElementById('themeIcon');
+    if (!toggle || !icon) return;
+
+    const isDark = currentTheme === 'dark';
+    const isAr = currentLang === 'ar';
+    icon.textContent = isDark ? '☀' : '☾';
+    toggle.setAttribute('aria-pressed', String(isDark));
+    toggle.setAttribute(
+        'aria-label',
+        isDark
+            ? (isAr ? toggle.dataset.labelDarkAr : toggle.dataset.labelDarkEn)
+            : (isAr ? toggle.dataset.labelLightAr : toggle.dataset.labelLightEn)
+    );
+    toggle.title = toggle.getAttribute('aria-label');
+}
+
 function updateAllTexts() {
     const isAr = currentLang === 'ar';
 
     // Update language toggle button
     const langLabel = document.getElementById('langLabel');
-    if (langLabel) langLabel.textContent = isAr ? 'EN' : 'ع';
+    if (langLabel) langLabel.textContent = isAr ? 'EN' : 'AR';
+    updateThemeToggle();
 
     // 1. Update Hero Section from homepageData
     if (homepageData?.hero) {

@@ -7,6 +7,9 @@
             var lang = localStorage.getItem('locale') || 'ar';
             document.documentElement.setAttribute('lang', lang);
             document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+            if (localStorage.getItem('theme') === 'dark') {
+                document.documentElement.classList.add('theme-dark');
+            }
 
             // Redirect logged-in users away from index.html immediately
             var token = localStorage.getItem('token');
@@ -32,6 +35,1326 @@
 </head>
 
 <body>
+    <style>
+        /* Show the converted Q1KEY standalone landing and keep old landing sections hidden. */
+        body>header.header,
+        body>section.hero,
+        body>section.features,
+        body>section.plans,
+        body>section.about,
+        body>section.contact,
+        body>footer.footer {
+            display: none !important;
+        }
+
+        .q1lp {
+            --blue: #0147f7;
+            --blue-2: #2b5cdb;
+            --navy: #101d3d;
+            --ink: #07163b;
+            --muted: #5c6478;
+            --line: #dbe6fb;
+            --soft: #f7f9fd;
+            --green: #079246;
+            font-family: 'Cairo', system-ui, sans-serif;
+            background: #fff;
+            color: var(--ink);
+            overflow-x: hidden;
+        }
+
+        [dir="ltr"] .q1lp {
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+
+        .q1lp * {
+            box-sizing: border-box;
+        }
+
+        .q1lp a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .q1lp-container {
+            width: min(1240px, calc(100% - 48px));
+            margin: 0 auto;
+        }
+
+        .q1lp-header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.94);
+            border-bottom: 1px solid #eef1f8;
+            backdrop-filter: blur(14px);
+        }
+
+        .q1lp-header.scrolled {
+            box-shadow: 0 10px 28px rgba(16, 29, 61, 0.08);
+        }
+
+        .q1lp-header-inner {
+            height: 76px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 18px;
+        }
+
+        .q1lp-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: max-content;
+        }
+
+        .q1lp-logo img {
+            height: 48px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .q1lp-logo-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.1;
+        }
+
+        .q1lp-logo-text strong {
+            color: var(--blue);
+            font-size: 25px;
+            font-weight: 900;
+            letter-spacing: 0.02em;
+        }
+
+        .q1lp-logo-text span {
+            color: #0d1b42;
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .q1lp-nav {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .q1lp-nav .nav-link {
+            padding: 9px 14px;
+            border-radius: 10px;
+            color: #4d5870;
+            font-size: 14.5px;
+            font-weight: 800;
+            transition: all 0.2s ease;
+        }
+
+        .q1lp-nav .nav-link:hover,
+        .q1lp-nav .nav-link:first-child {
+            background: #eef3fc;
+            color: #0d1b42;
+        }
+
+        .q1lp-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .q1lp-btn,
+        .q1lp button.q1lp-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            min-height: 42px;
+            padding: 0 18px;
+            border-radius: 9px;
+            border: 1.5px solid var(--blue);
+            font-weight: 900;
+            font-size: 14px;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+        }
+
+        .q1lp-btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .q1lp-btn.primary {
+            background: var(--blue);
+            color: #fff;
+            box-shadow: 0 10px 24px rgba(1, 71, 247, 0.22);
+        }
+
+        .q1lp-btn.outline {
+            background: #fff;
+            color: var(--blue);
+        }
+
+        .q1lp-btn.lang {
+            min-width: 46px;
+            padding: 0 12px;
+            background: #eef3fc;
+            border-color: #eef3fc;
+            color: var(--blue);
+        }
+
+        .q1lp-btn.theme-toggle {
+            width: 46px;
+            min-width: 46px;
+            padding: 0;
+            border-color: #dbe6fb;
+            background: #fff;
+            color: var(--blue);
+            box-shadow: 0 10px 24px rgba(16, 29, 61, 0.08);
+        }
+
+        .q1lp-btn.theme-toggle .q1lp-theme-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 22px;
+            height: 22px;
+            line-height: 1;
+            transition: transform 0.2s ease;
+        }
+
+        .q1lp-btn.theme-toggle:hover .q1lp-theme-icon {
+            transform: rotate(-12deg) scale(1.08);
+        }
+
+        .q1lp-mobile-btn {
+            display: none;
+            width: 42px;
+            height: 42px;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            background: #fff;
+        }
+
+        .q1lp-mobile-btn span {
+            width: 20px;
+            height: 2px;
+            border-radius: 999px;
+            background: var(--blue);
+        }
+
+        .q1lp-hero {
+            padding: 58px 0 34px;
+            background: linear-gradient(180deg, #fff 0%, #f7f9fd 100%);
+        }
+
+        .q1lp-hero-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 0.95fr) minmax(420px, 1.05fr);
+            gap: 42px;
+            align-items: center;
+        }
+
+        .q1lp-hero-copy {
+            text-align: start;
+        }
+
+        .q1lp-badge {
+            width: max-content;
+            padding: 7px 12px;
+            border-radius: 999px;
+            background: #eef3fc;
+            color: var(--blue);
+            font-size: 13px;
+            font-weight: 900;
+            margin-bottom: 18px;
+        }
+
+        .q1lp-hero-title {
+            font-size: clamp(36px, 4.3vw, 62px);
+            line-height: 1.28;
+            letter-spacing: -0.035em;
+            color: #07163b;
+            margin: 0;
+            font-weight: 950;
+        }
+
+        .q1lp-hero-title strong {
+            color: var(--blue);
+        }
+
+        .q1lp-hero-subtitle {
+            margin: 22px 0 0;
+            color: #1f2b4d;
+            font-size: clamp(17px, 1.5vw, 22px);
+            line-height: 1.85;
+            font-weight: 700;
+        }
+
+        .q1lp-hero-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-top: 28px;
+        }
+
+        .q1lp-hero-buttons .q1lp-btn {
+            min-height: 58px;
+            border-radius: 12px;
+            padding: 0 24px;
+            font-size: 16px;
+        }
+
+        .q1lp-btn.whatsapp {
+            background: #088b3c;
+            border-color: #088b3c;
+            color: #fff;
+        }
+
+        .q1lp-trust {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 22px;
+            color: #23304d;
+            font-size: 14.5px;
+            font-weight: 800;
+        }
+
+        .q1lp-trust span {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .q1lp-trust i {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: #1ea34d;
+            color: #fff;
+            font-size: 11px;
+            font-style: normal;
+        }
+
+        .q1lp-dashboard-mock {
+            position: relative;
+            min-height: 430px;
+        }
+
+        .q1lp-laptop {
+            position: relative;
+            background: #050b1c;
+            border-radius: 18px;
+            padding: 12px;
+            box-shadow: 0 30px 60px rgba(16, 29, 61, 0.24);
+        }
+
+        .q1lp-screen {
+            display: grid;
+            grid-template-columns: 1fr 92px;
+            min-height: 348px;
+            overflow: hidden;
+            border-radius: 10px;
+            background: #fff;
+        }
+
+        .q1lp-screen-main {
+            padding: 22px;
+        }
+
+        .q1lp-screen-side {
+            padding: 20px 10px;
+            background: #101d3d;
+            color: #fff;
+        }
+
+        .q1lp-screen-side strong {
+            display: block;
+            margin-bottom: 18px;
+            text-align: center;
+            color: #fff;
+            font-weight: 950;
+        }
+
+        .q1lp-screen-side span {
+            display: block;
+            margin: 11px 0;
+            padding: 7px 8px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.06);
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .q1lp-mini-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .q1lp-mini-stat {
+            padding: 12px 10px;
+            border-radius: 11px;
+            text-align: center;
+            background: #f5f8ff;
+            border: 1px solid #eef1f8;
+        }
+
+        .q1lp-mini-stat span {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 11px;
+            color: #647086;
+            font-weight: 800;
+        }
+
+        .q1lp-mini-stat strong {
+            display: block;
+            font-size: 17px;
+            color: var(--blue);
+            font-weight: 950;
+        }
+
+        .q1lp-chart-row {
+            display: grid;
+            grid-template-columns: 1fr 150px;
+            gap: 18px;
+            align-items: center;
+        }
+
+        .q1lp-bars {
+            height: 190px;
+            display: flex;
+            gap: 11px;
+            align-items: end;
+            padding: 18px;
+            border: 1px solid #eef1f8;
+            border-radius: 14px;
+            background: linear-gradient(to top, #f3f6fc 1px, transparent 1px) 0 0 / 100% 25%, #fff;
+        }
+
+        .q1lp-bars i {
+            flex: 1;
+            min-width: 10px;
+            border-radius: 999px 999px 6px 6px;
+            background: linear-gradient(180deg, var(--blue), #6ca0ff);
+            box-shadow: 0 8px 16px rgba(1, 71, 247, 0.18);
+        }
+
+        .q1lp-donut {
+            width: 134px;
+            height: 134px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: radial-gradient(circle, #fff 52%, transparent 53%), conic-gradient(#ef4444 0 28%, #f59e0b 28% 58%, #1ea34d 58% 100%);
+            border: 1px solid #eef1f8;
+            color: #101d3d;
+            font-weight: 950;
+            text-align: center;
+        }
+
+        .q1lp-phone {
+            position: absolute;
+            inset-inline-end: -24px;
+            bottom: -10px;
+            width: 108px;
+            padding: 10px 8px;
+            border: 8px solid #050b1c;
+            border-radius: 24px;
+            background: #fff;
+            box-shadow: 0 24px 45px rgba(16, 29, 61, 0.24);
+        }
+
+        .q1lp-phone strong {
+            display: block;
+            color: var(--blue);
+            font-size: 11px;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+
+        .q1lp-phone-card {
+            margin: 6px 0;
+            padding: 6px;
+            border-radius: 8px;
+            background: #f5f8ff;
+            font-size: 10px;
+            color: #536077;
+            font-weight: 800;
+            text-align: center;
+        }
+
+        .q1lp-section {
+            padding: 44px 0;
+        }
+
+        .q1lp-section.soft {
+            background: var(--soft);
+        }
+
+        .q1lp-section-title {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .q1lp-section-title h2 {
+            margin: 0 0 8px;
+            color: #0d1b42;
+            font-size: 28px;
+            font-weight: 950;
+        }
+
+        .q1lp-section-title p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .q1lp-suitable,
+        .q1lp-steps,
+        .q1lp-why,
+        .q1lp-plans,
+        .q1lp-contact-cards {
+            display: grid;
+            gap: 14px;
+        }
+
+        .q1lp-suitable {
+            grid-template-columns: repeat(6, 1fr);
+            border: 1.5px solid var(--blue);
+            border-radius: 14px;
+            overflow: hidden;
+            background: #fff;
+        }
+
+        .q1lp-suitable-card {
+            min-height: 128px;
+            padding: 18px 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-align: center;
+            border-inline-start: 1px solid #eaf0fb;
+            color: #172342;
+            font-weight: 900;
+        }
+
+        .q1lp-suitable-card:first-child {
+            border-inline-start: 0;
+        }
+
+        .q1lp-icon-box {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            background: #eef3fc;
+            color: var(--blue);
+            font-weight: 950;
+        }
+
+        .q1lp-steps {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        .q1lp-step-card,
+        .q1lp-feature-card {
+            position: relative;
+            min-height: 194px;
+            padding: 24px 18px;
+            border: 1px solid #e5ecf8;
+            border-radius: 16px;
+            background: #fff;
+            text-align: center;
+            box-shadow: 0 14px 30px rgba(16, 29, 61, 0.04);
+        }
+
+        .q1lp-step-num {
+            position: absolute;
+            top: 14px;
+            inset-inline-end: 14px;
+            width: 28px;
+            height: 28px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            background: var(--blue);
+            color: #fff;
+            font-weight: 950;
+        }
+
+        .q1lp-step-card h3,
+        .q1lp-feature-card h3 {
+            margin: 12px 0 8px;
+            color: #0d1b42;
+            font-size: 17px;
+            font-weight: 950;
+        }
+
+        .q1lp-step-card p,
+        .q1lp-feature-card p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 13.5px;
+            line-height: 1.75;
+            font-weight: 650;
+        }
+
+        .q1lp-why {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        .q1lp-compare {
+            max-width: 1000px;
+            margin: 0 auto;
+            border: 1px solid #e5ecf8;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px -28px rgba(16, 29, 61, 0.2);
+        }
+
+        .q1lp-compare-row {
+            display: grid;
+            grid-template-columns: 1fr 0.7fr 0.7fr 0.9fr;
+        }
+
+        .q1lp-compare-row>div {
+            padding: 14px 16px;
+            border-top: 1px solid #eef1f8;
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        .q1lp-compare-head>div {
+            border-top: 0;
+            background: #f7f9fd;
+            color: #0d1b42;
+        }
+
+        .q1lp-compare-head>div:last-child {
+            background: var(--blue);
+            color: #fff;
+        }
+
+        .q1lp-mark {
+            text-align: center;
+            color: #e0484f;
+        }
+
+        .q1lp-mark.yes {
+            color: #1ea34d;
+            background: #f5f9ff;
+        }
+
+        .q1lp-plans {
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+        }
+
+        .q1lp .feature-card.q1lp-feature-card {
+            position: relative;
+            min-height: 194px;
+            padding: 24px 18px;
+            border: 1px solid #e5ecf8;
+            border-radius: 16px;
+            background: #fff;
+            text-align: center;
+            box-shadow: 0 14px 30px rgba(16, 29, 61, 0.04);
+        }
+
+        .q1lp .feature-card.q1lp-feature-card .feature-icon {
+            margin: 0 auto;
+            font-size: 18px;
+        }
+
+        .q1lp .feature-card.q1lp-feature-card .feature-title {
+            margin: 12px 0 8px;
+            color: #0d1b42;
+            font-size: 17px;
+            font-weight: 950;
+        }
+
+        .q1lp .feature-card.q1lp-feature-card .feature-desc {
+            margin: 0;
+            color: var(--muted);
+            font-size: 13.5px;
+            line-height: 1.75;
+            font-weight: 650;
+        }
+
+        .q1lp-plans .plan-card {
+            position: relative;
+            min-height: 286px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 28px 22px;
+            border: 1.5px solid #dbe6fb;
+            border-radius: 18px;
+            background: #fff;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(16, 29, 61, 0.06);
+        }
+
+        .q1lp-plans .plan-card.popular {
+            border-color: var(--blue);
+            box-shadow: 0 22px 50px rgba(1, 71, 247, 0.14);
+        }
+
+        .q1lp-plans .plan-badge {
+            position: absolute;
+            top: -12px;
+            inset-inline: 24px;
+            margin: auto;
+            width: max-content;
+            padding: 5px 12px;
+            border-radius: 999px;
+            background: var(--blue);
+            color: #fff;
+            font-size: 12px;
+            font-weight: 900;
+        }
+
+        .q1lp-plans .plan-name {
+            margin: 0;
+            color: #0d1b42;
+            font-size: 20px;
+            font-weight: 950;
+        }
+
+        .q1lp-plans .plan-duration {
+            margin: 8px 0 12px;
+            color: var(--muted);
+            font-weight: 800;
+        }
+
+        .q1lp-plans .plan-price {
+            color: var(--blue);
+            font-size: 34px;
+            font-weight: 950;
+            line-height: 1.2;
+        }
+
+        .q1lp-plans .currency {
+            font-size: 13px;
+            color: var(--muted);
+            font-weight: 800;
+        }
+
+        .q1lp-plans .plan-btn {
+            min-height: 44px;
+            margin-top: 18px;
+            border-radius: 10px;
+            background: var(--blue);
+            color: #fff;
+            font-weight: 900;
+        }
+
+        .q1lp-contact-cards .contact-card {
+            display: grid;
+            grid-template-columns: 48px minmax(0, 1fr);
+            align-items: center;
+            gap: 12px;
+            min-height: 88px;
+            padding: 16px;
+            color: #0d1b42;
+        }
+
+        .q1lp-contact-cards .contact-icon {
+            width: 48px;
+            height: 48px;
+            display: grid;
+            place-items: center;
+            border-radius: 14px;
+            background: #eef3fc;
+            color: var(--blue);
+        }
+
+        .q1lp-contact-cards h4 {
+            margin: 0 0 4px;
+            font-size: 15px;
+            font-weight: 950;
+        }
+
+        .q1lp-contact-cards p {
+            margin: 0;
+            color: var(--muted);
+            font-weight: 800;
+            direction: ltr;
+            text-align: start;
+        }
+
+        .q1lp #footerLinks {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .q1lp #footerLinks a {
+            padding: 8px 12px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.08);
+            color: #dce6fb;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .q1lp-cta {
+            padding: 44px 0;
+            background: var(--navy);
+            color: #fff;
+        }
+
+        .q1lp-cta-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 34px;
+            align-items: center;
+        }
+
+        .q1lp-cta h2 {
+            margin: 0 0 16px;
+            color: #fff;
+            font-size: 28px;
+            font-weight: 950;
+            line-height: 1.5;
+        }
+
+        .q1lp-cta-boxes,
+        .q1lp-contact-cards {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .q1lp-cta-box {
+            padding: 18px;
+            border-radius: 14px;
+            color: #fff;
+        }
+
+        .q1lp-cta-box.green {
+            background: #108d42;
+        }
+
+        .q1lp-cta-box.blue {
+            background: var(--blue);
+        }
+
+        .q1lp-cta-box span {
+            display: block;
+            margin-bottom: 6px;
+            color: rgba(255, 255, 255, 0.84);
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .q1lp-cta-box strong {
+            display: block;
+            direction: ltr;
+            color: #fff;
+            font-size: 18px;
+            font-weight: 950;
+        }
+
+        .q1lp-contact-cards .contact-card {
+            background: #fff;
+            border: 1px solid #e5ecf8;
+            border-radius: 16px;
+        }
+
+        .q1lp-footer {
+            padding: 16px 24px;
+            background: #0d1730;
+            color: #9ba7c8;
+            text-align: center;
+            font-weight: 800;
+            font-size: 13.5px;
+        }
+
+        html.theme-dark body {
+            background: #071022;
+        }
+
+        html.theme-dark .q1lp {
+            --ink: #f4f7ff;
+            --muted: #b6c3dc;
+            --line: rgba(132, 164, 255, 0.22);
+            --soft: #0a1429;
+            background:
+                radial-gradient(circle at 16% 8%, rgba(1, 71, 247, 0.22), transparent 34%),
+                radial-gradient(circle at 88% 18%, rgba(37, 211, 102, 0.12), transparent 30%),
+                #071022;
+            color: var(--ink);
+        }
+
+        html.theme-dark .q1lp-header {
+            background: rgba(7, 16, 34, 0.92);
+            border-bottom-color: rgba(132, 164, 255, 0.18);
+        }
+
+        html.theme-dark .q1lp-header.scrolled {
+            box-shadow: 0 18px 42px rgba(0, 0, 0, 0.3);
+        }
+
+        html.theme-dark .q1lp-hero {
+            background: linear-gradient(180deg, rgba(7, 16, 34, 0.98) 0%, rgba(10, 20, 41, 0.94) 100%);
+        }
+
+        html.theme-dark .q1lp-logo-text span,
+        html.theme-dark .q1lp-nav .nav-link,
+        html.theme-dark .q1lp-hero-subtitle,
+        html.theme-dark .q1lp-section-title p,
+        html.theme-dark .q1lp-step-card p,
+        html.theme-dark .q1lp-feature-card p,
+        html.theme-dark .q1lp .feature-card.q1lp-feature-card .feature-desc,
+        html.theme-dark .q1lp-plans .plan-duration,
+        html.theme-dark .q1lp-contact-cards p {
+            color: var(--muted);
+        }
+
+        html.theme-dark .q1lp-nav .nav-link:hover,
+        html.theme-dark .q1lp-nav .nav-link:first-child,
+        html.theme-dark .q1lp-btn.lang {
+            background: rgba(1, 71, 247, 0.16);
+            color: #dbe7ff;
+            border-color: rgba(132, 164, 255, 0.2);
+        }
+
+        html.theme-dark .q1lp-btn.outline,
+        html.theme-dark .q1lp-btn.theme-toggle,
+        html.theme-dark .q1lp-mobile-btn {
+            background: rgba(13, 26, 53, 0.92);
+            border-color: rgba(132, 164, 255, 0.25);
+            color: #dbe7ff;
+            box-shadow: 0 14px 34px rgba(0, 0, 0, 0.24);
+        }
+
+        html.theme-dark .q1lp-mobile-btn span {
+            background: #dbe7ff;
+        }
+
+        html.theme-dark .q1lp-badge,
+        html.theme-dark .q1lp-mini-stat,
+        html.theme-dark .q1lp-phone-card,
+        html.theme-dark .q1lp-suitable-card,
+        html.theme-dark .q1lp-step-card,
+        html.theme-dark .q1lp-feature-card,
+        html.theme-dark .q1lp .feature-card.q1lp-feature-card,
+        html.theme-dark .q1lp-plans .plan-card,
+        html.theme-dark .q1lp-contact-cards .contact-card,
+        html.theme-dark .modal-content,
+        html.theme-dark .form-section,
+        html.theme-dark .plan-option,
+        html.theme-dark .request-info-box,
+        html.theme-dark .request-instructions {
+            background: rgba(13, 26, 53, 0.88);
+            border-color: rgba(132, 164, 255, 0.22);
+            color: #f4f7ff;
+            box-shadow: 0 18px 46px rgba(0, 0, 0, 0.22);
+        }
+
+        html.theme-dark .q1lp-section.soft {
+            background: rgba(10, 20, 41, 0.72);
+        }
+
+        html.theme-dark .q1lp-laptop {
+            background: #030814;
+            box-shadow: 0 26px 58px rgba(0, 0, 0, 0.42);
+        }
+
+        html.theme-dark .q1lp-screen {
+            background: #0b1630;
+            border-color: rgba(132, 164, 255, 0.18);
+        }
+
+        html.theme-dark .q1lp-screen-main {
+            background: linear-gradient(135deg, rgba(244, 247, 255, 0.98), rgba(226, 236, 255, 0.96));
+            color: #07163b;
+        }
+
+        html.theme-dark .q1lp-screen-side {
+            background: #071022;
+        }
+
+        html.theme-dark .q1lp-compare {
+            background: rgba(13, 26, 53, 0.88);
+            border-color: rgba(132, 164, 255, 0.22);
+        }
+
+        html.theme-dark .q1lp-compare-row>div {
+            background: rgba(13, 26, 53, 0.7);
+            border-color: rgba(132, 164, 255, 0.14);
+            color: #f4f7ff;
+        }
+
+        html.theme-dark .q1lp-compare-head>div,
+        html.theme-dark .q1lp-compare-head>div:last-child {
+            background: #0147f7;
+            color: #fff;
+        }
+
+        html.theme-dark .q1lp-plans .plan-name,
+        html.theme-dark .q1lp-step-card h3,
+        html.theme-dark .q1lp-feature-card h3,
+        html.theme-dark .q1lp .feature-card.q1lp-feature-card .feature-title,
+        html.theme-dark .q1lp-contact-cards h4,
+        html.theme-dark .modal-content h2,
+        html.theme-dark .modal-content h3,
+        html.theme-dark .modal-content label,
+        html.theme-dark .success-view h2 {
+            color: #f4f7ff;
+        }
+
+        html.theme-dark .q1lp-contact-cards .contact-icon,
+        html.theme-dark .modal-icon {
+            background: rgba(1, 71, 247, 0.18);
+            color: #8fb0ff;
+        }
+
+        html.theme-dark .modal-overlay {
+            background: rgba(3, 8, 20, 0.78);
+        }
+
+        html.theme-dark .form-group input,
+        html.theme-dark .form-group textarea,
+        html.theme-dark .form-group select {
+            background: rgba(7, 16, 34, 0.95);
+            border-color: rgba(132, 164, 255, 0.25);
+            color: #f4f7ff;
+        }
+
+        html.theme-dark .form-group input::placeholder {
+            color: #8798b8;
+        }
+
+        html.theme-dark .btn-ghost {
+            background: rgba(13, 26, 53, 0.9);
+            border-color: rgba(132, 164, 255, 0.22);
+            color: #dbe7ff;
+        }
+
+        @media (max-width: 1080px) {
+            .q1lp-nav {
+                position: fixed;
+                top: 76px;
+                left: 16px;
+                right: 16px;
+                display: none;
+                flex-direction: column;
+                padding: 14px;
+                border: 1px solid var(--line);
+                border-radius: 16px;
+                background: #fff;
+                box-shadow: 0 16px 40px rgba(16, 29, 61, 0.12);
+            }
+
+            .q1lp-nav.active {
+                display: flex;
+            }
+
+            html.theme-dark .q1lp-nav {
+                background: rgba(7, 16, 34, 0.98);
+                box-shadow: 0 18px 46px rgba(0, 0, 0, 0.34);
+            }
+
+            .q1lp-mobile-btn {
+                display: flex;
+            }
+
+            .q1lp-hero-grid,
+            .q1lp-cta-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .q1lp-suitable {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .q1lp-steps,
+            .q1lp-why {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 680px) {
+            .q1lp-container {
+                width: min(100% - 28px, 1240px);
+            }
+
+            .q1lp-header-inner {
+                height: auto;
+                min-height: 72px;
+                flex-wrap: wrap;
+                padding: 10px 0;
+            }
+
+            .q1lp-actions {
+                margin-inline-start: auto;
+            }
+
+            .q1lp-actions .outline,
+            .q1lp-actions .primary {
+                display: none;
+            }
+
+            .q1lp-hero {
+                padding-top: 30px;
+            }
+
+            .q1lp-mini-stats,
+            .q1lp-chart-row,
+            .q1lp-steps,
+            .q1lp-why,
+            .q1lp-cta-boxes,
+            .q1lp-contact-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .q1lp-screen {
+                grid-template-columns: 1fr;
+            }
+
+            .q1lp-screen-side,
+            .q1lp-phone {
+                display: none;
+            }
+
+            .q1lp-compare {
+                overflow-x: auto;
+            }
+
+            .q1lp-compare-row {
+                min-width: 680px;
+            }
+        }
+    </style>
+
+    <div class="q1lp">
+        <header class="q1lp-header" id="header">
+            <div class="q1lp-container q1lp-header-inner">
+                <a href="#hero" class="q1lp-logo" aria-label="Q1KEY">
+                    <img src="logo.png" alt="Q1KEY Logo">
+                    <span class="q1lp-logo-text">
+                        <strong>Q1KEY</strong>
+                        <span data-text-ar="منصة إدارة الأنشطة والتحصيل" data-text-en="Activity & Collection Platform">منصة إدارة الأنشطة والتحصيل</span>
+                    </span>
+                </a>
+
+                <nav class="q1lp-nav" id="headerNav">
+                    <a href="#hero" class="nav-link" data-text-ar="الرئيسية" data-text-en="Home">الرئيسية</a>
+                    <a href="#suitable" class="nav-link" data-text-ar="مناسب لـ" data-text-en="Suitable For">مناسب لـ</a>
+                    <a href="#how" class="nav-link" data-text-ar="كيف يعمل" data-text-en="How It Works">كيف يعمل</a>
+                    <a href="#plans" class="nav-link" data-text-ar="الاشتراكات" data-text-en="Subscriptions">الاشتراكات</a>
+                    <a href="#contact" class="nav-link" data-text-ar="تواصل معنا" data-text-en="Contact">تواصل معنا</a>
+                </nav>
+
+                <div class="q1lp-actions">
+                    <button class="q1lp-btn lang" onclick="toggleLanguage()" id="langToggle">
+                        <span id="langLabel">EN</span>
+                    </button>
+                    <button class="q1lp-btn theme-toggle" onclick="toggleTheme()" id="themeToggle" type="button"
+                        aria-label="Switch to dark mode" aria-pressed="false"
+                        data-label-light-ar="تفعيل الوضع الليلي" data-label-light-en="Switch to dark mode"
+                        data-label-dark-ar="تفعيل الوضع النهاري" data-label-dark-en="Switch to light mode">
+                        <span class="q1lp-theme-icon" id="themeIcon" aria-hidden="true">☾</span>
+                    </button>
+                    <button class="q1lp-btn outline" onclick="openLoginModal()" id="loginBtn">
+                        <span data-text-ar="تسجيل الدخول" data-text-en="Login">تسجيل الدخول</span>
+                    </button>
+                    <button class="q1lp-btn primary" onclick="openSubscribeModal()" id="subscribeBtn">
+                        <span data-text-ar="اشترك الآن" data-text-en="Sign Up">اشترك الآن</span>
+                    </button>
+                    <button class="q1lp-mobile-btn" onclick="toggleMobileMenu()" id="mobileMenuBtn" aria-label="Open navigation menu">
+                        <span></span><span></span><span></span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <section class="q1lp-hero" id="hero">
+            <div class="q1lp-container q1lp-hero-grid">
+                <div class="q1lp-hero-copy">
+                    <div class="q1lp-badge" data-text-ar="منصة معتمدة" data-text-en="Certified Platform">منصة معتمدة</div>
+                    <h1 class="q1lp-hero-title" id="heroTitle">
+                        <span data-text-ar="لن تنسى أي قسط" data-text-en="Never miss an installment">لن تنسى أي قسط</span>
+                        <br>
+                        <strong data-text-ar="بعد اليوم، ووداعاً للتعثرات" data-text-en="again — say goodbye to defaults">بعد اليوم، ووداعاً للتعثرات</strong>
+                    </h1>
+                    <p class="q1lp-hero-subtitle" id="heroSubtitle"
+                        data-text-ar="منصة متخصصة لمتابعة البيع والأنشطة والأجل والتحصيل للمؤسسات والمنشآت الصغيرة بطريقة سهلة وذكية وآمنة وسرية معلومات عالية للعملاء."
+                        data-text-en="A specialized platform for tracking sales, activities, credit and collections for institutions and small businesses — simple, smart, secure, and confidential.">
+                        منصة متخصصة لمتابعة البيع والأنشطة والأجل والتحصيل للمؤسسات والمنشآت الصغيرة بطريقة سهلة وذكية وآمنة وسرية معلومات عالية للعملاء.
+                    </p>
+                    <div class="q1lp-hero-buttons">
+                        <button class="q1lp-btn whatsapp" onclick="openSubscribeModal()" id="heroSubscribeBtn">
+                            <span data-text-ar="ابدأ تجربتك المجانية الآن لمدة 30 يوم" data-text-en="Start your free 30-day trial">ابدأ تجربتك المجانية الآن لمدة 30 يوم</span>
+                            <span>›</span>
+                        </button>
+                        <a href="#how" class="q1lp-btn outline">
+                            <span data-text-ar="شاهد النظام خلال دقيقة" data-text-en="Watch a 1-minute demo">شاهد النظام خلال دقيقة</span>
+                            <span>▶</span>
+                        </a>
+                    </div>
+                    <div class="q1lp-trust">
+                        <span><i>✓</i><span data-text-ar="تجربة مجانية 30 يوم" data-text-en="30-day free trial">تجربة مجانية 30 يوم</span></span>
+                        <span><i>✓</i><span data-text-ar="بدون بطاقة ائتمانية" data-text-en="No credit card">بدون بطاقة ائتمانية</span></span>
+                        <span><i>✓</i><span data-text-ar="الإلغاء في أي وقت" data-text-en="Cancel anytime">الإلغاء في أي وقت</span></span>
+                    </div>
+                </div>
+
+                <div class="q1lp-dashboard-mock" aria-hidden="true">
+                    <div class="q1lp-laptop">
+                        <div class="q1lp-screen">
+                            <div class="q1lp-screen-main">
+                                <div class="q1lp-mini-stats">
+                                    <div class="q1lp-mini-stat"><span data-text-ar="العملاء المتأخرين" data-text-en="Late Customers">العملاء المتأخرين</span><strong>5</strong></div>
+                                    <div class="q1lp-mini-stat"><span data-text-ar="إجمالي اليوم" data-text-en="Today">إجمالي اليوم</span><strong>12,450</strong></div>
+                                    <div class="q1lp-mini-stat"><span data-text-ar="إجمالي الشهر" data-text-en="Month">إجمالي الشهر</span><strong>18,760</strong></div>
+                                    <div class="q1lp-mini-stat"><span data-text-ar="إجمالي العام" data-text-en="Year">إجمالي العام</span><strong>75,230</strong></div>
+                                </div>
+                                <div class="q1lp-chart-row">
+                                    <div class="q1lp-bars">
+                                        <i style="height:28%"></i><i style="height:36%"></i><i style="height:54%"></i><i style="height:68%"></i><i style="height:52%"></i><i style="height:78%"></i><i style="height:92%"></i>
+                                    </div>
+                                    <div class="q1lp-donut">
+                                        <span data-text-ar="توزيع الأنشطة" data-text-en="Activity Mix">توزيع الأنشطة</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="q1lp-screen-side">
+                                <strong>Q1KEY</strong>
+                                <span data-text-ar="الرئيسية" data-text-en="Home">الرئيسية</span>
+                                <span data-text-ar="العملاء" data-text-en="Customers">العملاء</span>
+                                <span data-text-ar="المنتجات" data-text-en="Products">المنتجات</span>
+                                <span data-text-ar="الأقساط" data-text-en="Installments">الأقساط</span>
+                                <span data-text-ar="التقارير" data-text-en="Reports">التقارير</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="q1lp-phone">
+                        <strong>Q1KEY</strong>
+                        <div class="q1lp-phone-card">5</div>
+                        <div class="q1lp-phone-card">12,450</div>
+                        <div class="q1lp-phone-card">18,760</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="q1lp-section" id="suitable">
+            <div class="q1lp-container">
+                <div class="q1lp-section-title">
+                    <h2 data-text-ar="مناسب لـ" data-text-en="Suitable For">مناسب لـ</h2>
+                </div>
+                <div class="q1lp-suitable">
+                    <div class="q1lp-suitable-card"><span class="q1lp-icon-box">E</span><span data-text-ar="محلات الكهربائيات والأجهزة" data-text-en="Electronics & Appliances">محلات الكهربائيات والأجهزة</span></div>
+                    <div class="q1lp-suitable-card"><span class="q1lp-icon-box">M</span><span data-text-ar="محلات الجوالات" data-text-en="Mobile Phone Shops">محلات الجوالات</span></div>
+                    <div class="q1lp-suitable-card"><span class="q1lp-icon-box">A</span><span data-text-ar="جميع الأنشطة التجارية" data-text-en="All Commercial Activities">جميع الأنشطة التجارية</span></div>
+                    <div class="q1lp-suitable-card"><span class="q1lp-icon-box">R</span><span data-text-ar="المحلات التجارية" data-text-en="Retail Stores">المحلات التجارية</span></div>
+                    <div class="q1lp-suitable-card"><span class="q1lp-icon-box">F</span><span data-text-ar="موردي الأغذية والمواد الاستهلاكية" data-text-en="Food & Consumer Suppliers">موردي الأغذية والمواد الاستهلاكية</span></div>
+                    <div class="q1lp-suitable-card"><span class="q1lp-icon-box">C</span><span data-text-ar="البيع بالأجل والممولة والأقساط" data-text-en="Credit Sales & Installments">البيع بالأجل والممولة والأقساط</span></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="q1lp-section soft" id="how">
+            <div class="q1lp-container">
+                <div class="q1lp-section-title">
+                    <h2 data-text-ar="كيف يعمل Q1KEY؟" data-text-en="How does Q1KEY work?">كيف يعمل Q1KEY؟</h2>
+                    <p data-text-ar="أربع خطوات بسيطة من إضافة العميل إلى تحصيل آخر قسط." data-text-en="Four simple steps from adding a customer to collecting the last installment.">أربع خطوات بسيطة من إضافة العميل إلى تحصيل آخر قسط.</p>
+                </div>
+                <div class="q1lp-steps">
+                    <div class="q1lp-step-card"><span class="q1lp-step-num">1</span><span class="q1lp-icon-box">👤</span><h3 data-text-ar="أضف العميل" data-text-en="Add the Customer">أضف العميل</h3><p data-text-ar="سجل بيانات العميل مرة واحدة وبكل سهولة، وابدأ البيع معه." data-text-en="Register customer details once, easily, and start selling.">سجل بيانات العميل مرة واحدة وبكل سهولة، وابدأ البيع معه.</p></div>
+                    <div class="q1lp-step-card"><span class="q1lp-step-num">2</span><span class="q1lp-icon-box">🛒</span><h3 data-text-ar="سجل عملية البيع" data-text-en="Log the Sale">سجل عملية البيع</h3><p data-text-ar="سجل بيانات البيع وأضف المنتجات والقيمة وطريقة الدفع والأقساط." data-text-en="Record the sale — products, amount, payment method and installments.">سجل بيانات البيع وأضف المنتجات والقيمة وطريقة الدفع والأقساط.</p></div>
+                    <div class="q1lp-step-card"><span class="q1lp-step-num">3</span><span class="q1lp-icon-box">📆</span><h3 data-text-ar="جدول الأقساط" data-text-en="Installment Schedule">جدول الأقساط</h3><p data-text-ar="يتم إنشاء جدول الأقساط وتواريخها تلقائياً حسب المدة المتفق عليها." data-text-en="A schedule with due dates is generated automatically.">يتم إنشاء جدول الأقساط وتواريخها تلقائياً حسب المدة المتفق عليها.</p></div>
+                    <div class="q1lp-step-card"><span class="q1lp-step-num">4</span><span class="q1lp-icon-box">💳</span><h3 data-text-ar="تابع التحصيل" data-text-en="Track Collections">تابع التحصيل</h3><p data-text-ar="سجل المدفوعات، وتابع المتبقي للتحصيل، ومعرفة المتعثرين." data-text-en="Log payments, track balances, and spot late payers.">سجل المدفوعات، وتابع المتبقي للتحصيل، ومعرفة المتعثرين.</p></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="q1lp-section" id="features">
+            <div class="q1lp-container">
+                <div class="q1lp-section-title">
+                    <h2 id="featuresTitle" data-text-ar="لماذا تختار Q1KEY؟" data-text-en="Why choose Q1KEY?">لماذا تختار Q1KEY؟</h2>
+                    <p id="featuresDesc" data-text-ar="مميزات عملية تساعدك على إدارة التحصيل ومنع التعثرات." data-text-en="Practical features to manage collections and prevent defaults.">مميزات عملية تساعدك على إدارة التحصيل ومنع التعثرات.</p>
+                </div>
+                <div class="q1lp-why" id="featuresGrid">
+                    <div class="q1lp-feature-card"><span class="q1lp-icon-box">N</span><h3>تنبيهات ذكية</h3><p>تذكير بالأقساط ومواعيدها عبر إشعارات تلقائية.</p></div>
+                    <div class="q1lp-feature-card"><span class="q1lp-icon-box">R</span><h3>تقارير شاملة</h3><p>تقارير تفصيلية تساعدك على اتخاذ قرارات ذكية.</p></div>
+                    <div class="q1lp-feature-card"><span class="q1lp-icon-box">🛡</span><h3>بيانات آمنة</h3><p>حماية عالية لبياناتك والتزام بأعلى معايير الأمان.</p></div>
+                    <div class="q1lp-feature-card"><span class="q1lp-icon-box">24</span><h3>دعم فني</h3><p>فريق دعم متاح دائماً لمساعدتك عند الحاجة.</p></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="q1lp-section soft" id="compare">
+            <div class="q1lp-container">
+                <div class="q1lp-section-title">
+                    <h2 data-text-ar="لماذا Q1KEY أفضل من الطرق التقليدية؟" data-text-en="Why is Q1KEY better than traditional methods?">لماذا Q1KEY أفضل من الطرق التقليدية؟</h2>
+                    <p data-text-ar="قارن بنفسك بين الطرق التقليدية ومنصة Q1KEY." data-text-en="Compare traditional methods with Q1KEY.">قارن بنفسك بين الطرق التقليدية ومنصة Q1KEY.</p>
+                </div>
+                <div class="q1lp-compare">
+                    <div class="q1lp-compare-row q1lp-compare-head"><div data-text-ar="الميزة" data-text-en="Feature">الميزة</div><div data-text-ar="دفتر" data-text-en="Notebook">دفتر</div><div>Excel</div><div>Q1KEY</div></div>
+                    <div class="q1lp-compare-row"><div data-text-ar="إدارة الأقساط" data-text-en="Installment management">إدارة الأقساط</div><div class="q1lp-mark">✕</div><div class="q1lp-mark">✕</div><div class="q1lp-mark yes">✓</div></div>
+                    <div class="q1lp-compare-row"><div data-text-ar="تنبيهات المواعيد" data-text-en="Due-date alerts">تنبيهات المواعيد</div><div class="q1lp-mark">✕</div><div class="q1lp-mark">✕</div><div class="q1lp-mark yes">✓</div></div>
+                    <div class="q1lp-compare-row"><div data-text-ar="كشف حساب العملاء" data-text-en="Customer statements">كشف حساب العملاء</div><div class="q1lp-mark">✕</div><div class="q1lp-mark">✕</div><div class="q1lp-mark yes">✓</div></div>
+                    <div class="q1lp-compare-row"><div data-text-ar="معرفة المتأخرين والمتعثرين" data-text-en="Identify late customers">معرفة المتأخرين والمتعثرين</div><div class="q1lp-mark">✕</div><div class="q1lp-mark">✕</div><div class="q1lp-mark yes">✓</div></div>
+                    <div class="q1lp-compare-row"><div data-text-ar="تقارير PDF و Excel" data-text-en="PDF & Excel reports">تقارير PDF و Excel</div><div class="q1lp-mark">✕</div><div class="q1lp-mark">✕</div><div class="q1lp-mark yes">✓</div></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="q1lp-section" id="plans">
+            <div class="q1lp-container">
+                <div class="q1lp-section-title">
+                    <h2 id="plansTitle" data-text-ar="باقات الاشتراك" data-text-en="Subscription Plans">باقات الاشتراك</h2>
+                    <p id="plansDesc" data-text-ar="اختر الباقة المناسبة لاحتياجات مؤسستك" data-text-en="Choose the plan that fits your institution.">اختر الباقة المناسبة لاحتياجات مؤسستك</p>
+                </div>
+                <div class="q1lp-plans" id="plansGrid"></div>
+            </div>
+        </section>
+
+        <section class="q1lp-cta" id="contact">
+            <div class="q1lp-container q1lp-cta-grid">
+                <div>
+                    <h2 id="contactTitle" data-text-ar="ابدأ تجربتك المجانية الآن لمدة 30 يوم" data-text-en="Start your free 30-day trial now">ابدأ تجربتك المجانية الآن لمدة 30 يوم</h2>
+                    <div class="q1lp-trust">
+                        <span><i>✓</i><span data-text-ar="بدون بطاقة ائتمانية" data-text-en="No credit card">بدون بطاقة ائتمانية</span></span>
+                        <span><i>✓</i><span data-text-ar="تجربة مجانية 30 يوم" data-text-en="30-day free trial">تجربة مجانية 30 يوم</span></span>
+                        <span><i>✓</i><span data-text-ar="الإلغاء في أي وقت" data-text-en="Cancel anytime">الإلغاء في أي وقت</span></span>
+                    </div>
+                    <div class="q1lp-cta-boxes" style="display:grid; gap:14px; margin-top:18px;">
+                        <a href="https://wa.me/966534678464" target="_blank" class="q1lp-cta-box green" id="q1SupportWhatsappLink">
+                            <span data-text-ar="للتواصل والدعم الفني والتجديد" data-text-en="Support, contact & renewal">للتواصل والدعم الفني والتجديد</span>
+                            <strong id="q1SupportWhatsappText">0534678464</strong>
+                        </a>
+                        <div class="q1lp-cta-box blue">
+                            <span data-text-ar="وثيقة العمل الحر" data-text-en="Freelance license">وثيقة العمل الحر</span>
+                            <strong>FL223034986</strong>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="q1lp-contact-cards" id="contactCards"></div>
+                    <div id="footerLinks" style="margin-top:18px;"></div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="q1lp-footer">
+            <span id="footerCopyright" data-text-ar="© 2026 Q1KEY — جميع الحقوق محفوظة" data-text-en="© 2026 Q1KEY — All Rights Reserved">© 2026 Q1KEY — جميع الحقوق محفوظة</span>
+        </footer>
+    </div>
+
     <!-- ============================================== -->
     <!--                   HEADER                       -->
     <!-- ============================================== -->
@@ -498,7 +1821,7 @@
     <!-- Scripts -->
     <script src="js/config.js?v=3"></script>
     <script src="js/api.js?v=5"></script>
-    <script src="js/homepage.js?v=1.0.3"></script>
+    <script src="js/homepage.js?v=1.0.5"></script>
 </body>
 
 </html>
