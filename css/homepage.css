@@ -2756,7 +2756,7 @@ section {
 
 .footer-desc,
 .footer-links a {
-    color: #c7d1e9;
+    color: #e8efff;
 }
 
 .footer-links a:hover {
@@ -2768,7 +2768,7 @@ section {
 }
 
 .footer-bottom p {
-    color: #9eabc8;
+    color: #f8fbff;
 }
 
 /* Keep forms readable in the new light system */
