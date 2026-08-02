@@ -286,7 +286,7 @@
 
         .q1lp-hero-subtitle {
             margin: 22px 0 0;
-            color: #1f2b4d;
+            color: var(--blue);
             font-size: clamp(17px, 1.5vw, 22px);
             line-height: 1.85;
             font-weight: 700;
@@ -326,6 +326,10 @@
             display: inline-flex;
             align-items: center;
             gap: 7px;
+        }
+
+        .q1lp-hero .q1lp-trust {
+            color: #23304d;
         }
 
         .q1lp-trust i {
@@ -684,6 +688,71 @@
             font-weight: 950;
         }
 
+        .q1lp-design-phone-chart {
+            margin-top: 11px;
+            padding: 10px 8px 9px;
+            border-radius: 13px;
+            background: linear-gradient(180deg, rgba(77, 124, 240, 0.16), rgba(24, 40, 82, 0.92));
+            border: 1px solid rgba(77, 124, 240, 0.22);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+            overflow: hidden;
+        }
+
+        .q1lp-design-phone-chart span {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 6px;
+            color: #c7d3f5;
+            font-size: 10px;
+            line-height: 1.25;
+            font-weight: 900;
+            white-space: nowrap;
+        }
+
+        .q1lp-design-phone-chart span::after {
+            content: '';
+            width: 8px;
+            height: 8px;
+            flex: 0 0 auto;
+            border-radius: 999px;
+            background: #28d38f;
+            box-shadow: 0 0 0 4px rgba(40, 211, 143, 0.14);
+        }
+
+        .q1lp-design-phone-chart svg {
+            width: 100%;
+            height: 78px;
+            display: block;
+            margin-top: 6px;
+        }
+
+        .q1lp-design-phone-chart .chart-grid {
+            stroke: rgba(199, 211, 245, 0.13);
+            stroke-width: 1;
+        }
+
+        .q1lp-design-phone-chart .chart-area {
+            fill: url(#q1lpPhoneChartFill);
+        }
+
+        .q1lp-design-phone-chart .chart-line {
+            fill: none;
+            stroke: #4d7cf0;
+            stroke-width: 4;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-dasharray: 270;
+            stroke-dashoffset: 270;
+            animation: q1lp-draw-line 1.8s ease-out 0.55s forwards;
+        }
+
+        .q1lp-design-phone-chart .chart-dot {
+            fill: #28d38f;
+            stroke: #101d3d;
+            stroke-width: 2;
+        }
+
         .q1lp-old-hero-mock {
             display: none;
         }
@@ -694,6 +763,16 @@
 
         .q1lp-section.soft {
             background: var(--soft);
+        }
+
+        #suitable.q1lp-section {
+            padding-bottom: 14px;
+        }
+
+        #how.q1lp-section,
+        #features.q1lp-section {
+            padding-top: 14px;
+            padding-bottom: 14px;
         }
 
         .q1lp-section-title {
@@ -724,65 +803,181 @@
             gap: 14px;
         }
 
+        /* Reference-style framed rows: Suitable For, How It Works, Why Choose. */
+        .q1lp-reference-frame {
+            position: relative;
+            padding: 34px 12px 12px;
+            border: 1.5px solid rgba(1, 71, 247, 0.48);
+            border-radius: 10px;
+            background: #fff;
+            box-shadow: 0 10px 28px rgba(16, 29, 61, 0.045);
+        }
+
+        .q1lp-reference-frame + .q1lp-reference-frame {
+            margin-top: 34px;
+        }
+
+        .q1lp-reference-frame .q1lp-section-title {
+            position: absolute;
+            z-index: 2;
+            top: 0;
+            left: 50%;
+            width: max-content;
+            max-width: calc(100% - 32px);
+            margin: 0;
+            transform: translate(-50%, -50%);
+        }
+
+        .q1lp-reference-frame .q1lp-section-title h2 {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 36px;
+            margin: 0;
+            padding: 3px 20px;
+            border: 1.5px solid rgba(1, 71, 247, 0.48);
+            border-radius: 7px;
+            background: #fff;
+            color: #0d1b42;
+            font-size: 21px;
+            line-height: 1.25;
+            white-space: nowrap;
+            box-shadow: 0 5px 14px rgba(16, 29, 61, 0.05);
+        }
+
+        .q1lp-reference-frame .q1lp-section-title h2 strong {
+            margin-inline: 5px;
+            color: var(--blue);
+            font-weight: 950;
+        }
+
         .q1lp-suitable {
             grid-template-columns: repeat(6, 1fr);
-            border: 1.5px solid var(--blue);
-            border-radius: 14px;
+            gap: 0;
+            direction: ltr;
+            border: 0;
+            border-radius: 0;
             overflow: hidden;
-            background: #fff;
+            background: transparent;
         }
 
         .q1lp-suitable-card {
-            min-height: 128px;
-            padding: 18px 12px;
+            min-width: 0;
+            min-height: 142px;
+            padding: 16px 12px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             gap: 10px;
             text-align: center;
-            border-inline-start: 1px solid #eaf0fb;
+            border: 0;
+            border-radius: 0;
+            background: transparent;
+            box-shadow: none;
             color: #172342;
+            font-size: 15.5px;
+            line-height: 1.55;
             font-weight: 900;
+            transition: background 0.2s ease, color 0.2s ease;
         }
 
-        .q1lp-suitable-card:first-child {
-            border-inline-start: 0;
+        [dir="rtl"] .q1lp-suitable-card,
+        [dir="rtl"] .q1lp-why .q1lp-feature-card {
+            direction: rtl;
+        }
+
+        .q1lp-suitable-card:not(:last-child) {
+            border-right: 1px solid rgba(1, 71, 247, 0.18);
+        }
+
+        .q1lp-suitable-card:hover {
+            transform: none;
+            background: rgba(1, 71, 247, 0.045);
         }
 
         .q1lp-icon-box {
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
+            width: 52px;
+            height: 52px;
+            flex: 0 0 52px;
+            border: 1px solid rgba(1, 71, 247, 0.13);
+            border-radius: 10px;
             display: grid;
             place-items: center;
-            background: #eef3fc;
+            background: #f4f7fd;
             color: var(--blue);
+            font-size: 23px;
+            line-height: 1;
             font-weight: 950;
+        }
+
+        .q1lp-icon-box.q1lp-image-placeholder {
+            font-size: 12px;
+            letter-spacing: 0.04em;
+        }
+
+        .q1lp-reference-frame--suitable .q1lp-icon-box {
+            width: 124px;
+            height: 124px;
+            flex-basis: 124px;
+            margin-inline: auto;
+            border-radius: 24px;
+            font-size: 80px;
+        }
+
+        .q1lp-reference-frame--suitable .q1lp-suitable-card {
+            min-height: 236px;
+        }
+
+        .q1lp-reference-frame--steps .q1lp-icon-box,
+        .q1lp-reference-frame--features .q1lp-icon-box {
+            width: 70px;
+            height: 70px;
+            flex-basis: 70px;
+            margin-inline: auto;
+            border-radius: 15px;
+            font-size: 32px;
         }
 
         .q1lp-steps {
             grid-template-columns: repeat(4, 1fr);
+            gap: 38px;
         }
 
         .q1lp-step-card,
         .q1lp-feature-card {
             position: relative;
-            min-height: 194px;
-            padding: 24px 18px;
-            border: 1px solid #e5ecf8;
-            border-radius: 16px;
-            background: #fff;
+            min-height: 190px;
+            padding: 20px 14px;
+            border: 0;
+            border-radius: 10px;
+            background: transparent;
             text-align: center;
-            box-shadow: 0 14px 30px rgba(16, 29, 61, 0.04);
+            box-shadow: none;
+        }
+
+        .q1lp-step-card:not(:last-child)::after {
+            content: '←';
+            position: absolute;
+            top: 50%;
+            inset-inline-end: -31px;
+            transform: translateY(-50%);
+            color: var(--blue);
+            font-size: 27px;
+            font-weight: 950;
+            line-height: 1;
+        }
+
+        [dir="ltr"] .q1lp-step-card:not(:last-child)::after {
+            content: '→';
         }
 
         .q1lp-step-num {
             position: absolute;
-            top: 14px;
-            inset-inline-end: 14px;
-            width: 28px;
-            height: 28px;
+            top: 7px;
+            inset-inline-start: 8px;
+            width: 30px;
+            height: 30px;
             display: grid;
             place-items: center;
             border-radius: 50%;
@@ -804,18 +999,20 @@
             margin: 0;
             color: var(--muted);
             font-size: 13.5px;
-            line-height: 1.75;
-            font-weight: 650;
+            line-height: 1.7;
+            font-weight: 700;
         }
 
         .q1lp-why {
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0;
+            direction: ltr;
         }
 
         .q1lp-compare {
             max-width: 1000px;
             margin: 0 auto;
-            border: 1px solid #e5ecf8;
+            border: 1.5px solid rgba(1, 71, 247, 0.32);
             border-radius: 16px;
             overflow: hidden;
             box-shadow: 0 20px 40px -28px rgba(16, 29, 61, 0.2);
@@ -835,13 +1032,39 @@
 
         .q1lp-compare-head>div {
             border-top: 0;
-            background: #f7f9fd;
-            color: #0d1b42;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-align: center;
+            background: linear-gradient(135deg, #16a34a, #0f8f42);
+            color: #fff;
+            font-weight: 950;
         }
 
         .q1lp-compare-head>div:last-child {
-            background: var(--blue);
+            background: linear-gradient(135deg, #059669, #047857);
             color: #fff;
+        }
+
+        .q1lp-compare-head-icon {
+            width: 28px;
+            height: 28px;
+            display: inline-grid;
+            place-items: center;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.18);
+            color: #fff;
+            font-size: 15px;
+            line-height: 1;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.16);
+        }
+
+        .q1lp-compare-head-label {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
         .q1lp-mark {
@@ -860,33 +1083,39 @@
 
         .q1lp .feature-card.q1lp-feature-card {
             position: relative;
-            min-height: 194px;
-            padding: 24px 18px;
-            border: 1px solid #e5ecf8;
-            border-radius: 16px;
-            background: #fff;
+            min-width: 0;
+            min-height: 166px;
+            padding: 18px 10px;
+            border: 0;
+            border-radius: 0;
+            background: transparent;
             text-align: center;
-            box-shadow: 0 14px 30px rgba(16, 29, 61, 0.04);
+            box-shadow: none;
+        }
+
+        .q1lp .feature-card.q1lp-feature-card:not(:last-child) {
+            border-right: 1px solid rgba(1, 71, 247, 0.18);
         }
 
         .q1lp .feature-card.q1lp-feature-card .feature-icon {
-            margin: 0 auto;
-            font-size: 18px;
+            margin: 0 auto 4px;
+            font-size: 32px;
         }
 
         .q1lp .feature-card.q1lp-feature-card .feature-title {
-            margin: 12px 0 8px;
+            margin: 10px 0 6px;
             color: #0d1b42;
-            font-size: 17px;
+            font-size: 15.5px;
+            line-height: 1.45;
             font-weight: 950;
         }
 
         .q1lp .feature-card.q1lp-feature-card .feature-desc {
             margin: 0;
             color: var(--muted);
-            font-size: 13.5px;
-            line-height: 1.75;
-            font-weight: 650;
+            font-size: 12.5px;
+            line-height: 1.65;
+            font-weight: 700;
         }
 
         .q1lp-plans .plan-card {
@@ -896,7 +1125,7 @@
             flex-direction: column;
             justify-content: space-between;
             padding: 28px 22px;
-            border: 1.5px solid #dbe6fb;
+            border: 1.5px solid rgba(1, 71, 247, 0.36);
             border-radius: 18px;
             background: #fff;
             text-align: center;
@@ -925,13 +1154,14 @@
         .q1lp-plans .plan-name {
             margin: 0;
             color: #0d1b42;
-            font-size: 20px;
+            font-size: 21.5px;
             font-weight: 950;
         }
 
         .q1lp-plans .plan-duration {
             margin: 8px 0 12px;
             color: var(--muted);
+            font-size: 15px;
             font-weight: 800;
         }
 
@@ -943,7 +1173,7 @@
         }
 
         .q1lp-plans .currency {
-            font-size: 13px;
+            font-size: 14px;
             color: var(--muted);
             font-weight: 800;
         }
@@ -979,13 +1209,14 @@
 
         .q1lp-contact-cards h4 {
             margin: 0 0 4px;
-            font-size: 15px;
+            font-size: 16.5px;
             font-weight: 950;
         }
 
         .q1lp-contact-cards p {
             margin: 0;
             color: var(--muted);
+            font-size: 14.5px;
             font-weight: 800;
             direction: ltr;
             text-align: start;
@@ -1034,6 +1265,7 @@
 
         .q1lp-cta-box {
             padding: 18px;
+            border: 1.5px solid rgba(132, 164, 255, 0.48);
             border-radius: 14px;
             color: #fff;
         }
@@ -1050,7 +1282,7 @@
             display: block;
             margin-bottom: 6px;
             color: rgba(255, 255, 255, 0.84);
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 800;
         }
 
@@ -1058,20 +1290,307 @@
             display: block;
             direction: ltr;
             color: #fff;
-            font-size: 18px;
+            font-size: 19.5px;
             font-weight: 950;
+        }
+
+        .q1lp-reference-cta {
+            position: relative;
+            padding: 42px 0 12px;
+            background: #fff;
+        }
+
+        .q1lp-reference-cta-anchor {
+            position: absolute;
+            top: 0;
+            scroll-margin-top: 92px;
+        }
+
+        .q1lp-reference-cta-banner {
+            display: grid;
+            grid-template-columns: 1.05fr 0.9fr 0.95fr 1.4fr 1.45fr;
+            gap: 12px;
+            align-items: stretch;
+            min-height: 190px;
+            padding: 14px;
+            border: 1.5px solid rgba(80, 126, 255, 0.65);
+            border-radius: 17px;
+            background:
+                radial-gradient(circle at 14% 50%, rgba(23, 87, 255, 0.18), transparent 30%),
+                linear-gradient(135deg, #06164d 0%, #071d60 55%, #06164d 100%);
+            color: #fff;
+            box-shadow: 0 18px 42px rgba(4, 20, 68, 0.18);
+            overflow: hidden;
+        }
+
+        .q1lp-reference-cta-brand,
+        .q1lp-reference-cta-card,
+        .q1lp-reference-cta-trial,
+        .q1lp-reference-cta-devices {
+            min-width: 0;
+            border-radius: 12px;
+        }
+
+        .q1lp-reference-cta-brand {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 12px;
+            text-align: center;
+        }
+
+        .q1lp-reference-cta-brand img {
+            width: 72px;
+            height: 54px;
+            object-fit: contain;
+            margin-bottom: 2px;
+        }
+
+        .q1lp-reference-cta-brand strong {
+            color: #2f67ff;
+            font-family: 'Inter', system-ui, sans-serif;
+            font-size: 25px;
+            font-weight: 950;
+            letter-spacing: 0.04em;
+        }
+
+        .q1lp-reference-cta-brand p {
+            margin: 7px 0 0;
+            color: #fff;
+            font-size: 13px;
+            line-height: 1.75;
+            font-weight: 800;
+        }
+
+        .q1lp-reference-cta-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            padding: 15px 10px;
+            border: 1.5px solid rgba(255, 255, 255, 0.4);
+            color: #fff;
+            text-align: center;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
+        }
+
+        .q1lp-reference-cta-card.green {
+            background: linear-gradient(160deg, #0a9847, #087a3b);
+        }
+
+        .q1lp-reference-cta-card.blue {
+            background: linear-gradient(160deg, #0758e6, #0646ba);
+        }
+
+        .q1lp-reference-cta-card .q1lp-reference-cta-icon {
+            display: grid;
+            place-items: center;
+            width: 52px;
+            height: 52px;
+            border: 2px solid rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            color: #fff;
+            font-size: 29px;
+            line-height: 1;
+        }
+
+        .q1lp-reference-cta-card.blue .q1lp-reference-cta-icon {
+            border-radius: 10px;
+        }
+
+        .q1lp-reference-cta-card span:not(.q1lp-reference-cta-icon) {
+            color: #fff;
+            font-size: 13px;
+            line-height: 1.55;
+            font-weight: 850;
+        }
+
+        .q1lp-reference-cta-card strong {
+            direction: ltr;
+            color: #fff;
+            font-family: 'Inter', system-ui, sans-serif;
+            font-size: 16px;
+            font-weight: 950;
+        }
+
+        .q1lp-reference-cta-trial {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 14px 12px;
+            border: 0;
+            background: transparent;
+            color: #fff;
+            font: inherit;
+            text-align: start;
+            cursor: pointer;
+        }
+
+        .q1lp-reference-cta-trial:hover {
+            background: rgba(255, 255, 255, 0.055);
+        }
+
+        .q1lp-reference-cta-trial h2 {
+            margin: 0 0 10px;
+            color: #fff;
+            font-size: 19px;
+            line-height: 1.6;
+            font-weight: 950;
+        }
+
+        .q1lp-reference-cta-trial h2 strong {
+            display: inline-block;
+            margin-inline: 4px;
+            color: #ffd449;
+            font-size: 31px;
+        }
+
+        .q1lp-reference-cta-points {
+            display: grid;
+            gap: 7px;
+        }
+
+        .q1lp-reference-cta-points > span {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #fff;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .q1lp-reference-cta-points > span > i {
+            width: 17px;
+            height: 17px;
+            display: inline-grid;
+            flex: 0 0 17px;
+            place-items: center;
+            border-radius: 50%;
+            background: #11a64f;
+            color: #fff;
+            font-size: 10px;
+            font-style: normal;
+            box-shadow: 0 0 0 4px rgba(17, 166, 79, 0.12);
+        }
+
+        .q1lp-reference-cta-devices {
+            direction: ltr;
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding: 14px 6px 8px;
+        }
+
+        .q1lp-reference-mini-laptop {
+            position: relative;
+            width: min(190px, 78%);
+            height: 126px;
+            padding: 7px;
+            border: 4px solid #0b1020;
+            border-radius: 9px 9px 4px 4px;
+            background: #111a31;
+            box-shadow: 0 14px 24px rgba(0, 0, 0, 0.35);
+        }
+
+        .q1lp-reference-mini-laptop::after {
+            content: '';
+            position: absolute;
+            left: -17px;
+            right: -17px;
+            bottom: -10px;
+            height: 10px;
+            border-radius: 2px 2px 9px 9px;
+            background: linear-gradient(180deg, #dce3ef, #7e899e);
+        }
+
+        .q1lp-reference-mini-screen {
+            height: 100%;
+            padding: 8px;
+            border-radius: 3px;
+            background: #f7f9fd;
+            overflow: hidden;
+        }
+
+        .q1lp-reference-mini-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 4px;
+        }
+
+        .q1lp-reference-mini-stats i {
+            height: 30px;
+            border-radius: 4px;
+            background: #eef3fc;
+        }
+
+        .q1lp-reference-mini-stats i:nth-child(2) {
+            background: #e9f8ef;
+        }
+
+        .q1lp-reference-mini-stats i:nth-child(3) {
+            background: #fff3dd;
+        }
+
+        .q1lp-reference-mini-chart {
+            height: 58px;
+            margin-top: 8px;
+            display: flex;
+            align-items: flex-end;
+            gap: 5px;
+            padding: 7px 8px 0;
+            border-left: 1px solid #b9c8e8;
+            border-bottom: 1px solid #b9c8e8;
+        }
+
+        .q1lp-reference-mini-chart i {
+            flex: 1;
+            height: var(--bar-height, 50%);
+            border-radius: 3px 3px 0 0;
+            background: linear-gradient(180deg, #2f67ff, #0b48db);
+        }
+
+        .q1lp-reference-mini-phone {
+            position: relative;
+            z-index: 2;
+            width: 54px;
+            height: 106px;
+            margin-inline-start: -17px;
+            padding: 8px 5px;
+            border: 4px solid #0a0f1f;
+            border-radius: 12px;
+            background: #f7f9fd;
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.35);
+        }
+
+        .q1lp-reference-mini-phone i {
+            display: block;
+            height: 20px;
+            margin-bottom: 5px;
+            border-radius: 4px;
+            background: #eef3fc;
+        }
+
+        .q1lp-reference-mini-phone i:nth-child(2) {
+            background: #e9f8ef;
+        }
+
+        .q1lp-reference-mini-phone i:nth-child(3) {
+            background: #fff3dd;
         }
 
         .q1lp-contact-cards .contact-card {
             background: #fff;
-            border: 1px solid #e5ecf8;
+            border: 1.5px solid rgba(1, 71, 247, 0.32);
             border-radius: 16px;
         }
 
         .q1lp-footer {
             padding: 16px 24px;
-            background: #0d1730;
-            color: #f8fbff;
+            background: #fff;
+            color: #101d3d;
             text-align: center;
             font-weight: 800;
             font-size: 13.5px;
@@ -1079,7 +1598,7 @@
 
         .q1lp-footer span,
         .q1lp-footer p {
-            color: #f8fbff;
+            color: #101d3d;
         }
 
         html.theme-dark body {
@@ -1105,6 +1624,14 @@
 
         html.theme-dark .q1lp-header.scrolled {
             box-shadow: 0 18px 42px rgba(0, 0, 0, 0.3);
+        }
+
+        html.theme-dark .q1lp-reference-cta {
+            background: rgba(7, 16, 34, 0.62);
+        }
+
+        html.theme-dark .q1lp-footer {
+            background: #071022;
         }
 
         html.theme-dark .q1lp-hero {
@@ -1159,9 +1686,60 @@
         html.theme-dark .request-info-box,
         html.theme-dark .request-instructions {
             background: rgba(13, 26, 53, 0.88);
-            border-color: rgba(132, 164, 255, 0.22);
+            border-color: rgba(88, 128, 255, 0.42);
             color: #f4f7ff;
             box-shadow: 0 18px 46px rgba(0, 0, 0, 0.22);
+        }
+
+        html.theme-dark .q1lp-suitable {
+            background: transparent;
+            border: 0;
+            box-shadow: none;
+        }
+
+        html.theme-dark .q1lp-reference-frame {
+            background: rgba(13, 26, 53, 0.86);
+            border-color: rgba(88, 128, 255, 0.58);
+            box-shadow: 0 18px 46px rgba(0, 0, 0, 0.18);
+        }
+
+        html.theme-dark .q1lp-reference-frame .q1lp-section-title h2 {
+            background: #0a1429;
+            border-color: rgba(88, 128, 255, 0.58);
+            color: #f8fbff;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.22);
+        }
+
+        html.theme-dark .q1lp-suitable-card {
+            background: transparent;
+            border-color: rgba(132, 164, 255, 0.2);
+            box-shadow: none;
+        }
+
+        html.theme-dark .q1lp-suitable-card:hover {
+            background: rgba(88, 128, 255, 0.09);
+            border-color: rgba(132, 164, 255, 0.26);
+            box-shadow: none;
+        }
+
+        html.theme-dark .q1lp-suitable-card .q1lp-icon-box {
+            background: rgba(1, 71, 247, 0.18);
+            color: #9bb9ff;
+            box-shadow: inset 0 0 0 1px rgba(132, 164, 255, 0.14);
+        }
+
+        html.theme-dark .q1lp-reference-frame .q1lp-step-card,
+        html.theme-dark .q1lp-reference-frame .q1lp-feature-card,
+        html.theme-dark .q1lp-reference-frame .feature-card.q1lp-feature-card {
+            background: transparent;
+            border-color: rgba(132, 164, 255, 0.2);
+            box-shadow: none;
+        }
+
+        html.theme-dark .q1lp-reference-frame .q1lp-icon-box {
+            background: rgba(1, 71, 247, 0.16);
+            border-color: rgba(132, 164, 255, 0.2);
+            color: #9bb9ff;
         }
 
         html.theme-dark .q1lp-section.soft {
@@ -1189,7 +1767,7 @@
 
         html.theme-dark .q1lp-compare {
             background: rgba(13, 26, 53, 0.88);
-            border-color: rgba(132, 164, 255, 0.22);
+            border-color: rgba(88, 128, 255, 0.42);
         }
 
         html.theme-dark .q1lp-compare-row>div {
@@ -1200,8 +1778,14 @@
 
         html.theme-dark .q1lp-compare-head>div,
         html.theme-dark .q1lp-compare-head>div:last-child {
-            background: #0147f7;
+            background: linear-gradient(135deg, #16a34a, #047857);
             color: #fff;
+        }
+
+        html.theme-dark .q1lp-compare-head-icon {
+            background: rgba(255, 255, 255, 0.16);
+            color: #fff;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14);
         }
 
         html.theme-dark .q1lp-plans .plan-name,
@@ -1271,6 +1855,10 @@
         html.theme-dark .q1lp .q1lp-footer span,
         html.theme-dark .q1lp .q1lp-footer p {
             color: #c8d4ea !important;
+        }
+
+        html.theme-dark .q1lp .q1lp-hero-subtitle {
+            color: #7da3ff !important;
         }
 
         html.theme-dark .q1lp .q1lp-hero-title strong,
@@ -1343,13 +1931,44 @@
                 grid-template-columns: 1fr;
             }
 
+            .q1lp-reference-cta-banner {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .q1lp-reference-cta-devices {
+                grid-column: 1 / -1;
+                min-height: 170px;
+            }
+
             .q1lp-suitable {
                 grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+                overflow: visible;
             }
 
             .q1lp-steps,
             .q1lp-why {
                 grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+
+            .q1lp-suitable-card,
+            .q1lp-suitable-card:not(:last-child),
+            .q1lp-step-card,
+            .q1lp .feature-card.q1lp-feature-card,
+            .q1lp .feature-card.q1lp-feature-card:not(:last-child) {
+                border: 1px solid rgba(1, 71, 247, 0.2);
+                border-radius: 10px;
+            }
+
+            .q1lp-step-card:not(:last-child)::after {
+                display: none;
+            }
+
+            html.theme-dark .q1lp-suitable-card,
+            html.theme-dark .q1lp-reference-frame .q1lp-step-card,
+            html.theme-dark .q1lp-reference-frame .feature-card.q1lp-feature-card {
+                border-color: rgba(132, 164, 255, 0.22);
             }
         }
 
@@ -1385,6 +2004,16 @@
             .q1lp-cta-boxes,
             .q1lp-contact-cards {
                 grid-template-columns: 1fr;
+            }
+
+            .q1lp-reference-cta-banner {
+                grid-template-columns: 1fr;
+                padding: 12px;
+            }
+
+            .q1lp-reference-cta-devices {
+                grid-column: auto;
+                min-height: 165px;
             }
 
             .q1lp-screen {
@@ -1503,7 +2132,7 @@
                             <span data-text-ar="ابدأ تجربتك المجانية الآن لمدة 30 يوم" data-text-en="Start your free 30-day trial">ابدأ تجربتك المجانية الآن لمدة 30 يوم</span>
                             <span>›</span>
                         </button>
-                        <a href="#how" class="q1lp-btn outline">
+                        <a href="#how" class="q1lp-btn outline" id="heroDemoBtn">
                             <span data-text-ar="شاهد النظام خلال دقيقة" data-text-en="Watch a 1-minute demo">شاهد النظام خلال دقيقة</span>
                             <span>▶</span>
                         </a>
@@ -1569,6 +2198,23 @@
                             <span data-text-ar="&#1575;&#1604;&#1588;&#1607;&#1585;" data-text-en="Month">&#1575;&#1604;&#1588;&#1607;&#1585;</span>
                             <strong>18,760</strong>
                         </div>
+                        <div class="q1lp-design-phone-chart" aria-hidden="true">
+                            <span data-text-ar="&#1606;&#1588;&#1575;&#1591; &#1575;&#1604;&#1578;&#1581;&#1589;&#1610;&#1604;" data-text-en="Collection trend">&#1606;&#1588;&#1575;&#1591; &#1575;&#1604;&#1578;&#1581;&#1589;&#1610;&#1604;</span>
+                            <svg viewBox="0 0 128 78" preserveAspectRatio="none">
+                                <defs>
+                                    <linearGradient id="q1lpPhoneChartFill" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="0%" stop-color="#4d7cf0" stop-opacity="0.32" />
+                                        <stop offset="100%" stop-color="#4d7cf0" stop-opacity="0" />
+                                    </linearGradient>
+                                </defs>
+                                <path class="chart-grid" d="M0 18H128M0 40H128M0 62H128" />
+                                <path class="chart-area" d="M4 62 C18 58, 24 47, 38 49 S62 56, 74 39 S96 28, 124 16 L124 76 L4 76 Z" />
+                                <path class="chart-line" pathLength="270" d="M4 62 C18 58, 24 47, 38 49 S62 56, 74 39 S96 28, 124 16" />
+                                <circle class="chart-dot" cx="38" cy="49" r="4" />
+                                <circle class="chart-dot" cx="74" cy="39" r="4" />
+                                <circle class="chart-dot" cx="124" cy="16" r="4" />
+                            </svg>
+                        </div>
                     </div>
                 </div>
 
@@ -1613,46 +2259,53 @@
 
         <section class="q1lp-section" id="suitable">
             <div class="q1lp-container">
-                <div class="q1lp-section-title">
-                    <h2 data-text-ar="مناسب لـ" data-text-en="Suitable For">مناسب لـ</h2>
-                </div>
-                <div class="q1lp-suitable">
-                    <div class="q1lp-suitable-card"><span class="q1lp-icon-box">E</span><span data-text-ar="محلات الكهربائيات والأجهزة" data-text-en="Electronics & Appliances">محلات الكهربائيات والأجهزة</span></div>
-                    <div class="q1lp-suitable-card"><span class="q1lp-icon-box">M</span><span data-text-ar="محلات الجوالات" data-text-en="Mobile Phone Shops">محلات الجوالات</span></div>
-                    <div class="q1lp-suitable-card"><span class="q1lp-icon-box">A</span><span data-text-ar="جميع الأنشطة التجارية" data-text-en="All Commercial Activities">جميع الأنشطة التجارية</span></div>
-                    <div class="q1lp-suitable-card"><span class="q1lp-icon-box">R</span><span data-text-ar="المحلات التجارية" data-text-en="Retail Stores">المحلات التجارية</span></div>
-                    <div class="q1lp-suitable-card"><span class="q1lp-icon-box">F</span><span data-text-ar="موردي الأغذية والمواد الاستهلاكية" data-text-en="Food & Consumer Suppliers">موردي الأغذية والمواد الاستهلاكية</span></div>
-                    <div class="q1lp-suitable-card"><span class="q1lp-icon-box">C</span><span data-text-ar="البيع بالأجل والممولة والأقساط" data-text-en="Credit Sales & Installments">البيع بالأجل والممولة والأقساط</span></div>
+                <div class="q1lp-reference-frame q1lp-reference-frame--suitable">
+                    <div class="q1lp-section-title">
+                        <h2 data-text-ar="مناسب لـ" data-text-en="Suitable For">مناسب لـ</h2>
+                    </div>
+                    <div class="q1lp-suitable">
+                        <div class="q1lp-suitable-card"><span class="q1lp-icon-box" aria-hidden="true">📺</span><span data-text-ar="محلات المكيفات والأجهزة" data-text-en="Appliance & Air-Conditioning Shops">محلات المكيفات والأجهزة</span></div>
+                        <div class="q1lp-suitable-card"><span class="q1lp-icon-box" aria-hidden="true">📱</span><span data-text-ar="محلات الجوالات" data-text-en="Mobile Phone Shops">محلات الجوالات</span></div>
+                        <div class="q1lp-suitable-card"><span class="q1lp-icon-box" aria-hidden="true">🏪</span><span data-text-ar="جميع الأنشطة التجارية" data-text-en="All Commercial Activities">جميع الأنشطة التجارية</span></div>
+                        <div class="q1lp-suitable-card"><span class="q1lp-icon-box" aria-hidden="true">🏬</span><span data-text-ar="المحلات التجارية" data-text-en="Retail Stores">المحلات التجارية</span></div>
+                        <div class="q1lp-suitable-card"><span class="q1lp-icon-box" aria-hidden="true">🧺</span><span data-text-ar="موردي الأغذية والمواد الاستهلاكية" data-text-en="Food & Consumer Suppliers">موردي الأغذية والمواد الاستهلاكية</span></div>
+                        <div class="q1lp-suitable-card"><span class="q1lp-icon-box" aria-hidden="true">💳</span><span data-text-ar="البيع بالأجل والمهلة والأقساط" data-text-en="Credit Sales & Installments">البيع بالأجل والمهلة والأقساط</span></div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section class="q1lp-section soft" id="how">
+        <section class="q1lp-section" id="how">
             <div class="q1lp-container">
-                <div class="q1lp-section-title">
-                    <h2 data-text-ar="كيف يعمل Q1KEY؟" data-text-en="How does Q1KEY work?">كيف يعمل Q1KEY؟</h2>
-                    <p data-text-ar="أربع خطوات بسيطة من إضافة العميل إلى تحصيل آخر قسط." data-text-en="Four simple steps from adding a customer to collecting the last installment.">أربع خطوات بسيطة من إضافة العميل إلى تحصيل آخر قسط.</p>
-                </div>
-                <div class="q1lp-steps">
-                    <div class="q1lp-step-card"><span class="q1lp-step-num">1</span><span class="q1lp-icon-box">👤</span><h3 data-text-ar="أضف العميل" data-text-en="Add the Customer">أضف العميل</h3><p data-text-ar="سجل بيانات العميل مرة واحدة وبكل سهولة، وابدأ البيع معه." data-text-en="Register customer details once, easily, and start selling.">سجل بيانات العميل مرة واحدة وبكل سهولة، وابدأ البيع معه.</p></div>
-                    <div class="q1lp-step-card"><span class="q1lp-step-num">2</span><span class="q1lp-icon-box">🛒</span><h3 data-text-ar="سجل عملية البيع" data-text-en="Log the Sale">سجل عملية البيع</h3><p data-text-ar="سجل بيانات البيع وأضف المنتجات والقيمة وطريقة الدفع والأقساط." data-text-en="Record the sale — products, amount, payment method and installments.">سجل بيانات البيع وأضف المنتجات والقيمة وطريقة الدفع والأقساط.</p></div>
-                    <div class="q1lp-step-card"><span class="q1lp-step-num">3</span><span class="q1lp-icon-box">📆</span><h3 data-text-ar="جدول الأقساط" data-text-en="Installment Schedule">جدول الأقساط</h3><p data-text-ar="يتم إنشاء جدول الأقساط وتواريخها تلقائياً حسب المدة المتفق عليها." data-text-en="A schedule with due dates is generated automatically.">يتم إنشاء جدول الأقساط وتواريخها تلقائياً حسب المدة المتفق عليها.</p></div>
-                    <div class="q1lp-step-card"><span class="q1lp-step-num">4</span><span class="q1lp-icon-box">💳</span><h3 data-text-ar="تابع التحصيل" data-text-en="Track Collections">تابع التحصيل</h3><p data-text-ar="سجل المدفوعات، وتابع المتبقي للتحصيل، ومعرفة المتعثرين." data-text-en="Log payments, track balances, and spot late payers.">سجل المدفوعات، وتابع المتبقي للتحصيل، ومعرفة المتعثرين.</p></div>
+                <div class="q1lp-reference-frame q1lp-reference-frame--steps">
+                    <div class="q1lp-section-title">
+                        <h2><span data-text-ar="كيف يعمل" data-text-en="How does">كيف يعمل</span> <strong>Q1KEY</strong><span data-text-ar="؟" data-text-en=" work?">؟</span></h2>
+                    </div>
+                    <div class="q1lp-steps">
+                        <div class="q1lp-step-card"><span class="q1lp-step-num">1</span><span class="q1lp-icon-box" aria-hidden="true">👤</span><h3 data-text-ar="أضف العميل" data-text-en="Add the Customer">أضف العميل</h3><p data-text-ar="سجل بيانات العميل مرة واحدة وبكل سهولة، وابدأ البيع معه." data-text-en="Register customer details once, easily, and start selling.">سجل بيانات العميل مرة واحدة وبكل سهولة، وابدأ البيع معه.</p></div>
+                        <div class="q1lp-step-card"><span class="q1lp-step-num">2</span><span class="q1lp-icon-box" aria-hidden="true">🛒</span><h3 data-text-ar="سجل عملية البيع" data-text-en="Log the Sale">سجل عملية البيع</h3><p data-text-ar="سجل بيانات البيع وأضف المنتجات والقيمة وطريقة الدفع والأقساط." data-text-en="Record products, price, payment method and installments.">سجل بيانات البيع وأضف المنتجات والقيمة وطريقة الدفع والأقساط.</p></div>
+                        <div class="q1lp-step-card"><span class="q1lp-step-num">3</span><span class="q1lp-icon-box" aria-hidden="true">🗓</span><h3 data-text-ar="جدول الأقساط" data-text-en="Installment Schedule">جدول الأقساط</h3><p data-text-ar="يتم إنشاء جدول الأقساط وتواريخها تلقائياً حسب المدة المتفق عليها." data-text-en="The schedule and due dates are created automatically for the agreed term.">يتم إنشاء جدول الأقساط وتواريخها تلقائياً حسب المدة المتفق عليها.</p></div>
+                        <div class="q1lp-step-card"><span class="q1lp-step-num">4</span><span class="q1lp-icon-box" aria-hidden="true">👛</span><h3 data-text-ar="تابع التحصيل" data-text-en="Track Collections">تابع التحصيل</h3><p data-text-ar="سجل المدفوعات وتابع المتبقي مع تنبيهات بالمواعيد ومعرفة المتأخرين والمتعثرين." data-text-en="Log payments, track balances, receive due-date alerts, and identify late customers.">سجل المدفوعات وتابع المتبقي مع تنبيهات بالمواعيد ومعرفة المتأخرين والمتعثرين.</p></div>
+                    </div>
                 </div>
             </div>
         </section>
 
         <section class="q1lp-section" id="features">
             <div class="q1lp-container">
-                <div class="q1lp-section-title">
-                    <h2 id="featuresTitle" data-text-ar="لماذا تختار Q1KEY؟" data-text-en="Why choose Q1KEY?">لماذا تختار Q1KEY؟</h2>
-                    <p id="featuresDesc" data-text-ar="مميزات عملية تساعدك على إدارة التحصيل ومنع التعثرات." data-text-en="Practical features to manage collections and prevent defaults.">مميزات عملية تساعدك على إدارة التحصيل ومنع التعثرات.</p>
-                </div>
-                <div class="q1lp-why" id="featuresGrid">
-                    <div class="q1lp-feature-card"><span class="q1lp-icon-box">N</span><h3>تنبيهات ذكية</h3><p>تذكير بالأقساط ومواعيدها عبر إشعارات تلقائية.</p></div>
-                    <div class="q1lp-feature-card"><span class="q1lp-icon-box">R</span><h3>تقارير شاملة</h3><p>تقارير تفصيلية تساعدك على اتخاذ قرارات ذكية.</p></div>
-                    <div class="q1lp-feature-card"><span class="q1lp-icon-box">🛡</span><h3>بيانات آمنة</h3><p>حماية عالية لبياناتك والتزام بأعلى معايير الأمان.</p></div>
-                    <div class="q1lp-feature-card"><span class="q1lp-icon-box">24</span><h3>دعم فني</h3><p>فريق دعم متاح دائماً لمساعدتك عند الحاجة.</p></div>
+                <div class="q1lp-reference-frame q1lp-reference-frame--features">
+                    <div class="q1lp-section-title">
+                        <h2 id="featuresTitle">لماذا تختار <strong>Q1KEY</strong>؟</h2>
+                    </div>
+                    <div class="q1lp-why" id="featuresGrid">
+                        <div class="feature-card q1lp-feature-card"><div class="feature-icon q1lp-icon-box">🔔</div><h3 class="feature-title">تنبيهات ذكية</h3><p class="feature-desc">تذكير بالأقساط ومواعيدها عبر إشعارات تلقائية قبل التأخير.</p></div>
+                        <div class="feature-card q1lp-feature-card"><div class="feature-icon q1lp-icon-box">📊</div><h3 class="feature-title">تقارير شاملة</h3><p class="feature-desc">تقارير تفصيلية تساعدك على اتخاذ قرارات ذكية.</p></div>
+                        <div class="feature-card q1lp-feature-card"><div class="feature-icon q1lp-icon-box">📄</div><h3 class="feature-title">كشف حساب دوري</h3><p class="feature-desc">أرسل كشف حساب للعميل بضغطة واحدة.</p></div>
+                        <div class="feature-card q1lp-feature-card"><div class="feature-icon q1lp-icon-box">🛡</div><h3 class="feature-title">بيانات آمنة</h3><p class="feature-desc">حماية عالية لبياناتك والتزام بأعلى معايير الأمان.</p></div>
+                        <div class="feature-card q1lp-feature-card"><div class="feature-icon q1lp-icon-box">☑</div><h3 class="feature-title">سهل وبسيط</h3><p class="feature-desc">واجهة سهلة ومناسبة لجميع المستخدمين من أي مكان.</p></div>
+                        <div class="feature-card q1lp-feature-card"><div class="feature-icon q1lp-icon-box">☁</div><h3 class="feature-title">من أي مكان</h3><p class="feature-desc">ادخل على بياناتك من أي جهاز وفي أي وقت.</p></div>
+                        <div class="feature-card q1lp-feature-card"><div class="feature-icon q1lp-icon-box">⚡</div><h3 class="feature-title">سريع وموثوق</h3><p class="feature-desc">واجهة سريعة وموثوقة وآمنة لجميع المستخدمين.</p></div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -1661,52 +2314,67 @@
             <div class="q1lp-container">
                 <div class="q1lp-section-title">
                     <h2 data-text-ar="لماذا Q1KEY أفضل من الطرق التقليدية؟" data-text-en="Why is Q1KEY better than traditional methods?">لماذا Q1KEY أفضل من الطرق التقليدية؟</h2>
-                    <p data-text-ar="قارن بنفسك بين الطرق التقليدية ومنصة Q1KEY." data-text-en="Compare traditional methods with Q1KEY.">قارن بنفسك بين الطرق التقليدية ومنصة Q1KEY.</p>
+                    <p data-text-ar="مقارنة واضحة بين الدفتر وExcel ومنصة Q1KEY في إدارة الأقساط والتحصيل وصندوق الأموال." data-text-en="A clear comparison between notebooks, Excel, and Q1KEY for installments, collections, and cash-box control.">مقارنة واضحة بين الدفتر وExcel ومنصة Q1KEY في إدارة الأقساط والتحصيل وصندوق الأموال.</p>
                 </div>
                 <div class="q1lp-compare">
-                    <div class="q1lp-compare-row q1lp-compare-head"><div data-text-ar="الميزة" data-text-en="Feature">الميزة</div><div data-text-ar="دفتر" data-text-en="Notebook">دفتر</div><div>Excel</div><div>Q1KEY</div></div>
-                    <div class="q1lp-compare-row"><div data-text-ar="إدارة الأقساط" data-text-en="Installment management">إدارة الأقساط</div><div class="q1lp-mark">✕</div><div class="q1lp-mark">✕</div><div class="q1lp-mark yes">✓</div></div>
-                    <div class="q1lp-compare-row"><div data-text-ar="تنبيهات المواعيد" data-text-en="Due-date alerts">تنبيهات المواعيد</div><div class="q1lp-mark">✕</div><div class="q1lp-mark">✕</div><div class="q1lp-mark yes">✓</div></div>
-                    <div class="q1lp-compare-row"><div data-text-ar="كشف حساب العملاء" data-text-en="Customer statements">كشف حساب العملاء</div><div class="q1lp-mark">✕</div><div class="q1lp-mark">✕</div><div class="q1lp-mark yes">✓</div></div>
-                    <div class="q1lp-compare-row"><div data-text-ar="معرفة المتأخرين والمتعثرين" data-text-en="Identify late customers">معرفة المتأخرين والمتعثرين</div><div class="q1lp-mark">✕</div><div class="q1lp-mark">✕</div><div class="q1lp-mark yes">✓</div></div>
-                    <div class="q1lp-compare-row"><div data-text-ar="تقارير PDF و Excel" data-text-en="PDF & Excel reports">تقارير PDF و Excel</div><div class="q1lp-mark">✕</div><div class="q1lp-mark">✕</div><div class="q1lp-mark yes">✓</div></div>
+                    <div class="q1lp-compare-row q1lp-compare-head">
+                        <div><span class="q1lp-compare-head-label"><span class="q1lp-compare-head-icon">⚙</span><span data-text-ar="الميزة" data-text-en="Feature">الميزة</span></span></div>
+                        <div><span class="q1lp-compare-head-label"><span class="q1lp-compare-head-icon">📓</span><span data-text-ar="دفتر" data-text-en="Notebook">دفتر</span></span></div>
+                        <div><span class="q1lp-compare-head-label"><span class="q1lp-compare-head-icon">📊</span><span>Excel</span></span></div>
+                        <div><span class="q1lp-compare-head-label"><span class="q1lp-compare-head-icon">🔑</span><span>Q1KEY</span></span></div>
+                    </div>
+                    <div class="q1lp-compare-row"><div data-text-ar="إدارة الأقساط وجدولة الدفعات" data-text-en="Installment management and payment scheduling">إدارة الأقساط وجدولة الدفعات</div><div class="q1lp-mark">✕</div><div class="q1lp-mark">✕</div><div class="q1lp-mark yes">✓</div></div>
+                    <div class="q1lp-compare-row"><div data-text-ar="تنبيهات سداد العملاء قبل وبعد موعد الاستحقاق" data-text-en="Customer payment reminders before and after due dates">تنبيهات سداد العملاء قبل وبعد موعد الاستحقاق</div><div class="q1lp-mark">✕</div><div class="q1lp-mark">✕</div><div class="q1lp-mark yes">✓</div></div>
+                    <div class="q1lp-compare-row"><div data-text-ar="صندوق لإدارة الأموال والسحب والإيداع" data-text-en="Cash box for withdrawals, deposits, and money control">صندوق لإدارة الأموال والسحب والإيداع</div><div class="q1lp-mark">✕</div><div class="q1lp-mark">✕</div><div class="q1lp-mark yes">✓</div></div>
+                    <div class="q1lp-compare-row"><div data-text-ar="كشف حساب واضح لكل عميل" data-text-en="Clear customer statements">كشف حساب واضح لكل عميل</div><div class="q1lp-mark">✕</div><div class="q1lp-mark">✕</div><div class="q1lp-mark yes">✓</div></div>
+                    <div class="q1lp-compare-row"><div data-text-ar="معرفة العملاء المتأخرين والمتعثرين فوراً" data-text-en="Instantly identify late and defaulting customers">معرفة العملاء المتأخرين والمتعثرين فوراً</div><div class="q1lp-mark">✕</div><div class="q1lp-mark">✕</div><div class="q1lp-mark yes">✓</div></div>
+                    <div class="q1lp-compare-row"><div data-text-ar="تقارير جاهزة PDF و Excel" data-text-en="Ready PDF and Excel reports">تقارير جاهزة PDF و Excel</div><div class="q1lp-mark">✕</div><div class="q1lp-mark">✕</div><div class="q1lp-mark yes">✓</div></div>
                 </div>
             </div>
         </section>
 
-        <section class="q1lp-section" id="plans">
+        <section class="q1lp-reference-cta" id="contact">
+            <span class="q1lp-reference-cta-anchor" id="plans" aria-hidden="true"></span>
             <div class="q1lp-container">
-                <div class="q1lp-section-title">
-                    <h2 id="plansTitle" data-text-ar="باقات الاشتراك" data-text-en="Subscription Plans">باقات الاشتراك</h2>
-                    <p id="plansDesc" data-text-ar="اختر الباقة المناسبة لاحتياجات مؤسستك" data-text-en="Choose the plan that fits your institution.">اختر الباقة المناسبة لاحتياجات مؤسستك</p>
-                </div>
-                <div class="q1lp-plans" id="plansGrid"></div>
-            </div>
-        </section>
+                <div class="q1lp-reference-cta-banner">
+                    <div class="q1lp-reference-cta-brand">
+                        <img src="logo.png" alt="Q1KEY">
+                        <strong>Q1KEY</strong>
+                        <p data-text-ar="منصة تساعدك على إدارة الأنشطة والتحصيل ومنع التعثرات بكل يسر وسهولة." data-text-en="A platform that helps you manage activities and collections and prevent defaults with complete ease.">منصة تساعدك على إدارة الأنشطة والتحصيل ومنع التعثرات بكل يسر وسهولة.</p>
+                    </div>
 
-        <section class="q1lp-cta" id="contact">
-            <div class="q1lp-container q1lp-cta-grid">
-                <div>
-                    <h2 id="contactTitle" data-text-ar="ابدأ تجربتك المجانية الآن لمدة 30 يوم" data-text-en="Start your free 30-day trial now">ابدأ تجربتك المجانية الآن لمدة 30 يوم</h2>
-                    <div class="q1lp-trust">
-                        <span><i>✓</i><span data-text-ar="بدون بطاقة ائتمانية" data-text-en="No credit card">بدون بطاقة ائتمانية</span></span>
-                        <span><i>✓</i><span data-text-ar="تجربة مجانية 30 يوم" data-text-en="30-day free trial">تجربة مجانية 30 يوم</span></span>
-                        <span><i>✓</i><span data-text-ar="الإلغاء في أي وقت" data-text-en="Cancel anytime">الإلغاء في أي وقت</span></span>
+                    <div class="q1lp-reference-cta-card blue">
+                        <span class="q1lp-reference-cta-icon" aria-hidden="true">▤</span>
+                        <span data-text-ar="وثيقة العمل الحر" data-text-en="Freelance license">وثيقة العمل الحر</span>
+                        <strong>FL223034986</strong>
                     </div>
-                    <div class="q1lp-cta-boxes" style="display:grid; gap:14px; margin-top:18px;">
-                        <a href="https://wa.me/966534678464" target="_blank" class="q1lp-cta-box green" id="q1SupportWhatsappLink">
-                            <span data-text-ar="للتواصل والدعم الفني والتجديد" data-text-en="Support, contact & renewal">للتواصل والدعم الفني والتجديد</span>
-                            <strong id="q1SupportWhatsappText">0534678464</strong>
-                        </a>
-                        <div class="q1lp-cta-box blue">
-                            <span data-text-ar="وثيقة العمل الحر" data-text-en="Freelance license">وثيقة العمل الحر</span>
-                            <strong>FL223034986</strong>
+
+                    <a href="https://wa.me/966534678464" target="_blank" rel="noopener" class="q1lp-reference-cta-card green" id="q1SupportWhatsappLink">
+                        <span class="q1lp-reference-cta-icon" aria-hidden="true">✆</span>
+                        <span data-text-ar="للتواصل والدعم الفني والتجديد" data-text-en="Support, contact and renewal">للتواصل والدعم الفني والتجديد</span>
+                        <strong id="q1SupportWhatsappText">0534678464</strong>
+                    </a>
+
+                    <button type="button" class="q1lp-reference-cta-trial" onclick="openSubscribeModal()" aria-label="ابدأ تجربتك المجانية">
+                        <h2><span data-text-ar="ابدأ تجربتك المجانية الآن لمدة" data-text-en="Start your free trial now for">ابدأ تجربتك المجانية الآن لمدة</span> <strong>30</strong> <span data-text-ar="يوم" data-text-en="days">يوم</span></h2>
+                        <span class="q1lp-reference-cta-points">
+                            <span><i>✓</i><span data-text-ar="بدون بطاقة ائتمانية" data-text-en="No credit card">بدون بطاقة ائتمانية</span></span>
+                            <span><i>✓</i><span data-text-ar="تجربة مجانية 30 يوم" data-text-en="30-day free trial">تجربة مجانية 30 يوم</span></span>
+                            <span><i>✓</i><span data-text-ar="الإلغاء في أي وقت" data-text-en="Cancel anytime">الإلغاء في أي وقت</span></span>
+                        </span>
+                    </button>
+
+                    <div class="q1lp-reference-cta-devices" aria-label="Q1KEY dashboard on laptop and phone">
+                        <div class="q1lp-reference-mini-laptop">
+                            <div class="q1lp-reference-mini-screen">
+                                <div class="q1lp-reference-mini-stats"><i></i><i></i><i></i></div>
+                                <div class="q1lp-reference-mini-chart">
+                                    <i style="--bar-height:28%"></i><i style="--bar-height:42%"></i><i style="--bar-height:36%"></i><i style="--bar-height:65%"></i><i style="--bar-height:56%"></i><i style="--bar-height:82%"></i>
+                                </div>
+                            </div>
                         </div>
+                        <div class="q1lp-reference-mini-phone"><i></i><i></i><i></i></div>
                     </div>
-                </div>
-                <div>
-                    <div class="q1lp-contact-cards" id="contactCards"></div>
-                    <div id="footerLinks" style="margin-top:18px;"></div>
                 </div>
             </div>
         </section>

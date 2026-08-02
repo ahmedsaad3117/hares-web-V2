@@ -103,6 +103,45 @@ function renderPage() {
     renderPlanSelector(isAr);
 }
 
+function normalizeExternalUrl(url) {
+    const value = typeof url === 'string' ? url.trim() : '';
+    if (!value) return '';
+
+    if (/^https?:\/\//i.test(value)) {
+        return value;
+    }
+
+    if (/^(www\.|youtube\.com|youtu\.be)/i.test(value)) {
+        return `https://${value}`;
+    }
+
+    return '';
+}
+
+function updateHeroDemoButton() {
+    const demoBtn = document.getElementById('heroDemoBtn');
+    if (!demoBtn) return;
+
+    const demoUrl = normalizeExternalUrl(
+        homepageData?.hero?.videoUrl ||
+        homepageData?.hero?.heroVideoUrl ||
+        homepageData?.heroVideoUrl ||
+        ''
+    );
+
+    if (demoUrl) {
+        demoBtn.href = demoUrl;
+        demoBtn.target = '_blank';
+        demoBtn.rel = 'noopener noreferrer';
+        demoBtn.setAttribute('aria-label', currentLang === 'ar' ? 'شاهد فيديو شرح النظام' : 'Watch the system demo video');
+    } else {
+        demoBtn.href = '#how';
+        demoBtn.removeAttribute('target');
+        demoBtn.removeAttribute('rel');
+        demoBtn.setAttribute('aria-label', currentLang === 'ar' ? 'انتقل إلى طريقة عمل النظام' : 'Go to how the system works');
+    }
+}
+
 // ---------- Header Links ---------- //
 function renderHeaderLinks(isAr) {
     const container = document.getElementById('headerNav');
@@ -201,9 +240,13 @@ function renderFeatures(isAr) {
         ? homepageData.features.items
         : defaultFeatures;
 
-    grid.innerHTML = features.map(f => `
+    // The reference landing design uses one precise seven-card row.
+    // Keep API-managed content, while matching that visual count and order.
+    const referenceFeatures = features.slice(0, 7);
+
+    grid.innerHTML = referenceFeatures.map(f => `
         <div class="feature-card q1lp-feature-card">
-            <div class="feature-icon q1lp-icon-box">${f.icon || f.iconAr || '✨'}</div>
+            <div class="feature-icon q1lp-icon-box" aria-hidden="true">${f.icon || f.iconAr || '✨'}</div>
             <h3 class="feature-title">${isAr ? (f.titleAr || f.title) : (f.titleEn || f.title)}</h3>
             <p class="feature-desc">${isAr ? (f.descAr || f.desc) : (f.descEn || f.desc)}</p>
         </div>
@@ -251,8 +294,6 @@ function renderPlans(isAr) {
 // ---------- Contact Cards ---------- //
 function renderContactCards(isAr) {
     const container = document.getElementById('contactCards');
-    if (!container) return;
-
     const whatsapp = homepageData?.contact?.whatsappNumber || '+966500000000';
     const email = homepageData?.contact?.supportEmail || 'support@q1key.com';
     const supportWhatsappLink = document.getElementById('q1SupportWhatsappLink');
@@ -263,6 +304,8 @@ function renderContactCards(isAr) {
     if (supportWhatsappText) {
         supportWhatsappText.textContent = whatsapp;
     }
+
+    if (!container) return;
 
     container.innerHTML = `
         <a href="https://wa.me/${whatsapp.replace(/[^0-9]/g, '')}" class="contact-card" target="_blank">
@@ -389,6 +432,25 @@ function updateThemeToggle() {
     toggle.title = toggle.getAttribute('aria-label');
 }
 
+function setBrandedQ1KeyTitle(element, value) {
+    if (!element || !value) return;
+
+    const text = String(value).trim();
+    const match = text.match(/^(.*?)(Q1KEY)(.*)$/i);
+    if (!match) {
+        element.textContent = text;
+        return;
+    }
+
+    const brand = document.createElement('strong');
+    brand.textContent = 'Q1KEY';
+    element.replaceChildren(
+        document.createTextNode(match[1]),
+        brand,
+        document.createTextNode(match[3])
+    );
+}
+
 function updateAllTexts() {
     const isAr = currentLang === 'ar';
 
@@ -396,6 +458,7 @@ function updateAllTexts() {
     const langLabel = document.getElementById('langLabel');
     if (langLabel) langLabel.textContent = isAr ? 'EN' : 'AR';
     updateThemeToggle();
+    updateHeroDemoButton();
 
     // 1. Update Hero Section from homepageData
     if (homepageData?.hero) {
@@ -454,7 +517,15 @@ function updateAllTexts() {
         const sec = document.getElementById('features');
         if (sec) sec.style.display = homepageData.features.visible ? 'block' : 'none';
         const title = document.getElementById('featuresTitle');
-        if (title) title.textContent = isAr ? homepageData.features.titleAr : homepageData.features.titleEn;
+        if (title) {
+            const titleText = isAr ? homepageData.features.titleAr : homepageData.features.titleEn;
+            setBrandedQ1KeyTitle(title, titleText || (isAr ? 'لماذا تختار Q1KEY؟' : 'Why choose Q1KEY?'));
+        }
+    } else {
+        setBrandedQ1KeyTitle(
+            document.getElementById('featuresTitle'),
+            isAr ? 'لماذا تختار Q1KEY؟' : 'Why choose Q1KEY?'
+        );
     }
 
     if (homepageData?.plans) {

@@ -924,6 +924,17 @@
                                                 placeholder="The Ultimate Solution"></textarea>
                                         </div>
                                     </div>
+                                    <div class="form-row">
+                                        <div class="form-group" style="grid-column: 1 / -1;">
+                                            <label data-i18n-key="tools.homepage.demo_video_url">رابط فيديو يوتيوب لزر مشاهدة النظام</label>
+                                            <input type="url" id="hp_heroVideoUrl" class="input"
+                                                placeholder="https://www.youtube.com/watch?v=...">
+                                            <small data-i18n-key="tools.homepage.demo_video_hint"
+                                                style="display: block; margin-top: 0.5rem; color: var(--text-muted);">
+                                                سيتم فتح هذا الرابط عند الضغط على زر "شاهد النظام خلال دقيقة" في الصفحة الرئيسية.
+                                            </small>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <!-- Buttons Tab -->
@@ -1604,6 +1615,8 @@
             document.getElementById('hp_heroTitleEn').value = settings.heroTitleEn || '';
             document.getElementById('hp_heroSubtitleAr').value = settings.heroSubtitleAr || '';
             document.getElementById('hp_heroSubtitleEn').value = settings.heroSubtitleEn || '';
+            if (document.getElementById('hp_heroVideoUrl'))
+                document.getElementById('hp_heroVideoUrl').value = settings.heroVideoUrl || settings.hero_video_url || '';
 
             // Buttons
             document.getElementById('hp_loginBtnTextAr').value = settings.loginButtonTextAr || '';
@@ -1704,6 +1717,7 @@
                             heroTitleEn: getVal('hp_heroTitleEn'),
                             heroSubtitleAr: getVal('hp_heroSubtitleAr'),
                             heroSubtitleEn: getVal('hp_heroSubtitleEn'),
+                            heroVideoUrl: getVal('hp_heroVideoUrl'),
 
                             loginButtonTextAr: getVal('hp_loginBtnTextAr'),
                             loginButtonTextEn: getVal('hp_loginBtnTextEn'),

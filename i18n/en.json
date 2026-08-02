@@ -1194,6 +1194,8 @@
       "title_en": "Title (English)",
       "subtitle_ar": "Subtitle (Arabic)",
       "subtitle_en": "Subtitle (English)",
+      "demo_video_url": "YouTube demo video URL",
+      "demo_video_hint": "This link opens when visitors click the “Watch a 1-minute demo” button on the landing page.",
       "plans_section": "Plans Section",
       "contact_section": "Contact Section",
       "buttons_section": "Page Buttons",
