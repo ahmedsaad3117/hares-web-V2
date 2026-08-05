@@ -8007,3 +8007,203 @@ html:not(.theme-dark) body:not(.theme-dark) .sidebar button.btn-secondary {
 html:not(.theme-dark) body:not(.theme-dark) .sidebar::-webkit-scrollbar-thumb {
   background-color: rgba(1, 71, 247, 0.22) !important;
 }
+
+/* Requests overview counters: explicit contrast and semantic colors in both themes. */
+html:not(.theme-dark) body:not(.theme-dark).requests-page .stats-row .stat-card {
+  min-height: 150px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: linear-gradient(145deg, #ffffff 0%, #f6f9ff 100%) !important;
+  border-color: #d8e2f4 !important;
+  box-shadow: 0 14px 30px rgba(1, 15, 64, 0.08) !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark).requests-page .stats-row .stat-card .stat-value {
+  color: #172342 !important;
+  -webkit-text-fill-color: #172342 !important;
+  text-shadow: none !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark).requests-page .stats-row .stat-card.pending .stat-value {
+  color: #a85606 !important;
+  -webkit-text-fill-color: #a85606 !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark).requests-page .stats-row .stat-card.approved .stat-value {
+  color: #047857 !important;
+  -webkit-text-fill-color: #047857 !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark).requests-page .stats-row .stat-card.rejected .stat-value {
+  color: #b91c1c !important;
+  -webkit-text-fill-color: #b91c1c !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark).requests-page .stats-row .stat-card .stat-label {
+  color: #5b6b86 !important;
+  -webkit-text-fill-color: #5b6b86 !important;
+  font-weight: 750 !important;
+}
+
+html.theme-dark body.requests-page .stats-row .stat-card,
+body.theme-dark.requests-page .stats-row .stat-card {
+  min-height: 150px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: linear-gradient(145deg, rgba(15, 31, 67, 0.98), rgba(10, 23, 53, 0.94)) !important;
+  border-color: rgba(155, 185, 251, 0.24) !important;
+}
+
+html.theme-dark body.requests-page .stats-row .stat-card .stat-value,
+body.theme-dark.requests-page .stats-row .stat-card .stat-value {
+  color: #f8fbff !important;
+  -webkit-text-fill-color: #f8fbff !important;
+}
+
+html.theme-dark body.requests-page .stats-row .stat-card.pending .stat-value,
+body.theme-dark.requests-page .stats-row .stat-card.pending .stat-value {
+  color: #fbbf24 !important;
+  -webkit-text-fill-color: #fbbf24 !important;
+}
+
+html.theme-dark body.requests-page .stats-row .stat-card.approved .stat-value,
+body.theme-dark.requests-page .stats-row .stat-card.approved .stat-value {
+  color: #34d399 !important;
+  -webkit-text-fill-color: #34d399 !important;
+}
+
+html.theme-dark body.requests-page .stats-row .stat-card.rejected .stat-value,
+body.theme-dark.requests-page .stats-row .stat-card.rejected .stat-value {
+  color: #f87171 !important;
+  -webkit-text-fill-color: #f87171 !important;
+}
+
+html.theme-dark body.requests-page .stats-row .stat-card .stat-label,
+body.theme-dark.requests-page .stats-row .stat-card .stat-label {
+  color: #b8c8e8 !important;
+  -webkit-text-fill-color: #b8c8e8 !important;
+}
+
+/* Second typography step: enlarge common text without changing component dimensions. */
+.page-content,
+.main-content,
+.content-wrapper,
+.modal-content,
+.modal-card {
+  font-size: 1.08rem !important;
+}
+
+.page-content h1,
+.main-content h1,
+.header-main-title,
+.page-title {
+  font-size: clamp(2.15rem, 3vw, 2.95rem) !important;
+}
+
+.page-content h2,
+.main-content h2,
+.section-title,
+.card-title {
+  font-size: clamp(1.58rem, 2.2vw, 2.2rem) !important;
+}
+
+.page-content h3,
+.main-content h3,
+.modal-content h3,
+.modal-card h3 {
+  font-size: clamp(1.25rem, 1.55vw, 1.6rem) !important;
+}
+
+.page-content p,
+.page-content label,
+.page-content li,
+.modal-content p,
+.modal-content label,
+.modal-card p,
+.modal-card label,
+.header-subtitle {
+  font-size: clamp(1rem, 1.08vw, 1.12rem) !important;
+  line-height: 1.62 !important;
+}
+
+.page-content small,
+.modal-content small,
+.modal-card small,
+.page-content .text-xs,
+.modal-content .text-xs {
+  font-size: clamp(0.88rem, 0.94vw, 0.98rem) !important;
+}
+
+.page-content .text-sm,
+.modal-content .text-sm,
+.modal-card .text-sm {
+  font-size: clamp(0.98rem, 1.03vw, 1.08rem) !important;
+}
+
+.btn,
+.action-btn,
+.filter-btn,
+.filter-tab,
+.tab-btn,
+.settings-nav-item,
+.sidebar-nav-link,
+.page-content table th,
+.page-content table td,
+.modal-content input,
+.modal-content select,
+.modal-content textarea,
+.page-content input,
+.page-content select,
+.page-content textarea {
+  font-size: clamp(1.03rem, 1.08vw, 1.12rem) !important;
+  line-height: 1.48 !important;
+}
+
+.stat-value,
+.stat-card-value,
+.stat-card .stat-value,
+.stat-card-premium .stat-value,
+.metric-value,
+.summary-value,
+.total-value,
+.balance-value,
+.count-value {
+  font-size: clamp(2.4rem, 2.9vw, 3.35rem) !important;
+  line-height: 1.03 !important;
+}
+
+.stat-label,
+.stat-card-label,
+.stat-subtitle,
+.detail-label,
+.info-label {
+  font-size: clamp(1rem, 1.08vw, 1.12rem) !important;
+}
+
+@media (max-width: 760px) {
+  .page-content,
+  .main-content,
+  .content-wrapper,
+  .modal-content,
+  .modal-card {
+    font-size: 1.02rem !important;
+  }
+
+  .page-content p,
+  .page-content label,
+  .page-content li,
+  .page-content table th,
+  .page-content table td,
+  .btn,
+  .action-btn,
+  .filter-btn,
+  .filter-tab,
+  .tab-btn,
+  .sidebar-nav-link {
+    font-size: 1rem !important;
+  }
+}
