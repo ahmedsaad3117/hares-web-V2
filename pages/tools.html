@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>الأدوات - Q1KEY Platform</title>
   <link rel="icon" type="image/png" href="../logo.png">
-    <link rel="stylesheet" href="../css/styles.css?v=52">
+    <link rel="stylesheet" href="../css/styles.css?v=53">
     <style>
         .page-container {
             max-width: 1400px;
@@ -509,6 +509,98 @@
             gap: 0.5rem;
             font-weight: 500;
         }
+
+        /* Tools light theme: preserve clear selected states and readable plan controls. */
+        html:not(.theme-dark) body:not(.theme-dark).tools-page .tool-tab {
+            background: #ffffff;
+            border-color: #d8e2f4;
+            box-shadow: 0 8px 20px rgba(1, 15, 64, 0.05);
+        }
+
+        html:not(.theme-dark) body:not(.theme-dark).tools-page .tool-tab:hover {
+            background: #f3f7ff;
+            border-color: rgba(1, 71, 247, 0.38);
+        }
+
+        html:not(.theme-dark) body:not(.theme-dark).tools-page .tool-tab.active {
+            background: linear-gradient(135deg, #eaf1ff 0%, #f3efff 100%);
+            border-color: #0147f7;
+            box-shadow: 0 12px 28px rgba(1, 71, 247, 0.16), inset 0 0 0 1px rgba(1, 71, 247, 0.08);
+        }
+
+        html:not(.theme-dark) body:not(.theme-dark).tools-page .tool-tab h3,
+        html:not(.theme-dark) body:not(.theme-dark).tools-page .section-header h2,
+        html:not(.theme-dark) body:not(.theme-dark).tools-page .add-plan-form h3,
+        html:not(.theme-dark) body:not(.theme-dark).tools-page .settings-label span,
+        html:not(.theme-dark) body:not(.theme-dark).tools-page .plan-title {
+            color: #172342 !important;
+            -webkit-text-fill-color: #172342 !important;
+        }
+
+        html:not(.theme-dark) body:not(.theme-dark).tools-page .tool-tab.active h3,
+        html:not(.theme-dark) body:not(.theme-dark).tools-page .settings-nav-item.active {
+            color: #0130a1 !important;
+            -webkit-text-fill-color: #0130a1 !important;
+        }
+
+        html:not(.theme-dark) body:not(.theme-dark).tools-page .settings-nav-item.active {
+            background: #eaf1ff !important;
+            border: 1px solid #a8c1ff !important;
+            box-shadow: inset 4px 0 0 #0147f7, 0 8px 18px rgba(1, 71, 247, 0.09);
+        }
+
+        [dir="rtl"] html:not(.theme-dark) body:not(.theme-dark).tools-page .settings-nav-item.active,
+        html:not(.theme-dark)[dir="rtl"] body:not(.theme-dark).tools-page .settings-nav-item.active {
+            box-shadow: inset -4px 0 0 #0147f7, 0 8px 18px rgba(1, 71, 247, 0.09);
+        }
+
+        html:not(.theme-dark) body:not(.theme-dark).tools-page .tool-tab p,
+        html:not(.theme-dark) body:not(.theme-dark).tools-page .settings-label small,
+        html:not(.theme-dark) body:not(.theme-dark).tools-page .plan-month-unit {
+            color: #5b6b86 !important;
+            -webkit-text-fill-color: #5b6b86 !important;
+        }
+
+        html:not(.theme-dark) body:not(.theme-dark).tools-page .settings-card,
+        html:not(.theme-dark) body:not(.theme-dark).tools-page .add-plan-form {
+            background: #f8fbff;
+            border-color: #d8e2f4;
+        }
+
+        html:not(.theme-dark) body:not(.theme-dark).tools-page .plans-table th {
+            background: #eef4ff;
+            color: #24314f;
+            border-bottom-color: #cbd9ef;
+        }
+
+        html:not(.theme-dark) body:not(.theme-dark).tools-page .plans-table td {
+            color: #24314f;
+            border-bottom-color: #e2e9f5;
+        }
+
+        html:not(.theme-dark) body:not(.theme-dark).tools-page .plans-table tr:hover {
+            background: #f6f9ff;
+        }
+
+        body.tools-page #subscriptionPlans .section-header > .btn.btn-primary {
+            display: inline-flex !important;
+            align-items: center;
+            gap: 0.5rem;
+            min-width: max-content;
+            background: #0147f7 !important;
+            border-color: #0147f7 !important;
+            color: #ffffff !important;
+            -webkit-text-fill-color: #ffffff !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+
+        body.tools-page #subscriptionPlans .section-header > .btn.btn-primary span,
+        body.tools-page #subscriptionPlans .section-header > .btn.btn-primary svg {
+            color: #ffffff !important;
+            -webkit-text-fill-color: #ffffff !important;
+            stroke: currentColor;
+        }
     </style>
     <script>
         (function () {
@@ -520,7 +612,7 @@
     </script>
 </head>
 
-<body>
+<body class="tools-page">
     <div id="sidebar"></div>
 
     <div class="main-content">
@@ -1806,13 +1898,13 @@
                         <div style="display: flex; align-items: center; gap: 0.5rem;">
                             <span style="font-size: 1.5rem;">${getDurationEmoji(plan.durationMonths)}</span>
                             <div>
-                                <strong style="color: white;">${plan.name}</strong>
+                                <strong class="plan-title">${plan.name}</strong>
                                 ${plan.nameEn ? `<br><small style="color: #64748b;">${plan.nameEn}</small>` : ''}
                             </div>
                         </div>
                     </td>
                     <td>
-                        <span style="color: #818cf8; font-weight: 600;">${plan.durationMonths}</span> ${plan.durationMonths === 1 ? t('common.label.month') : t('common.label.months')}
+                        <span style="color: #4f46e5; font-weight: 700;">${plan.durationMonths}</span> <span class="plan-month-unit">${plan.durationMonths === 1 ? t('common.label.month') : t('common.label.months')}</span>
                     </td>
                     <td>
                         <input type="number" 

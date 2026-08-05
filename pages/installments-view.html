@@ -6,7 +6,41 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Installment Details | Q1KEY Platform</title>
   <link rel="icon" type="image/png" href="../logo.png">
-  <link rel="stylesheet" href="../css/styles.css?v=52">
+  <link rel="stylesheet" href="../css/styles.css?v=53">
+  <style>
+    html:not(.theme-dark) body:not(.theme-dark).installments-view-page .glass-card,
+    html:not(.theme-dark) body:not(.theme-dark).installments-view-page .modal-content {
+      background: #ffffff !important;
+      border-color: #d8e2f4 !important;
+      color: #172342 !important;
+      box-shadow: 0 14px 34px rgba(1, 15, 64, 0.08) !important;
+    }
+
+    html:not(.theme-dark) body:not(.theme-dark).installments-view-page .text-white:not(.btn):not(.badge) {
+      color: #172342 !important;
+      -webkit-text-fill-color: #172342 !important;
+      text-shadow: none !important;
+    }
+
+    html:not(.theme-dark) body:not(.theme-dark).installments-view-page .text-secondary,
+    html:not(.theme-dark) body:not(.theme-dark).installments-view-page .text-muted,
+    html:not(.theme-dark) body:not(.theme-dark).installments-view-page label {
+      color: #5b6b86 !important;
+      -webkit-text-fill-color: #5b6b86 !important;
+      text-shadow: none !important;
+    }
+
+    html:not(.theme-dark) body:not(.theme-dark).installments-view-page #allInstallmentsContainer > div {
+      background: #f8fbff !important;
+      border-color: #d8e2f4 !important;
+    }
+
+    html:not(.theme-dark) body:not(.theme-dark).installments-view-page #allInstallmentsContainer > .bg-indigo-500\/10 {
+      background: #eef4ff !important;
+      border-color: rgba(1, 71, 247, 0.38) !important;
+      box-shadow: inset 4px 0 0 #0147f7 !important;
+    }
+  </style>
   <script src="../js/i18n.js"></script>
   <script>
     (function () {
@@ -18,7 +52,7 @@
   </script>
 </head>
 
-<body>
+<body class="installments-view-page">
   <div id="sidebar"></div>
 
   <div class="main-content">

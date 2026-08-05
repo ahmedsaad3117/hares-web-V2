@@ -530,9 +530,12 @@ function updateAllTexts() {
 
     if (homepageData?.plans) {
         const sec = document.getElementById('plans');
-        if (sec) sec.style.display = homepageData.plans.visible ? 'block' : 'none';
+        if (sec) sec.style.display = homepageData.plans.visible !== false ? 'block' : 'none';
         const title = document.getElementById('plansTitle');
-        if (title) title.textContent = isAr ? homepageData.plans.titleAr : homepageData.plans.titleEn;
+        if (title) {
+            title.textContent = (isAr ? homepageData.plans.titleAr : homepageData.plans.titleEn) ||
+                (isAr ? 'باقات الاشتراك' : 'Subscription Plans');
+        }
     }
 
     if (homepageData?.about) {

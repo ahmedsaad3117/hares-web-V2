@@ -1086,7 +1086,10 @@
         }
 
         .q1lp-plans {
-            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 24px;
+            width: min(920px, 100%);
+            margin: 0 auto;
         }
 
         .q1lp .feature-card.q1lp-feature-card {
@@ -2014,6 +2017,7 @@
             .q1lp-chart-row,
             .q1lp-steps,
             .q1lp-why,
+            .q1lp-plans,
             .q1lp-cta-boxes,
             .q1lp-contact-cards {
                 grid-template-columns: 1fr;
@@ -2346,8 +2350,17 @@
             </div>
         </section>
 
+        <section class="q1lp-section soft" id="plans">
+            <div class="q1lp-container">
+                <div class="q1lp-section-title">
+                    <h2 id="plansTitle" data-text-ar="باقات الاشتراك" data-text-en="Subscription Plans">باقات الاشتراك</h2>
+                    <p id="plansDesc" data-text-ar="اختر الباقة المناسبة لاحتياجات مؤسستك" data-text-en="Choose the plan that fits your institution's needs">اختر الباقة المناسبة لاحتياجات مؤسستك</p>
+                </div>
+                <div class="q1lp-plans" id="plansGrid" aria-live="polite"></div>
+            </div>
+        </section>
+
         <section class="q1lp-reference-cta" id="contact">
-            <span class="q1lp-reference-cta-anchor" id="plans" aria-hidden="true"></span>
             <div class="q1lp-container">
                 <div class="q1lp-reference-cta-banner">
                     <div class="q1lp-reference-cta-brand">
