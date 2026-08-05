@@ -7875,3 +7875,135 @@ html:not(.theme-dark) body:not(.theme-dark) .page-content .status-badge.info {
   -webkit-text-fill-color: #0130a1 !important;
   text-shadow: none !important;
 }
+
+/* Final light-sidebar composition: clear hierarchy without heavy borders. */
+html:not(.theme-dark) body:not(.theme-dark) .sidebar,
+html:not(.theme-dark) body:not(.theme-dark) .sidebar.subscription-expired {
+  padding: 0.85rem !important;
+  background:
+    radial-gradient(circle at 50% 0, rgba(1, 71, 247, 0.11), transparent 18rem),
+    linear-gradient(180deg, #f7faff 0%, #eef4ff 100%) !important;
+  border-color: rgba(1, 71, 247, 0.18) !important;
+  box-shadow: -12px 0 32px rgba(15, 35, 78, 0.1) !important;
+}
+
+[dir="ltr"] html:not(.theme-dark) body:not(.theme-dark) .sidebar,
+html:not(.theme-dark) body:not(.theme-dark)[dir="ltr"] .sidebar {
+  box-shadow: 12px 0 32px rgba(15, 35, 78, 0.1) !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .sidebar .sidebar-header {
+  margin: 0 0 0.85rem !important;
+  padding-inline: 0.5rem !important;
+  border: 1px solid rgba(1, 71, 247, 0.14) !important;
+  border-radius: 18px !important;
+  background: rgba(255, 255, 255, 0.88) !important;
+  box-shadow: 0 12px 26px rgba(1, 15, 64, 0.07) !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .sidebar .sidebar-header img {
+  filter: saturate(1.05) contrast(1.04) !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .sidebar nav {
+  padding-inline: 0.1rem !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .sidebar .sidebar-nav {
+  gap: 0.08rem !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .sidebar .sidebar-nav-item {
+  padding-bottom: 0.16rem !important;
+  margin-bottom: 0.16rem !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .sidebar .sidebar-nav-item::before {
+  inset-inline: 3.1rem 0.7rem !important;
+  background: linear-gradient(90deg, rgba(1, 71, 247, 0.14), transparent) !important;
+}
+
+html:not(.theme-dark)[dir="rtl"] body:not(.theme-dark) .sidebar .sidebar-nav-item::before {
+  background: linear-gradient(270deg, rgba(1, 71, 247, 0.14), transparent) !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .sidebar .sidebar-nav-link {
+  min-height: 50px !important;
+  gap: 0.72rem !important;
+  padding: 0.48rem 0.65rem !important;
+  border: 1px solid transparent !important;
+  border-radius: 12px !important;
+  color: #273755 !important;
+  -webkit-text-fill-color: #273755 !important;
+  font-weight: 750 !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .sidebar .sidebar-nav-link > svg {
+  width: 34px !important;
+  height: 34px !important;
+  padding: 7px !important;
+  flex: 0 0 34px !important;
+  border-radius: 10px !important;
+  background: #e5eeff !important;
+  color: #0147f7 !important;
+  stroke: #0147f7 !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .sidebar .sidebar-nav-link:hover {
+  background: rgba(255, 255, 255, 0.92) !important;
+  border-color: rgba(1, 71, 247, 0.22) !important;
+  color: #0130a1 !important;
+  -webkit-text-fill-color: #0130a1 !important;
+  transform: translateX(-2px) !important;
+  box-shadow: 0 9px 20px rgba(1, 71, 247, 0.1) !important;
+}
+
+html:not(.theme-dark)[dir="ltr"] body:not(.theme-dark) .sidebar .sidebar-nav-link:hover {
+  transform: translateX(2px) !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .sidebar .sidebar-nav-link:hover > svg {
+  background: #dce8ff !important;
+  color: #0130a1 !important;
+  stroke: #0130a1 !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .sidebar .sidebar-nav-link.active {
+  background: linear-gradient(135deg, #0147f7 0%, #2f6fff 100%) !important;
+  border-color: rgba(255, 255, 255, 0.46) !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  font-weight: 850 !important;
+  box-shadow: 0 13px 25px rgba(1, 71, 247, 0.25) !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .sidebar .sidebar-nav-link.active > svg {
+  background: rgba(255, 255, 255, 0.18) !important;
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .sidebar > div:last-child {
+  margin-top: auto !important;
+  padding: 0.7rem !important;
+  border: 1px solid rgba(1, 71, 247, 0.14) !important;
+  border-radius: 16px !important;
+  background: rgba(255, 255, 255, 0.88) !important;
+  box-shadow: 0 12px 26px rgba(1, 15, 64, 0.07) !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .sidebar > div:last-child > div {
+  padding: 0.55rem !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .sidebar button.btn-secondary {
+  min-height: 44px !important;
+  border-radius: 11px !important;
+  background: #edf3ff !important;
+  border-color: rgba(1, 71, 247, 0.2) !important;
+  box-shadow: none !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .sidebar::-webkit-scrollbar-thumb {
+  background-color: rgba(1, 71, 247, 0.22) !important;
+}
