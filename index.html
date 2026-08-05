@@ -916,6 +916,14 @@
             letter-spacing: 0.04em;
         }
 
+        .q1lp-icon-box img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            border-radius: inherit;
+            object-fit: contain;
+        }
+
         .q1lp-reference-frame--suitable .q1lp-icon-box {
             width: 124px;
             height: 124px;
@@ -1043,7 +1051,7 @@
         }
 
         .q1lp-compare-head>div:last-child {
-            background: linear-gradient(135deg, #059669, #047857);
+            background: linear-gradient(135deg, #1764ff, #0147f7);
             color: #fff;
         }
 
@@ -1782,6 +1790,11 @@
             color: #fff;
         }
 
+        html.theme-dark .q1lp-compare-head>div:last-child {
+            background: linear-gradient(135deg, #2f72ff, #0147f7);
+            color: #fff;
+        }
+
         html.theme-dark .q1lp-compare-head-icon {
             background: rgba(255, 255, 255, 0.16);
             color: #fff;
@@ -2078,7 +2091,7 @@
                     <img src="logo.png" alt="Q1KEY Logo">
                     <span class="q1lp-logo-text">
                         <strong>Q1KEY</strong>
-                        <span data-text-ar="منصة إدارة الأنشطة والتحصيل" data-text-en="Activity & Collection Platform">منصة إدارة الأنشطة والتحصيل</span>
+                        <span data-text-ar="منصة إدارة الأنشطة التجارية والتحصيل" data-text-en="Commercial Activity & Collection Platform">منصة إدارة الأنشطة التجارية والتحصيل</span>
                     </span>
                 </a>
 
@@ -2123,9 +2136,9 @@
                         <strong data-text-ar="بعد اليوم، ووداعاً للتعثرات" data-text-en="again — say goodbye to defaults">بعد اليوم، ووداعاً للتعثرات</strong>
                     </h1>
                     <p class="q1lp-hero-subtitle" id="heroSubtitle"
-                        data-text-ar="منصة متخصصة لمتابعة البيع والأنشطة والأجل والتحصيل للمؤسسات والمنشآت الصغيرة بطريقة سهلة وذكية وآمنة وسرية معلومات عالية للعملاء."
+                        data-text-ar="منصة متخصصة لمتابعة البيع والأنشطة والآجل والتحصيل للمؤسسات والمنشآت الصغيرة بطريقة سهلة وذكية وآمنة وسرية معلومات عالية للعملاء."
                         data-text-en="A specialized platform for tracking sales, activities, credit and collections for institutions and small businesses — simple, smart, secure, and confidential.">
-                        منصة متخصصة لمتابعة البيع والأنشطة والأجل والتحصيل للمؤسسات والمنشآت الصغيرة بطريقة سهلة وذكية وآمنة وسرية معلومات عالية للعملاء.
+                        منصة متخصصة لمتابعة البيع والأنشطة والآجل والتحصيل للمؤسسات والمنشآت الصغيرة بطريقة سهلة وذكية وآمنة وسرية معلومات عالية للعملاء.
                     </p>
                     <div class="q1lp-hero-buttons">
                         <button class="q1lp-btn whatsapp" onclick="openSubscribeModal()" id="heroSubscribeBtn">
@@ -2268,8 +2281,8 @@
                         <div class="q1lp-suitable-card"><span class="q1lp-icon-box" aria-hidden="true">📱</span><span data-text-ar="محلات الجوالات" data-text-en="Mobile Phone Shops">محلات الجوالات</span></div>
                         <div class="q1lp-suitable-card"><span class="q1lp-icon-box" aria-hidden="true">🏪</span><span data-text-ar="جميع الأنشطة التجارية" data-text-en="All Commercial Activities">جميع الأنشطة التجارية</span></div>
                         <div class="q1lp-suitable-card"><span class="q1lp-icon-box" aria-hidden="true">🏬</span><span data-text-ar="المحلات التجارية" data-text-en="Retail Stores">المحلات التجارية</span></div>
-                        <div class="q1lp-suitable-card"><span class="q1lp-icon-box" aria-hidden="true">🧺</span><span data-text-ar="موردي الأغذية والمواد الاستهلاكية" data-text-en="Food & Consumer Suppliers">موردي الأغذية والمواد الاستهلاكية</span></div>
-                        <div class="q1lp-suitable-card"><span class="q1lp-icon-box" aria-hidden="true">💳</span><span data-text-ar="البيع بالأجل والمهلة والأقساط" data-text-en="Credit Sales & Installments">البيع بالأجل والمهلة والأقساط</span></div>
+                        <div class="q1lp-suitable-card"><span class="q1lp-icon-box" aria-hidden="true"><img src="2.png" alt=""></span><span data-text-ar="موردي الأغذية والمواد الاستهلاكية" data-text-en="Food & Consumer Suppliers">موردي الأغذية والمواد الاستهلاكية</span></div>
+                        <div class="q1lp-suitable-card"><span class="q1lp-icon-box" aria-hidden="true"><img src="1.png" alt=""></span><span data-text-ar="البيع بالآجل والمهلة والأقساط" data-text-en="Credit Sales & Installments">البيع بالآجل والمهلة والأقساط</span></div>
                     </div>
                 </div>
             </div>
@@ -2285,7 +2298,7 @@
                         <div class="q1lp-step-card"><span class="q1lp-step-num">1</span><span class="q1lp-icon-box" aria-hidden="true">👤</span><h3 data-text-ar="أضف العميل" data-text-en="Add the Customer">أضف العميل</h3><p data-text-ar="سجل بيانات العميل مرة واحدة وبكل سهولة، وابدأ البيع معه." data-text-en="Register customer details once, easily, and start selling.">سجل بيانات العميل مرة واحدة وبكل سهولة، وابدأ البيع معه.</p></div>
                         <div class="q1lp-step-card"><span class="q1lp-step-num">2</span><span class="q1lp-icon-box" aria-hidden="true">🛒</span><h3 data-text-ar="سجل عملية البيع" data-text-en="Log the Sale">سجل عملية البيع</h3><p data-text-ar="سجل بيانات البيع وأضف المنتجات والقيمة وطريقة الدفع والأقساط." data-text-en="Record products, price, payment method and installments.">سجل بيانات البيع وأضف المنتجات والقيمة وطريقة الدفع والأقساط.</p></div>
                         <div class="q1lp-step-card"><span class="q1lp-step-num">3</span><span class="q1lp-icon-box" aria-hidden="true">🗓</span><h3 data-text-ar="جدول الأقساط" data-text-en="Installment Schedule">جدول الأقساط</h3><p data-text-ar="يتم إنشاء جدول الأقساط وتواريخها تلقائياً حسب المدة المتفق عليها." data-text-en="The schedule and due dates are created automatically for the agreed term.">يتم إنشاء جدول الأقساط وتواريخها تلقائياً حسب المدة المتفق عليها.</p></div>
-                        <div class="q1lp-step-card"><span class="q1lp-step-num">4</span><span class="q1lp-icon-box" aria-hidden="true">👛</span><h3 data-text-ar="تابع التحصيل" data-text-en="Track Collections">تابع التحصيل</h3><p data-text-ar="سجل المدفوعات وتابع المتبقي مع تنبيهات بالمواعيد ومعرفة المتأخرين والمتعثرين." data-text-en="Log payments, track balances, receive due-date alerts, and identify late customers.">سجل المدفوعات وتابع المتبقي مع تنبيهات بالمواعيد ومعرفة المتأخرين والمتعثرين.</p></div>
+                        <div class="q1lp-step-card"><span class="q1lp-step-num">4</span><span class="q1lp-icon-box" aria-hidden="true"><img src="3.png" alt=""></span><h3 data-text-ar="تابع التحصيل" data-text-en="Track Collections">تابع التحصيل</h3><p data-text-ar="سجل المدفوعات وتابع المتبقي مع تنبيهات بالمواعيد ومعرفة المتأخرين والمتعثرين." data-text-en="Log payments, track balances, receive due-date alerts, and identify late customers.">سجل المدفوعات وتابع المتبقي مع تنبيهات بالمواعيد ومعرفة المتأخرين والمتعثرين.</p></div>
                     </div>
                 </div>
             </div>
@@ -2340,7 +2353,7 @@
                     <div class="q1lp-reference-cta-brand">
                         <img src="logo.png" alt="Q1KEY">
                         <strong>Q1KEY</strong>
-                        <p data-text-ar="منصة تساعدك على إدارة الأنشطة والتحصيل ومنع التعثرات بكل يسر وسهولة." data-text-en="A platform that helps you manage activities and collections and prevent defaults with complete ease.">منصة تساعدك على إدارة الأنشطة والتحصيل ومنع التعثرات بكل يسر وسهولة.</p>
+                        <p data-text-ar="منصة تساعدك على إدارة الأنشطة التجارية والتحصيل ومنع التعثرات بكل يسر وسهولة." data-text-en="A platform that helps you manage commercial activities and collections and prevent defaults with complete ease.">منصة تساعدك على إدارة الأنشطة التجارية والتحصيل ومنع التعثرات بكل يسر وسهولة.</p>
                     </div>
 
                     <div class="q1lp-reference-cta-card blue">
