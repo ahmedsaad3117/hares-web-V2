@@ -5770,6 +5770,36 @@ html:not(.theme-dark) body:not(.theme-dark) .table-container .type-badge {
   }
 }
 
+/* Prominent descriptions in transaction and activity history feeds. */
+:root {
+  --transaction-description-size: clamp(1.2rem, 1.35vw, 1.4rem);
+}
+
+body.cashbox-page .page-content .cashbox-transaction-description,
+.page-content .activity-desc-new,
+.page-content .history-section .history-content strong {
+  font-size: var(--transaction-description-size) !important;
+  font-weight: 800 !important;
+  line-height: 1.65 !important;
+  letter-spacing: 0.005em;
+}
+
+body.cashbox-page .page-content .cashbox-transaction-description {
+  margin-block: 0.3rem 0.45rem;
+}
+
+.page-content .activity-desc-new {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+}
+
+@media (max-width: 760px) {
+  :root {
+    --transaction-description-size: 1.16rem;
+  }
+}
+
 /* Light-theme control contrast: neutral and outline controls use dark ink. */
 html:not(.theme-dark) body:not(.theme-dark) .btn-secondary,
 html:not(.theme-dark) body:not(.theme-dark) .btn-outline,
