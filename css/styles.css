@@ -5779,7 +5779,7 @@ body.cashbox-page .page-content .cashbox-transaction-description,
 .page-content .activity-desc-new,
 .page-content .history-section .history-content strong {
   font-size: var(--transaction-description-size) !important;
-  font-weight: 800 !important;
+  font-weight: 950 !important;
   line-height: 1.65 !important;
   letter-spacing: 0.005em;
 }
@@ -5798,6 +5798,37 @@ body.cashbox-page .page-content .cashbox-transaction-description {
   :root {
     --transaction-description-size: 1.16rem;
   }
+}
+
+/* Every interactive button label uses the strongest available font weight. */
+button,
+button *,
+input[type="button"],
+input[type="submit"],
+input[type="reset"],
+.btn,
+.btn *,
+.action-btn,
+.action-btn *,
+.filter-btn,
+.filter-btn *,
+.filter-tab,
+.filter-tab *,
+.tab-btn,
+.tab-btn *,
+.inst-filter-btn,
+.inst-filter-btn *,
+.inst-action-btn,
+.inst-action-btn *,
+.export-btn,
+.export-btn *,
+.pagination-btn,
+.pagination-btn *,
+.settings-nav-item,
+.settings-nav-item *,
+.quick-action-btn,
+.quick-action-btn * {
+  font-weight: 1000 !important;
 }
 
 /* Light-theme control contrast: neutral and outline controls use dark ink. */

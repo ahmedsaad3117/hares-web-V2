@@ -56,6 +56,28 @@
     --transition-fast: 0.15s ease;
 }
 
+/* Keep all landing-page button labels maximally bold. */
+button,
+button *,
+.q1lp-btn,
+.q1lp-btn *,
+.q1lp-mobile-btn,
+.q1lp-mobile-btn *,
+.plan-btn,
+.plan-btn *,
+.btn-primary,
+.btn-primary *,
+.btn-outline,
+.btn-outline *,
+.btn-ghost,
+.btn-ghost *,
+.btn-lang,
+.btn-lang *,
+.q1lp-reference-cta-trial,
+.q1lp-reference-cta-trial * {
+    font-weight: 1000 !important;
+}
+
 /* ============================================== */
 /*                  BASE RESET                    */
 /* ============================================== */
