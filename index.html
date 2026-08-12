@@ -1086,7 +1086,10 @@
         }
 
         .q1lp-plans {
-            grid-template-columns: repeat(2, minmax(0, 1fr));
+            display: flex;
+            flex-wrap: wrap;
+            align-items: stretch;
+            justify-content: center;
             gap: 24px;
             width: min(920px, 100%);
             margin: 0 auto;
@@ -1131,6 +1134,10 @@
 
         .q1lp-plans .plan-card {
             position: relative;
+            flex: 1 1 calc(50% - 12px);
+            width: 100%;
+            min-width: 280px;
+            max-width: 448px;
             min-height: 286px;
             display: flex;
             flex-direction: column;
@@ -2081,10 +2088,15 @@
             .q1lp-chart-row,
             .q1lp-steps,
             .q1lp-why,
-            .q1lp-plans,
             .q1lp-cta-boxes,
             .q1lp-contact-cards {
                 grid-template-columns: 1fr;
+            }
+
+            .q1lp-plans .plan-card {
+                flex-basis: 100%;
+                min-width: 0;
+                max-width: 100%;
             }
 
             .q1lp-reference-cta-banner {
@@ -2940,7 +2952,7 @@
     <!-- Scripts -->
     <script src="js/config.js?v=3"></script>
     <script src="js/api.js?v=5"></script>
-    <script src="js/homepage.js?v=1.0.5"></script>
+    <script src="js/homepage.js?v=1.0.6"></script>
 </body>
 
 </html>

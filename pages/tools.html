@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>الأدوات - Q1KEY Platform</title>
   <link rel="icon" type="image/png" href="../logo.png">
-    <link rel="stylesheet" href="../css/styles.css?v=55">
+    <link rel="stylesheet" href="../css/styles.css?v=56">
     <style>
         .page-container {
             max-width: 1400px;
@@ -219,6 +219,40 @@
         .status-badge.inactive {
             background: rgba(100, 116, 139, 0.2);
             color: #64748b;
+        }
+
+        .plan-landing-note {
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+            margin: 0 0 1rem;
+            padding: 0.85rem 1rem;
+            border: 1px solid rgba(1, 71, 247, 0.24);
+            border-radius: 12px;
+            background: rgba(1, 71, 247, 0.08);
+            color: #bcd0ff;
+            font-weight: 700;
+        }
+
+        .plan-landing-control {
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+            min-width: 150px;
+        }
+
+        .plan-landing-control .toggle-switch {
+            flex: 0 0 50px;
+        }
+
+        .plan-landing-state {
+            font-size: 0.86rem;
+            font-weight: 750;
+            color: #94a3b8;
+        }
+
+        .plan-landing-state.is-visible {
+            color: #10b981;
         }
 
         .action-btns {
@@ -561,6 +595,23 @@
             -webkit-text-fill-color: #5b6b86 !important;
         }
 
+        html:not(.theme-dark) body:not(.theme-dark).tools-page .plan-landing-note {
+            background: #eef4ff;
+            border-color: #b9ccff;
+            color: #24314f;
+            -webkit-text-fill-color: #24314f;
+        }
+
+        html:not(.theme-dark) body:not(.theme-dark).tools-page .plan-landing-state {
+            color: #5b6b86;
+            -webkit-text-fill-color: #5b6b86;
+        }
+
+        html:not(.theme-dark) body:not(.theme-dark).tools-page .plan-landing-state.is-visible {
+            color: #047857;
+            -webkit-text-fill-color: #047857;
+        }
+
         html:not(.theme-dark) body:not(.theme-dark).tools-page .settings-card,
         html:not(.theme-dark) body:not(.theme-dark).tools-page .add-plan-form {
             background: #f8fbff;
@@ -582,6 +633,20 @@
             background: #f6f9ff;
         }
 
+        html:not(.theme-dark) body:not(.theme-dark).tools-page #homepageSection .settings-sidebar {
+            background: #f3f7ff !important;
+            border-color: #cbd9ef !important;
+        }
+
+        html:not(.theme-dark) body:not(.theme-dark).tools-page #homepageSection .settings-content-area {
+            background: #ffffff !important;
+        }
+
+        html:not(.theme-dark) body:not(.theme-dark).tools-page #homepageSection > .section-header {
+            background: #f8fbff !important;
+            border-bottom-color: #cbd9ef !important;
+        }
+
         body.tools-page #subscriptionPlans .section-header > .btn.btn-primary {
             display: inline-flex !important;
             align-items: center;
@@ -600,6 +665,84 @@
             color: #ffffff !important;
             -webkit-text-fill-color: #ffffff !important;
             stroke: currentColor;
+        }
+
+        /* Keep every Tools panel inside a balanced, responsive content frame. */
+        body.tools-page .page-content {
+            padding: clamp(1rem, 2.2vw, 2.25rem) !important;
+        }
+
+        body.tools-page .page-container {
+            width: 100%;
+            max-width: 1440px;
+            margin-inline: auto;
+            padding-inline: clamp(0.25rem, 1vw, 0.9rem);
+        }
+
+        body.tools-page .tools-tabs {
+            flex-wrap: wrap;
+            margin-bottom: clamp(1.25rem, 2vw, 2rem);
+        }
+
+        body.tools-page .tool-tab {
+            min-width: min(230px, 100%);
+        }
+
+        body.tools-page #content-homepage {
+            padding-block: 0.25rem 1rem;
+        }
+
+        body.tools-page #homepageSection {
+            width: 100%;
+            margin: 0;
+            border-radius: 18px;
+        }
+
+        body.tools-page #homepageSection > .section-header {
+            padding: clamp(1.1rem, 2vw, 1.75rem) !important;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        body.tools-page #homepageSection .settings-layout {
+            height: auto;
+            min-height: 620px;
+        }
+
+        body.tools-page #homepageSection .settings-sidebar {
+            padding: 1.25rem;
+        }
+
+        body.tools-page #homepageSection .settings-content-area {
+            padding: clamp(1.25rem, 2.4vw, 2.25rem) !important;
+        }
+
+        @media (max-width: 900px) {
+            body.tools-page .page-content {
+                padding: 1rem !important;
+            }
+
+            body.tools-page .tool-tab {
+                min-width: min(280px, 100%);
+            }
+
+            body.tools-page #homepageSection .settings-layout {
+                flex-direction: column;
+                min-height: 0;
+            }
+
+            body.tools-page #homepageSection .settings-sidebar {
+                width: 100%;
+                flex-direction: row;
+                flex-wrap: wrap;
+                overflow: visible;
+                border-left: 0;
+                border-bottom: 1px solid rgba(148, 163, 184, 0.22);
+            }
+
+            body.tools-page #homepageSection .settings-nav-item {
+                flex: 1 1 180px;
+            }
         }
     </style>
     <script>
@@ -818,6 +961,10 @@
                         </div>
 
                         <!-- Plans Table -->
+                        <p class="plan-landing-note">
+                            <span aria-hidden="true">ⓘ</span>
+                            <span data-i18n-key="tools.plans.landing_help">Select the plans that should appear on the landing page. Changes are applied immediately.</span>
+                        </p>
                         <div class="table-container">
                             <table class="plans-table">
                                 <thead>
@@ -825,7 +972,7 @@
                                         <th data-i18n-key="tools.plans.table.name">الباقة</th>
                                         <th data-i18n-key="tools.plans.table.duration">المدة</th>
                                         <th data-i18n-key="tools.plans.table.price">السعر (ر.س)</th>
-                                        <th data-i18n-key="tools.plans.table.status">الحالة</th>
+                                        <th data-i18n-key="tools.plans.table.landing">الظهور في الصفحة الرئيسية</th>
                                         <th data-i18n-key="tools.plans.table.actions">الإجراءات</th>
                                     </tr>
                                 </thead>
@@ -1580,7 +1727,7 @@
     <script src="../js/config.js?v=3"></script>
     <script src="../js/i18n.js"></script>
     <script src="../js/api.js?v=5"></script>
-    <script src="../js/ui-utils.js?v=5"></script>
+    <script src="../js/ui-utils.js?v=6"></script>
     <script src="../components/sidebar.js?v=17"></script>
     <script src="../components/header.js?v=5"></script>
     <script>
@@ -1916,18 +2063,23 @@
                                step="0.01">
                     </td>
                     <td>
-                        <span class="status-badge ${plan.isActive ? 'active' : 'inactive'}">
-                            ${plan.isActive ? '✓ ' + t('common.label.active') : '○ ' + t('common.label.inactive')}
-                        </span>
+                        <div class="plan-landing-control">
+                            <label class="toggle-switch" title="${t('tools.plans.landing_toggle') || 'Show on landing page'}">
+                                <input type="checkbox"
+                                       ${plan.isActive ? 'checked' : ''}
+                                       aria-label="${t('tools.plans.landing_toggle') || 'Show on landing page'}"
+                                       onchange="togglePlanVisibility(${plan.id}, this)">
+                                <span class="toggle-slider"></span>
+                            </label>
+                            <span class="plan-landing-state ${plan.isActive ? 'is-visible' : ''}">
+                                ${plan.isActive
+                                    ? (t('tools.plans.landing_shown') || 'Shown')
+                                    : (t('tools.plans.landing_hidden') || 'Hidden')}
+                            </span>
+                        </div>
                     </td>
                     <td>
                         <div class="action-btns">
-                            <button class="btn-icon" onclick="togglePlanVisibility(${plan.id})" title="${plan.isActive ? 'إخفاء' : 'إظهار'}">
-                                ${plan.isActive ?
-                    '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>'
-                    : '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>'
-                }
-                            </button>
                             <button class="btn-icon danger" onclick="deletePlan(${plan.id}, '${plan.name}')" title="حذف">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <polyline points="3 6 5 6 21 6"/>
@@ -1996,14 +2148,19 @@
             });
         }
 
-        async function togglePlanVisibility(planId) {
+        async function togglePlanVisibility(planId, checkbox = null) {
+            if (checkbox) checkbox.disabled = true;
             try {
                 await api.subscriptions.togglePlanVisibility(planId);
                 await loadPlans();
-                showToast('تم تحديث حالة الباقة', 'success');
+                showToast(t('tools.plans.landing_updated') || 'Landing page plans updated', 'success');
             } catch (error) {
                 console.error('Error toggling plan:', error);
-                showToast('فشل في تحديث الباقة', 'error');
+                if (checkbox) {
+                    checkbox.checked = !checkbox.checked;
+                    checkbox.disabled = false;
+                }
+                showToast(t('tools.plans.landing_update_failed') || 'Failed to update landing page plans', 'error');
             }
         }
 

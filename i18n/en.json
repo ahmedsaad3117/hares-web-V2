@@ -1266,12 +1266,19 @@
       "price": "Price (SAR)",
       "save": "Save Plan",
       "cancel": "Cancel",
+      "landing_help": "Select the plans that should appear on the landing page. Changes are applied immediately.",
+      "landing_toggle": "Show this plan on the landing page",
+      "landing_shown": "Shown",
+      "landing_hidden": "Hidden",
+      "landing_updated": "Landing page plans updated",
+      "landing_update_failed": "Failed to update landing page plans",
       "table": {
         "name": "Plan",
         "plan": "Plan",
         "duration": "Duration",
         "price": "Price",
         "status": "Status",
+        "landing": "Landing page",
         "actions": "Actions",
         "empty": "No plans found. Add a new plan."
       }

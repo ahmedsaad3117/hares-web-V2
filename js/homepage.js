@@ -63,13 +63,26 @@ async function initializeHomepage() {
 async function loadHomepageData() {
     try {
         // Load homepage settings and plans in parallel using unified API
-        const [pageResponse, plans] = await Promise.all([
+        const [pageResponse, plansResponse] = await Promise.all([
             window.publicApiRequest('/homepage/public').catch(() => null),
-            api.subscriptions.getActivePlans().catch(() => [])
+            window.publicApiRequest('/subscriptions/plans/active').catch(() => [])
         ]);
 
         homepageData = pageResponse;
-        subscriptionPlans = plans || [];
+        const plans = Array.isArray(plansResponse)
+            ? plansResponse
+            : (Array.isArray(plansResponse?.data) ? plansResponse.data : []);
+
+        // The landing page must mirror the plans selected by the admin in Tools.
+        // Filter defensively in case an older API response includes inactive plans,
+        // then preserve the configured display order.
+        subscriptionPlans = plans
+            .filter(plan => plan && plan.isActive !== false)
+            .sort((a, b) => {
+                const orderDifference = Number(a.sortOrder || 0) - Number(b.sortOrder || 0);
+                if (orderDifference !== 0) return orderDifference;
+                return Number(a.durationMonths || 0) - Number(b.durationMonths || 0);
+            });
     } catch (error) {
         console.error('Error loading homepage data:', error);
         homepageData = null;
@@ -260,7 +273,7 @@ function renderPlans(isAr) {
 
     if (!subscriptionPlans || subscriptionPlans.length === 0) {
         grid.innerHTML = `
-            <div style="text-align: center; grid-column: 1/-1; padding: 2rem; color: var(--text-muted);">
+            <div style="flex: 1 1 100%; text-align: center; padding: 2rem; color: var(--text-muted);">
                 ${isAr ? 'لا توجد باقات متاحة حالياً' : 'No plans available'}
             </div>
         `;

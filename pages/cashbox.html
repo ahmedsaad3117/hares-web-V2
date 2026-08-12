@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>الصندوق - Q1KEY Platform</title>
   <link rel="icon" type="image/png" href="../logo.png">
-    <link rel="stylesheet" href="../css/styles.css?v=55">
+    <link rel="stylesheet" href="../css/styles.css?v=56">
     <script src="../js/i18n.js?v=2"></script>
 </head>
 
-<body>
+<body class="cashbox-page">
     <div id="sidebar"></div>
 
     <div class="main-content">
@@ -191,7 +191,7 @@
     </script>
     <script src="../js/config.js?v=3"></script>
     <script src="../js/api.js?v=5"></script>
-    <script src="../js/ui-utils.js?v=5"></script>
+    <script src="../js/ui-utils.js?v=6"></script>
     <script src="../components/sidebar.js?v=17"></script>
     <script src="../components/header.js?v=5"></script>
     <script>
@@ -430,21 +430,21 @@
                 }
 
                 return `
-                    <div style="display: flex; align-items: center; gap: 1rem; padding: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1);">
-                        <div style="width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; background: ${colorClass === 'text-success' ? 'rgba(16, 185, 129, 0.2)' : 'rgba(239, 68, 68, 0.2)'};">
+                    <div class="cashbox-transaction-row">
+                        <div class="cashbox-transaction-icon" style="background: ${colorClass === 'text-success' ? 'rgba(16, 185, 129, 0.2)' : 'rgba(239, 68, 68, 0.2)'};">
                             ${icon}
                         </div>
-                        <div style="flex: 1;">
-                            <p class="font-medium text-white">${typeLabel}</p>
-                            <p class="text-sm" style="color: #fbbf24;">${(tx.description || '') + (tx.customerName ? ` • ${tx.customerName}` : '')}</p>
-                            <p class="text-xs text-muted">
+                        <div class="cashbox-transaction-content">
+                            <p class="cashbox-transaction-type font-medium text-white">${typeLabel}</p>
+                            <p class="cashbox-transaction-description text-sm">${(tx.description || '—') + (tx.customerName ? ` • ${tx.customerName}` : '')}</p>
+                            <p class="cashbox-transaction-meta text-xs text-muted">
                                 ${formatDateTime(tx.createdAt)} 
                                 ${tx.branchName ? ' • ' + tx.branchName : ''}
                                 ${tx.createdByName ? ' • ' + tx.createdByName : ''} 
                                 ${tx.createdByRole ? ' (' + (t('common.type.' + tx.createdByRole.toLowerCase()) || tx.createdByRole) + ')' : ''}
                             </p>
                         </div>
-                        <div class="text-right">
+                        <div class="cashbox-transaction-amount text-right">
                             <p class="font-bold ${colorClass}">${displaySign}${formatCurrency(absAmount)}</p>
                             <p class="text-sm text-muted">${t('cashbox.balance')}: ${formatCurrency(tx.balanceAfter || 0)}</p>
                         </div>

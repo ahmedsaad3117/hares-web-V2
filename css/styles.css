@@ -5770,6 +5770,249 @@ html:not(.theme-dark) body:not(.theme-dark) .table-container .type-badge {
   }
 }
 
+/* Light-theme control contrast: neutral and outline controls use dark ink. */
+html:not(.theme-dark) body:not(.theme-dark) .btn-secondary,
+html:not(.theme-dark) body:not(.theme-dark) .btn-outline,
+html:not(.theme-dark) body:not(.theme-dark) .action-btn-secondary,
+html:not(.theme-dark) body:not(.theme-dark) .action-btn-glass,
+html:not(.theme-dark) body:not(.theme-dark) .filter-btn:not(.active),
+html:not(.theme-dark) body:not(.theme-dark) .filter-tab:not(.active),
+html:not(.theme-dark) body:not(.theme-dark) .tab-btn:not(.active),
+html:not(.theme-dark) body:not(.theme-dark) .inst-filter-btn:not(.active),
+html:not(.theme-dark) body:not(.theme-dark) .reset-filter-btn,
+html:not(.theme-dark) body:not(.theme-dark) .export-btn,
+html:not(.theme-dark) body:not(.theme-dark) .pagination-btn:not(.active),
+html:not(.theme-dark) body:not(.theme-dark) .settings-nav-item:not(.active) {
+  color: #111827 !important;
+  -webkit-text-fill-color: #111827 !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .btn-secondary *,
+html:not(.theme-dark) body:not(.theme-dark) .btn-outline *,
+html:not(.theme-dark) body:not(.theme-dark) .action-btn-secondary *,
+html:not(.theme-dark) body:not(.theme-dark) .action-btn-glass *,
+html:not(.theme-dark) body:not(.theme-dark) .filter-btn:not(.active) *,
+html:not(.theme-dark) body:not(.theme-dark) .filter-tab:not(.active) *,
+html:not(.theme-dark) body:not(.theme-dark) .tab-btn:not(.active) *,
+html:not(.theme-dark) body:not(.theme-dark) .settings-nav-item:not(.active) * {
+  color: inherit !important;
+  -webkit-text-fill-color: inherit !important;
+  stroke: currentColor;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .btn-secondary,
+html:not(.theme-dark) body:not(.theme-dark) .btn-outline,
+html:not(.theme-dark) body:not(.theme-dark) .action-btn-secondary,
+html:not(.theme-dark) body:not(.theme-dark) .action-btn-glass,
+html:not(.theme-dark) body:not(.theme-dark) .filter-btn:not(.active),
+html:not(.theme-dark) body:not(.theme-dark) .filter-tab:not(.active),
+html:not(.theme-dark) body:not(.theme-dark) .tab-btn:not(.active),
+html:not(.theme-dark) body:not(.theme-dark) .settings-nav-item:not(.active) {
+  background: #ffffff !important;
+  border-color: #b9c9e4 !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .btn-secondary:hover,
+html:not(.theme-dark) body:not(.theme-dark) .btn-outline:hover,
+html:not(.theme-dark) body:not(.theme-dark) .action-btn-secondary:hover,
+html:not(.theme-dark) body:not(.theme-dark) .filter-btn:not(.active):hover,
+html:not(.theme-dark) body:not(.theme-dark) .filter-tab:not(.active):hover,
+html:not(.theme-dark) body:not(.theme-dark) .tab-btn:not(.active):hover {
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
+  background: #edf3ff !important;
+}
+
+/* Cash Box transaction descriptions and metadata. */
+.cashbox-transaction-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.cashbox-transaction-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 44px;
+  font-size: 1.3rem;
+}
+
+.cashbox-transaction-content {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.cashbox-transaction-type {
+  margin-bottom: 0.2rem;
+}
+
+.cashbox-transaction-description {
+  margin: 0.2rem 0 0.3rem;
+  font-weight: 750 !important;
+  line-height: 1.6 !important;
+  overflow-wrap: anywhere;
+}
+
+.cashbox-transaction-meta {
+  line-height: 1.55 !important;
+}
+
+.cashbox-transaction-amount {
+  flex: 0 0 auto;
+  min-width: 150px;
+}
+
+html:not(.theme-dark) body:not(.theme-dark).cashbox-page .cashbox-transaction-row {
+  border-bottom-color: #dce5f3;
+}
+
+html:not(.theme-dark) body:not(.theme-dark).cashbox-page .cashbox-transaction-description {
+  color: #172342 !important;
+  -webkit-text-fill-color: #172342 !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark).cashbox-page .cashbox-transaction-meta {
+  color: #52627d !important;
+  -webkit-text-fill-color: #52627d !important;
+}
+
+html.theme-dark body.cashbox-page .cashbox-transaction-description,
+body.theme-dark.cashbox-page .cashbox-transaction-description {
+  color: #f6d47a !important;
+  -webkit-text-fill-color: #f6d47a !important;
+}
+
+/* Help modal inputs and contact actions. */
+.help-modal-card {
+  width: min(560px, calc(100vw - 2rem));
+}
+
+.help-field .label {
+  display: block;
+  margin-bottom: 0.55rem;
+  font-weight: 750;
+}
+
+.help-input-wrap {
+  position: relative;
+}
+
+.help-input {
+  width: 100%;
+  min-height: 54px;
+  padding-inline-start: 3.65rem !important;
+  padding-inline-end: 1rem !important;
+  direction: ltr;
+  text-align: left;
+}
+
+.help-input-icon {
+  position: absolute;
+  inset-inline-start: 0.65rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  pointer-events: none;
+  background: rgba(1, 71, 247, 0.1);
+  color: #0147f7;
+  font-weight: 900;
+  font-size: 1.25rem;
+}
+
+.help-contact-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem 0;
+}
+
+.help-contact-button {
+  width: 100%;
+  min-height: 56px;
+  padding: 1rem;
+  justify-content: center;
+}
+
+.help-contact-button svg {
+  width: 25px;
+  height: 25px;
+  flex: 0 0 25px;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .help-modal-card {
+  background: #ffffff !important;
+  border-color: #c7d5eb !important;
+  box-shadow: 0 24px 70px rgba(15, 35, 75, 0.22) !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .help-modal-card .help-input {
+  background: #f8fbff !important;
+  border-color: #b9c9e4 !important;
+  color: #111827 !important;
+  -webkit-text-fill-color: #111827 !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .help-modal-card .help-input::placeholder {
+  color: #687892 !important;
+  opacity: 1;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .btn-success,
+html:not(.theme-dark) body:not(.theme-dark) .btn-warning,
+html:not(.theme-dark) body:not(.theme-dark) .btn-danger,
+html:not(.theme-dark) body:not(.theme-dark) .btn-error {
+  color: #111827 !important;
+  -webkit-text-fill-color: #111827 !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .btn-success *,
+html:not(.theme-dark) body:not(.theme-dark) .btn-warning *,
+html:not(.theme-dark) body:not(.theme-dark) .btn-danger *,
+html:not(.theme-dark) body:not(.theme-dark) .btn-error * {
+  color: inherit !important;
+  -webkit-text-fill-color: inherit !important;
+  stroke: currentColor;
+}
+
+html.theme-dark .help-modal-card .help-input,
+body.theme-dark .help-modal-card .help-input {
+  background: #0f1f43 !important;
+  border-color: rgba(155, 185, 251, 0.35) !important;
+  color: #f8fbff !important;
+  -webkit-text-fill-color: #f8fbff !important;
+}
+
+html.theme-dark .help-modal-card .help-input-icon,
+body.theme-dark .help-modal-card .help-input-icon {
+  background: rgba(96, 145, 255, 0.18);
+  color: #9bb9ff;
+}
+
+@media (max-width: 620px) {
+  .cashbox-transaction-row {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .cashbox-transaction-amount {
+    width: 100%;
+    min-width: 0;
+    padding-inline-start: 60px;
+  }
+}
+
 #customersGrid > .glass-card {
   overflow: hidden !important;
   min-width: 0 !important;
