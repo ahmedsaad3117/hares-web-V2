@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>الأدوات - Q1KEY Platform</title>
   <link rel="icon" type="image/png" href="../logo.png">
-    <link rel="stylesheet" href="../css/styles.css?v=59">
+    <link rel="stylesheet" href="../css/styles.css?v=60">
     <style>
         .page-container {
             max-width: 1400px;
@@ -687,6 +687,21 @@
         body.tools-page .tool-tab {
             min-width: min(230px, 100%);
             padding: clamp(1.25rem, 1.8vw, 1.75rem) !important;
+            overflow: hidden;
+        }
+
+        body.tools-page .tool-tab > div:last-child {
+            flex: 1 1 auto;
+            min-width: 0;
+            max-width: 100%;
+        }
+
+        body.tools-page .tool-tab h3,
+        body.tools-page .tool-tab p {
+            max-width: 100%;
+            white-space: normal !important;
+            overflow-wrap: anywhere;
+            word-break: normal;
         }
 
         body.tools-page #content-homepage {

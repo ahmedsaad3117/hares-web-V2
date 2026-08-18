@@ -6012,6 +6012,48 @@ body.theme-dark.cashbox-page .cashbox-transaction-description {
   flex: 0 0 25px;
 }
 
+.help-modal .modal-card {
+  direction: inherit;
+  text-align: start;
+}
+
+.help-modal .modal-card-header {
+  direction: inherit;
+  gap: 1rem;
+}
+
+.help-modal .modal-card-header h3 {
+  flex: 1 1 auto;
+  min-width: 0;
+  text-align: start;
+}
+
+.help-modal .modal-card-body {
+  text-align: start;
+}
+
+.help-modal .modal-card-footer {
+  direction: inherit;
+  justify-content: flex-end;
+}
+
+html[dir="rtl"] .help-modal .modal-card,
+body[dir="rtl"] .help-modal .modal-card {
+  direction: rtl;
+  text-align: right;
+}
+
+html[dir="rtl"] .help-modal .modal-card-body,
+body[dir="rtl"] .help-modal .modal-card-body {
+  text-align: right;
+}
+
+html[dir="ltr"] .help-modal .modal-card,
+body[dir="ltr"] .help-modal .modal-card {
+  direction: ltr;
+  text-align: left;
+}
+
 html:not(.theme-dark) body:not(.theme-dark) .help-modal-card {
   background: #ffffff !important;
   border-color: #c7d5eb !important;
@@ -8207,6 +8249,15 @@ html:not(.theme-dark) body:not(.theme-dark) .sidebar .sidebar-header {
 
 html:not(.theme-dark) body:not(.theme-dark) .sidebar .sidebar-header img {
   filter: saturate(1.05) contrast(1.04) !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .sidebar .sidebar-header {
+  margin: 0 0 0.85rem !important;
+  padding-inline: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
 }
 
 html:not(.theme-dark) body:not(.theme-dark) .sidebar nav {
