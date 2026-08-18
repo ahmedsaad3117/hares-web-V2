@@ -138,7 +138,15 @@ function updateHeroDemoButton() {
     const demoUrl = normalizeExternalUrl(
         homepageData?.hero?.videoUrl ||
         homepageData?.hero?.heroVideoUrl ||
+        homepageData?.hero?.hero_video_url ||
+        homepageData?.hero?.demoVideoUrl ||
+        homepageData?.hero?.demo_video_url ||
         homepageData?.heroVideoUrl ||
+        homepageData?.hero_video_url ||
+        homepageData?.demoVideoUrl ||
+        homepageData?.demo_video_url ||
+        homepageData?.settings?.heroVideoUrl ||
+        homepageData?.settings?.hero_video_url ||
         ''
     );
 

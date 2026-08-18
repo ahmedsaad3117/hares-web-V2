@@ -5772,7 +5772,7 @@ html:not(.theme-dark) body:not(.theme-dark) .table-container .type-badge {
 
 /* Prominent descriptions in transaction and activity history feeds. */
 :root {
-  --transaction-description-size: clamp(1.2rem, 1.35vw, 1.4rem);
+  --transaction-description-size: clamp(1.32rem, 1.45vw, 1.55rem);
 }
 
 body.cashbox-page .page-content .cashbox-transaction-description,
@@ -5796,7 +5796,7 @@ body.cashbox-page .page-content .cashbox-transaction-description {
 
 @media (max-width: 760px) {
   :root {
-    --transaction-description-size: 1.16rem;
+    --transaction-description-size: 1.22rem;
   }
 }
 

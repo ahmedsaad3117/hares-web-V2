@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>الأدوات - Q1KEY Platform</title>
   <link rel="icon" type="image/png" href="../logo.png">
-    <link rel="stylesheet" href="../css/styles.css?v=58">
+    <link rel="stylesheet" href="../css/styles.css?v=59">
     <style>
         .page-container {
             max-width: 1400px;
@@ -686,6 +686,7 @@
 
         body.tools-page .tool-tab {
             min-width: min(230px, 100%);
+            padding: clamp(1.25rem, 1.8vw, 1.75rem) !important;
         }
 
         body.tools-page #content-homepage {
@@ -715,6 +716,51 @@
 
         body.tools-page #homepageSection .settings-content-area {
             padding: clamp(1.25rem, 2.4vw, 2.25rem) !important;
+        }
+
+        body.tools-page .tab-content.active {
+            padding-block: 0.35rem 2rem;
+        }
+
+        body.tools-page .glass-card:not(#homepageSection),
+        body.tools-page .settings-card,
+        body.tools-page .add-plan-form {
+            padding: clamp(1.35rem, 2.1vw, 2rem) !important;
+        }
+
+        body.tools-page .section-header {
+            gap: 1rem;
+            padding-inline: 0.15rem;
+        }
+
+        body.tools-page .tool-tab h3,
+        body.tools-page .tool-tab p,
+        body.tools-page .section-header h2,
+        body.tools-page .form-group label,
+        body.tools-page .settings-label span,
+        body.tools-page .settings-label small,
+        body.tools-page .input-group-title {
+            line-height: 1.55 !important;
+        }
+
+        body.tools-page .settings-tab-pane.active {
+            padding: 0.2rem;
+        }
+
+        body.tools-page .form-group {
+            gap: 0.65rem;
+            min-width: 0;
+        }
+
+        body.tools-page .form-group input,
+        body.tools-page .form-group select,
+        body.tools-page .form-group textarea {
+            padding: 0.9rem 1rem !important;
+        }
+
+        body.tools-page .input-group-title {
+            margin-bottom: 1.75rem !important;
+            padding: 0 0.15rem 0.75rem !important;
         }
 
         @media (max-width: 900px) {

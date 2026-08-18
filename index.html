@@ -89,27 +89,33 @@
             backdrop-filter: blur(14px);
         }
 
+        .q1lp-header .q1lp-container {
+            width: min(1420px, calc(100% - 24px));
+        }
+
         .q1lp-header.scrolled {
             box-shadow: 0 10px 28px rgba(16, 29, 61, 0.08);
         }
 
         .q1lp-header-inner {
-            height: 76px;
+            height: 64px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 18px;
+            gap: 6px;
+            flex-wrap: nowrap;
         }
 
         .q1lp-logo {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 6px;
             min-width: max-content;
+            flex: 0 0 auto;
         }
 
         .q1lp-logo img {
-            height: 48px;
+            height: 38px;
             width: auto;
             object-fit: contain;
         }
@@ -122,31 +128,39 @@
 
         .q1lp-logo-text strong {
             color: var(--blue);
-            font-size: 25px;
+            font-size: 21px;
             font-weight: 900;
             letter-spacing: 0.02em;
+            white-space: nowrap;
         }
 
         .q1lp-logo-text span {
             color: #0d1b42;
-            font-size: 11px;
+            font-size: 9px;
             font-weight: 800;
+            white-space: nowrap;
         }
 
         .q1lp-nav {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 2px;
+            min-width: 0;
+            flex: 1 1 auto;
+            flex-wrap: nowrap;
         }
 
         .q1lp-nav .nav-link {
-            padding: 9px 14px;
+            padding: 7px 8px;
             border-radius: 10px;
             color: #4d5870;
-            font-size: 14.5px;
+            font-size: 12.5px;
             font-weight: 800;
+            line-height: 1;
+            white-space: nowrap !important;
             transition: all 0.2s ease;
+            flex: 0 0 auto;
         }
 
         .q1lp-nav .nav-link:hover,
@@ -158,7 +172,9 @@
         .q1lp-actions {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 5px;
+            flex: 0 0 auto;
+            flex-wrap: nowrap;
         }
 
         .q1lp-btn,
@@ -166,15 +182,23 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            min-height: 42px;
-            padding: 0 18px;
+            gap: 5px;
+            min-height: 36px;
+            padding: 0 10px;
             border-radius: 9px;
             border: 1.5px solid var(--blue);
             font-weight: 900;
-            font-size: 14px;
+            font-size: 12.5px;
+            line-height: 1.15;
+            white-space: nowrap !important;
+            flex: 0 0 auto;
             cursor: pointer;
             transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+        }
+
+        .q1lp-header .q1lp-btn span,
+        .q1lp-header .q1lp-mobile-btn span {
+            white-space: nowrap !important;
         }
 
         .q1lp-btn:hover {
@@ -193,16 +217,16 @@
         }
 
         .q1lp-btn.lang {
-            min-width: 46px;
-            padding: 0 12px;
+            min-width: 38px;
+            padding: 0 8px;
             background: #eef3fc;
             border-color: #eef3fc;
             color: var(--blue);
         }
 
         .q1lp-btn.theme-toggle {
-            width: 46px;
-            min-width: 46px;
+            width: 38px;
+            min-width: 38px;
             padding: 0;
             border-color: #dbe6fb;
             background: #fff;
@@ -1923,12 +1947,12 @@
 
         /* Landing typography follows the enlarged application scale. */
         .q1lp-nav .nav-link {
-            font-size: 15.5px;
+            font-size: 12.5px;
         }
 
         .q1lp-btn,
         .q1lp button.q1lp-btn {
-            font-size: 15.5px;
+            font-size: 12.5px;
         }
 
         .q1lp-badge,
@@ -1988,7 +2012,7 @@
         @media (max-width: 1080px) {
             .q1lp-nav {
                 position: fixed;
-                top: 76px;
+                top: 64px;
                 left: 16px;
                 right: 16px;
                 display: none;
@@ -2952,7 +2976,7 @@
     <!-- Scripts -->
     <script src="js/config.js?v=3"></script>
     <script src="js/api.js?v=5"></script>
-    <script src="js/homepage.js?v=1.0.6"></script>
+    <script src="js/homepage.js?v=1.0.7"></script>
 </body>
 
 </html>

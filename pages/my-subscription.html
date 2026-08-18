@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>اشتراكي - Q1KEY Platform</title>
   <link rel="icon" type="image/png" href="../logo.png">
-    <link rel="stylesheet" href="../css/styles.css?v=58">
+    <link rel="stylesheet" href="../css/styles.css?v=59">
     <style>
         .page-container {
             max-width: 1000px;
@@ -555,6 +555,42 @@
             background: #f8faff !important;
             border: 1px solid #dbe4f3;
         }
+
+        body.my-subscription-page .main-content {
+            padding-bottom: clamp(2rem, 4vw, 4rem);
+        }
+
+        body.my-subscription-page .page-container {
+            padding: clamp(1rem, 2.25vw, 2.25rem) !important;
+        }
+
+        body.my-subscription-page #subscriptionContent {
+            padding: clamp(1.35rem, 2.5vw, 2.5rem) !important;
+            overflow: hidden;
+        }
+
+        body.my-subscription-page #subscriptionContent > *:first-child {
+            margin-top: 0 !important;
+        }
+
+        body.my-subscription-page #subscriptionContent > *:last-child {
+            margin-bottom: 0 !important;
+        }
+
+        body.my-subscription-page .request-section,
+        body.my-subscription-page .history-section {
+            padding-inline: clamp(0.15rem, 0.8vw, 0.75rem);
+        }
+
+        @media (max-width: 700px) {
+            body.my-subscription-page .page-container {
+                padding: 1rem !important;
+            }
+
+            body.my-subscription-page #subscriptionContent {
+                padding: 1rem !important;
+            }
+        }
     </style>
     <script>
         (function () {
@@ -566,7 +602,7 @@
     </script>
 </head>
 
-<body>
+<body class="my-subscription-page">
     <div id="sidebar"></div>
 
     <div class="main-content">
