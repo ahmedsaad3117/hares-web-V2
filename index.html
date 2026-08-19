@@ -2790,6 +2790,24 @@
     </div>
 
     <!-- ============================================== -->
+    <!--              VIDEO MODAL                       -->
+    <!-- ============================================== -->
+    <div class="modal-overlay" id="videoModal" onclick="closeVideoModal()">
+        <div class="modal modal-video" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeVideoModal()" aria-label="Close">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 6L6 18M6 6l12 12" />
+                </svg>
+            </button>
+            <div class="video-embed">
+                <iframe id="videoModalFrame" src="" title="Demo video"
+                    allow="autoplay; encrypted-media; picture-in-picture; web-share"
+                    allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================== -->
     <!--            SUBSCRIBE MODAL                     -->
     <!-- ============================================== -->
     <div class="modal-overlay" id="subscribeModal">

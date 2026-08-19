@@ -131,6 +131,38 @@ function normalizeExternalUrl(url) {
     return '';
 }
 
+// Turn any common YouTube link into an embeddable player URL.
+// Supports watch?v=, youtu.be/, /embed/ and /shorts/ forms. Returns '' if not a YouTube link.
+function getYouTubeEmbedUrl(url) {
+    if (!url) return '';
+
+    let videoId = '';
+    try {
+        const parsed = new URL(url);
+        const host = parsed.hostname.replace(/^www\./i, '').toLowerCase();
+
+        if (host === 'youtu.be') {
+            videoId = parsed.pathname.split('/')[1] || '';
+        } else if (host.endsWith('youtube.com')) {
+            if (parsed.pathname === '/watch') {
+                videoId = parsed.searchParams.get('v') || '';
+            } else if (parsed.pathname.startsWith('/embed/') || parsed.pathname.startsWith('/shorts/')) {
+                videoId = parsed.pathname.split('/')[2] || '';
+            }
+        }
+    } catch (e) {
+        // Not a full URL; fall back to the pattern match below.
+    }
+
+    if (!videoId) {
+        const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([\w-]{11})/);
+        if (match) videoId = match[1];
+    }
+
+    if (!videoId) return '';
+    return `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
+}
+
 function updateHeroDemoButton() {
     const demoBtn = document.getElementById('heroDemoBtn');
     if (!demoBtn) return;
@@ -150,7 +182,24 @@ function updateHeroDemoButton() {
         ''
     );
 
-    if (demoUrl) {
+    const embedUrl = getYouTubeEmbedUrl(demoUrl);
+
+    // Reset any handler attached on a previous render (e.g. after a language switch).
+    demoBtn.onclick = null;
+
+    if (embedUrl) {
+        // Play the video inside the site in a modal instead of navigating away.
+        // Keep the real link as href so right-click / open-in-new-tab still works.
+        demoBtn.href = demoUrl;
+        demoBtn.removeAttribute('target');
+        demoBtn.removeAttribute('rel');
+        demoBtn.setAttribute('aria-label', currentLang === 'ar' ? 'شاهد فيديو شرح النظام' : 'Watch the system demo video');
+        demoBtn.onclick = (event) => {
+            event.preventDefault();
+            openVideoModal(embedUrl);
+        };
+    } else if (demoUrl) {
+        // Non-YouTube link: open it in a new tab as a fallback.
         demoBtn.href = demoUrl;
         demoBtn.target = '_blank';
         demoBtn.rel = 'noopener noreferrer';
@@ -161,6 +210,27 @@ function updateHeroDemoButton() {
         demoBtn.removeAttribute('rel');
         demoBtn.setAttribute('aria-label', currentLang === 'ar' ? 'انتقل إلى طريقة عمل النظام' : 'Go to how the system works');
     }
+}
+
+function openVideoModal(embedUrl) {
+    const modal = document.getElementById('videoModal');
+    const iframe = document.getElementById('videoModalFrame');
+    if (!modal || !iframe) return;
+
+    iframe.src = embedUrl;
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeVideoModal() {
+    const modal = document.getElementById('videoModal');
+    const iframe = document.getElementById('videoModalFrame');
+    if (!modal) return;
+
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+    // Clearing the src stops playback and audio.
+    if (iframe) iframe.src = '';
 }
 
 // ---------- Header Links ---------- //
@@ -994,6 +1064,7 @@ function setupEventListeners() {
         if (e.key === 'Escape') {
             closeLoginModal();
             closeSubscribeModal();
+            closeVideoModal();
         }
     });
 
