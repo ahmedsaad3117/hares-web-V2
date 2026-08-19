@@ -6089,6 +6089,67 @@ html:not(.theme-dark) body:not(.theme-dark) .btn-error * {
   stroke: currentColor;
 }
 
+/*
+ * Light mode: the semantic action buttons default to a faint "ghost" style meant
+ * for dark backgrounds, and the blanket light-mode rule above then forces their
+ * text near-black — leaving a washed-out, low-contrast button inside modals
+ * (e.g. the "Save changes" confirm button). Inside confirmation modals these are
+ * primary actions, so render them as solid, high-contrast buttons instead.
+ */
+html:not(.theme-dark) body:not(.theme-dark) .modal-card-footer .btn-danger,
+html:not(.theme-dark) body:not(.theme-dark) .modal-actions .btn-danger,
+html:not(.theme-dark) body:not(.theme-dark) .modal-card-footer .btn-error,
+html:not(.theme-dark) body:not(.theme-dark) .modal-actions .btn-error {
+  background: #ef4444 !important;
+  border-color: #ef4444 !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .modal-card-footer .btn-danger:hover,
+html:not(.theme-dark) body:not(.theme-dark) .modal-actions .btn-danger:hover,
+html:not(.theme-dark) body:not(.theme-dark) .modal-card-footer .btn-error:hover,
+html:not(.theme-dark) body:not(.theme-dark) .modal-actions .btn-error:hover {
+  background: #dc2626 !important;
+  border-color: #dc2626 !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .modal-card-footer .btn-success,
+html:not(.theme-dark) body:not(.theme-dark) .modal-actions .btn-success {
+  background: #10b981 !important;
+  border-color: #10b981 !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .modal-card-footer .btn-success:hover,
+html:not(.theme-dark) body:not(.theme-dark) .modal-actions .btn-success:hover {
+  background: #059669 !important;
+  border-color: #059669 !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .modal-card-footer .btn-warning,
+html:not(.theme-dark) body:not(.theme-dark) .modal-actions .btn-warning {
+  background: #f59e0b !important;
+  border-color: #f59e0b !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .modal-card-footer .btn-warning:hover,
+html:not(.theme-dark) body:not(.theme-dark) .modal-actions .btn-warning:hover {
+  background: #d97706 !important;
+  border-color: #d97706 !important;
+}
+
+/* Keep the confirmed item name (institution/branch) consistent with the modal
+ * theme color instead of the blanket blue override. */
+html:not(.theme-dark) body:not(.theme-dark) .modal-card-body .item-to-delete {
+  color: #b91c1c !important;
+  -webkit-text-fill-color: #b91c1c !important;
+  border-color: rgba(239, 68, 68, 0.3) !important;
+}
+
 html.theme-dark .help-modal-card .help-input,
 body.theme-dark .help-modal-card .help-input {
   background: #0f1f43 !important;
