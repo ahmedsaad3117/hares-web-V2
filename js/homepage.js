@@ -198,13 +198,10 @@ function updateHeroDemoButton() {
             event.preventDefault();
             openVideoModal(embedUrl);
         };
-    } else if (demoUrl) {
-        // Non-YouTube link: open it in a new tab as a fallback.
-        demoBtn.href = demoUrl;
-        demoBtn.target = '_blank';
-        demoBtn.rel = 'noopener noreferrer';
-        demoBtn.setAttribute('aria-label', currentLang === 'ar' ? 'شاهد فيديو شرح النظام' : 'Watch the system demo video');
     } else {
+        // No specific/playable YouTube video configured (empty, a bare youtube.com
+        // link, a channel, etc.). Never redirect the visitor out to YouTube —
+        // just scroll to the "How it works" section and keep them on the site.
         demoBtn.href = '#how';
         demoBtn.removeAttribute('target');
         demoBtn.removeAttribute('rel');
