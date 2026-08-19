@@ -6199,6 +6199,45 @@ html:not(.theme-dark) body:not(.theme-dark) .toggle-modern {
   border-color: var(--app-line) !important;
 }
 
+/* Info strip on the branch edit form (branch id / institution / created date). */
+html:not(.theme-dark) body:not(.theme-dark) .info-strip {
+  background: rgba(1, 15, 64, 0.03) !important;
+  border-color: var(--app-line) !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .info-item .val {
+  color: var(--app-ink) !important;
+  -webkit-text-fill-color: var(--app-ink) !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .info-item .label {
+  color: var(--app-muted) !important;
+  -webkit-text-fill-color: var(--app-muted) !important;
+}
+
+/*
+ * Dark mode: the global light-theme remaps darken `.label` and the
+ * `.text-white/NN` opacity utilities app-wide but ship no dark-mode override,
+ * so they render dark-on-dark (invisible) in dark mode. Restore them here.
+ */
+html.theme-dark .info-item .label,
+body.theme-dark .info-item .label {
+  color: rgba(255, 255, 255, 0.5) !important;
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.5) !important;
+}
+
+html.theme-dark .text-white\/70,
+body.theme-dark .text-white\/70 {
+  color: rgba(255, 255, 255, 0.7) !important;
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.7) !important;
+}
+
+html.theme-dark .text-white\/30,
+body.theme-dark .text-white\/30 {
+  color: rgba(255, 255, 255, 0.3) !important;
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.3) !important;
+}
+
 html.theme-dark .help-modal-card .help-input,
 body.theme-dark .help-modal-card .help-input {
   background: #0f1f43 !important;
