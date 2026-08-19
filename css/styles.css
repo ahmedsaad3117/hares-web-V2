@@ -6150,6 +6150,55 @@ html:not(.theme-dark) body:not(.theme-dark) .modal-card-body .item-to-delete {
   border-color: rgba(239, 68, 68, 0.3) !important;
 }
 
+/*
+ * Light mode fixes for the "ultra" edit/new forms
+ * (institutions-edit, institutions-new, branches-edit, branches-new).
+ * Those pages ship a dark-only inline design: white titles, faint-white labels
+ * and white input text on near-transparent surfaces. In light mode that renders
+ * as white-on-white (invisible). Restore legible ink/surfaces here — higher
+ * specificity than the pages' inline `!important` rules, so this wins.
+ */
+html:not(.theme-dark) body:not(.theme-dark) .form-container-ultra {
+  background: #ffffff !important;
+  border-color: var(--app-line) !important;
+  box-shadow: 0 24px 70px rgba(1, 15, 64, 0.12) !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .section-title-premium,
+html:not(.theme-dark) body:not(.theme-dark) .section-title-premium span {
+  color: var(--app-ink) !important;
+  -webkit-text-fill-color: var(--app-ink) !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .input-label-clean {
+  color: var(--app-muted) !important;
+  -webkit-text-fill-color: var(--app-muted) !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .modern-input {
+  background: #ffffff !important;
+  border-color: var(--app-line) !important;
+  color: var(--app-ink) !important;
+  -webkit-text-fill-color: var(--app-ink) !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .modern-input::placeholder {
+  color: var(--app-muted) !important;
+  -webkit-text-fill-color: var(--app-muted) !important;
+  opacity: 1;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .modern-input:focus {
+  background: #ffffff !important;
+  border-color: var(--app-primary) !important;
+  box-shadow: 0 0 0 4px rgba(1, 71, 247, 0.12) !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .toggle-modern {
+  background: rgba(1, 15, 64, 0.03) !important;
+  border-color: var(--app-line) !important;
+}
+
 html.theme-dark .help-modal-card .help-input,
 body.theme-dark .help-modal-card .help-input {
   background: #0f1f43 !important;
