@@ -461,7 +461,9 @@
       "remove_loan_history_success": "Loan removed from customer history successfully",
       "remove_loan_history_failed": "Failed to remove loan from customer history",
       "select_status_req": "Please select a status first",
-      "status_update_failed": "Failed to update status"
+      "status_update_failed": "Failed to update status",
+      "has_active_installment_at": "Has an active installment at",
+      "has_installment_at": "Has an installment at"
     },
     "tabs": {
       "loans": "Loans",

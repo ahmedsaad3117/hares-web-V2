@@ -438,7 +438,9 @@
       "remove_loan_history_success": "تم حذف القرض من سجل العميل بنجاح",
       "remove_loan_history_failed": "فشل حذف القرض من سجل العميل",
       "select_status_req": "يرجى اختيار الحالة أولاً",
-      "status_update_failed": "فشل تحديث الحالة"
+      "status_update_failed": "فشل تحديث الحالة",
+      "has_active_installment_at": "لديه قسط نشط لدى",
+      "has_installment_at": "لديه قسط لدى"
     },
     "tabs": {
       "loans": "القروض",
