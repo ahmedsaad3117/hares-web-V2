@@ -1044,7 +1044,6 @@
                     <span class="badge" style="background: ${getLoanStatusColor(loan.status)}; padding: 0.25rem 0.5rem; border-radius: 0.25rem; font-size: 0.75rem;">
                       ${getLoanStatusText(loan.status)}
                     </span>
-                    <span class="text-muted" style="font-size: 0.875rem;">#${loan.loanId}</span>
                   </div>
                   <p class="text-white" style="font-weight: 600; margin: 0;">${loan.product?.name || 'قرض'}</p>
                   <p class="text-muted" style="font-size: 0.875rem; margin: 0.25rem 0 0; display: flex; align-items: center; gap: 0.5rem;">
@@ -1055,22 +1054,19 @@
                       </button>
                     ` : ''}
                   </p>
+                  <p class="text-muted" style="font-size: 0.875rem; margin: 0.35rem 0 0;">
+                    ${['Active', 'Late', 'Pending'].includes(loan.status)
+      ? (t('customers.view_page.has_active_installment_at') || 'لديه قسط نشط لدى')
+      : (t('customers.view_page.has_installment_at') || 'لديه قسط لدى')}
+                    <span class="text-white" style="font-weight: 600;">${loan.branch ? `${loan.branch.name} (${loan.branch.institution?.name || ''})` : (loan.institution?.name || 'الفرع')}</span>
+                  </p>
                 </div>
                 <div class="record-item-side">
-                  <p class="amount-text">${formatCurrency(loan.principalAmount)}</p>
                   <p class="date-text">
                     ${formatDateTime(loan.createdAt)}
                   </p>
                 </div>
               </div>
-              ${loan.status !== 'Deleted' && (loan.principalAmount + (loan.profitAmount || 0) - (loan.paidAmount || 0)) > 0 ? `
-                <div style="margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid rgba(255,255,255,0.1);">
-                  <div style="display: flex; justify-content: space-between; font-size: 0.875rem;">
-                    <span class="text-muted">${t('reports.stats.remaining_amount')}</span>
-                    <span class="text-warning" style="font-weight: 600;">${formatCurrency(loan.principalAmount + (loan.profitAmount || 0) - (loan.paidAmount || 0))}</span>
-                  </div>
-                </div>
-              ` : ''}
               ${canRemoveDeletedLoanHistory && loan.status === 'Deleted' ? `
                 <div style="margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid rgba(148, 163, 184, 0.24); display: flex; justify-content: flex-end;">
                   <button class="btn btn-danger btn-sm" onclick="removeDeletedLoanFromHistory(${loan.loanId})">
