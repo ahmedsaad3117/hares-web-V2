@@ -8803,3 +8803,68 @@ body.theme-dark.requests-page .stats-row .stat-card .stat-label {
     font-size: 1rem !important;
   }
 }
+
+/* ============================================================================
+   RESPONSIVE HARDENING — site-wide (added 2026-09-12)
+   Additive mobile safety net. Desktop layout is unchanged; these rules only
+   engage at small widths to close common overflow / squish gaps.
+   ============================================================================ */
+
+/* Media never forces horizontal scroll. */
+img, svg, video, canvas, iframe { max-width: 100%; }
+img, video, canvas { height: auto; }
+
+/* Guarantee no horizontal page scrolling on any viewport. */
+html, body { max-width: 100%; overflow-x: hidden; }
+
+@media (max-width: 768px) {
+  /* Compact tab pill bars scroll horizontally instead of squashing. */
+  .record-tabs-container,
+  .report-tabs,
+  .rank-tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+  }
+  .record-tab,
+  .report-tab,
+  .rank-tab {
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
+
+  /* Filter chip rows wrap so every filter stays visible. */
+  .filter-buttons { flex-wrap: wrap; }
+
+  /* Header action clusters wrap instead of overflowing off-screen. */
+  #headerActions { flex-wrap: wrap; }
+}
+
+@media (max-width: 640px) {
+  /* Common custom multi-column grids collapse to a single column on phones. */
+  .dual-column-layout,
+  .form-row,
+  .grid-cols-2,
+  .grid-cols-3,
+  .grid-cols-4,
+  .stats-grid-premium,
+  .stats-row {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Primary actions span the row so they are easy to tap. */
+  .modal-card-footer .btn,
+  .form-actions .btn { flex: 1 1 100%; }
+}
+
+/* Modal / dialog cards fit within small viewports. */
+@media (max-width: 560px) {
+  .modal-card,
+  .modal-content,
+  .process-modal-content,
+  .announcement-modal-content {
+    max-width: calc(100vw - 1.5rem) !important;
+    width: calc(100vw - 1.5rem) !important;
+  }
+}
