@@ -5884,6 +5884,95 @@ html:not(.theme-dark) body:not(.theme-dark) .tab-btn:not(.active):hover {
   background: #edf3ff !important;
 }
 
+/* Active filter/tab buttons need a solid primary fill in light mode, otherwise
+   the white active text sits on the default white button background and vanishes. */
+html:not(.theme-dark) body:not(.theme-dark) .filter-btn.active,
+html:not(.theme-dark) body:not(.theme-dark) .filter-tab.active,
+html:not(.theme-dark) body:not(.theme-dark) .tab-btn.active {
+  background: linear-gradient(135deg, var(--app-primary) 0%, #4f46e5 100%) !important;
+  border-color: var(--app-primary) !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) .filter-btn.active *,
+html:not(.theme-dark) body:not(.theme-dark) .filter-tab.active *,
+html:not(.theme-dark) body:not(.theme-dark) .tab-btn.active * {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+/* Customer search suggestions dropdown: it hardcodes a dark panel + white text,
+   which looks wrong in light mode. Repaint it as a light panel in light mode.
+   (Dark mode keeps the original dark styling untouched.) */
+html:not(.theme-dark) body:not(.theme-dark) #customerSearchResults {
+  background: #ffffff !important;
+  border-color: var(--app-line) !important;
+  box-shadow: 0 12px 28px rgba(1, 15, 64, 0.14) !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) #customerSearchResults .text-white {
+  color: var(--app-ink) !important;
+  -webkit-text-fill-color: var(--app-ink) !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) #customerSearchResults .text-slate-400,
+html:not(.theme-dark) body:not(.theme-dark) #customerSearchResults .text-slate-400 * {
+  color: #64748b !important;
+  -webkit-text-fill-color: #64748b !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) #customerSearchResults > div {
+  border-bottom: 1px solid var(--app-line) !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) #customerSearchResults > div:last-child {
+  border-bottom: 0 !important;
+}
+
+html:not(.theme-dark) body:not(.theme-dark) #customerSearchResults > div:hover {
+  background: #eef2ff !important;
+}
+
+/* Custom chevron for form select boxes (Branch / Product / Payment Plan, etc.).
+   The native OS arrow looked unstyled; replace it with a themed chevron that
+   flips to the correct side in RTL. */
+html:not(.theme-dark) body:not(.theme-dark) .page-content select.input,
+html:not(.theme-dark) body:not(.theme-dark) .page-content select.input:focus {
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
+  background-color: #ffffff !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23334155' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 1rem center !important;
+  background-size: 16px 16px !important;
+  padding-inline-end: 2.75rem !important;
+}
+
+html.theme-dark .page-content select.input,
+body.theme-dark .page-content select.input,
+html.theme-dark .page-content select.input:focus,
+body.theme-dark .page-content select.input:focus {
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23aebee0' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 1rem center !important;
+  background-size: 16px 16px !important;
+  padding-inline-end: 2.75rem !important;
+}
+
+/* RTL: put the chevron on the left (padding-inline-end already handles spacing).
+   `dir` sits on <html>, so the selectors qualify the html element directly and
+   are specific enough to outrank the LTR base position above. */
+html[dir="rtl"]:not(.theme-dark) body:not(.theme-dark) .page-content select.input,
+html[dir="rtl"].theme-dark .page-content select.input,
+html[dir="rtl"] body.theme-dark .page-content select.input {
+  background-position: left 1rem center !important;
+}
+
 /* Cash Box transaction descriptions and metadata. */
 .cashbox-transaction-row {
   display: flex;
@@ -5962,6 +6051,9 @@ body.theme-dark.cashbox-page .cashbox-transaction-description {
 
 .help-input-wrap {
   position: relative;
+  /* Inputs (phone/email) are always LTR; keep the icon on the same (left)
+     side as the input's reserved padding, even when the page is in RTL/Arabic. */
+  direction: ltr;
 }
 
 .help-input {

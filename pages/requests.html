@@ -14,7 +14,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>الطلبات - Q1KEY Platform</title>
   <link rel="icon" type="image/png" href="../logo.png">
-    <link rel="stylesheet" href="../css/styles.css?v=60">
+    <link rel="stylesheet" href="../css/styles.css?v=61">
     <style>
         .page-container {
             max-width: 1400px;
@@ -533,6 +533,25 @@
             background: rgba(16, 185, 129, 0.2);
             color: #10b981;
             border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        /* Light mode: this page's custom cards are translucent and sit on the
+           light page background, so their hardcoded white text is invisible.
+           Flip only the content text that sits on those light surfaces to ink;
+           dark modal panels and colored badges/hovers keep their white text. */
+        html:not(.theme-dark) body:not(.theme-dark) .stat-card:not(.pending):not(.approved):not(.rejected) .stat-value,
+        html:not(.theme-dark) body:not(.theme-dark) .request-details h3,
+        html:not(.theme-dark) body:not(.theme-dark) .request-details p,
+        html:not(.theme-dark) body:not(.theme-dark) .request-field .value:not(.amount),
+        html:not(.theme-dark) body:not(.theme-dark) .empty-state h3,
+        html:not(.theme-dark) body:not(.theme-dark) .search-input {
+            color: var(--app-ink) !important;
+            -webkit-text-fill-color: var(--app-ink) !important;
+        }
+
+        html:not(.theme-dark) body:not(.theme-dark) .search-input::placeholder {
+            color: #8799af !important;
+            -webkit-text-fill-color: #8799af !important;
         }
     </style>
 </head>
