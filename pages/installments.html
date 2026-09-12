@@ -519,6 +519,30 @@
         min-width: 100%;
       }
     }
+
+    /* Light mode: the hero and the translucent premium cards sit on light
+       surfaces, so their hardcoded white text is invisible. Flip that content
+       text to ink/muted. Colored badges, gradient amounts and filled buttons
+       keep their own colors. */
+    html:not(.theme-dark) body:not(.theme-dark) .installments-hero h1 {
+      background: none !important;
+      color: var(--app-ink) !important;
+      -webkit-text-fill-color: var(--app-ink) !important;
+    }
+
+    html:not(.theme-dark) body:not(.theme-dark) .customer-info h3,
+    html:not(.theme-dark) body:not(.theme-dark) .detail-value:not(.amount),
+    html:not(.theme-dark) body:not(.theme-dark) .empty-state h3 {
+      color: var(--app-ink) !important;
+      -webkit-text-fill-color: var(--app-ink) !important;
+    }
+
+    html:not(.theme-dark) body:not(.theme-dark) .stat-label,
+    html:not(.theme-dark) body:not(.theme-dark) .customer-meta,
+    html:not(.theme-dark) body:not(.theme-dark) .detail-label {
+      color: var(--app-muted) !important;
+      -webkit-text-fill-color: var(--app-muted) !important;
+    }
   </style>
 </head>
 

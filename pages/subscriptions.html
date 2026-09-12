@@ -480,6 +480,14 @@
         .modal-actions .btn {
             flex: 1;
         }
+
+        /* Light mode: plain stat cards are translucent over the light page, so
+           their hardcoded white value text is invisible. Flip it to ink; the
+           success/warning/danger/primary variants keep their semantic colors. */
+        html:not(.theme-dark) body:not(.theme-dark) .stat-card:not(.success):not(.warning):not(.danger):not(.primary) .stat-value {
+            color: var(--app-ink) !important;
+            -webkit-text-fill-color: var(--app-ink) !important;
+        }
     </style>
 </head>
 

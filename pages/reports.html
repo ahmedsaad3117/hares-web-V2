@@ -567,6 +567,24 @@
       opacity: 1;
       color: #6366f1;
     }
+
+    /* Light mode: hero (pale gradient) and stat/table cards (translucent or
+       converted to white) sit on light surfaces, so their hardcoded white text
+       is invisible. Flip that content text to ink. The dark tab bar, colored
+       buttons and badges keep their white text. */
+    html:not(.theme-dark) body:not(.theme-dark) .reports-hero h1,
+    html:not(.theme-dark) body:not(.theme-dark) .reports-hero p,
+    html:not(.theme-dark) body:not(.theme-dark) .stat-value,
+    html:not(.theme-dark) body:not(.theme-dark) .table-card-header h3 {
+      color: var(--app-ink) !important;
+      -webkit-text-fill-color: var(--app-ink) !important;
+    }
+
+    html:not(.theme-dark) body:not(.theme-dark) .stat-label,
+    html:not(.theme-dark) body:not(.theme-dark) .stat-subtitle {
+      color: var(--app-muted) !important;
+      -webkit-text-fill-color: var(--app-muted) !important;
+    }
   </style>
 </head>
 

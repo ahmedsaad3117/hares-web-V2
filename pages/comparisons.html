@@ -219,6 +219,22 @@
                 font-size: 1.75rem;
             }
         }
+
+        /* Light mode: the hero (pale gradient) and the ranking rows (translucent,
+           on the light page) carry hardcoded white text that vanishes. Flip that
+           content to ink/muted. The dark chart panel, colored rank medals and the
+           filled active tab keep their white text. */
+        html:not(.theme-dark) body:not(.theme-dark) .comparison-hero h1,
+        html:not(.theme-dark) body:not(.theme-dark) .rank-name,
+        html:not(.theme-dark) body:not(.theme-dark) .rank-other .rank-number {
+            color: var(--app-ink) !important;
+            -webkit-text-fill-color: var(--app-ink) !important;
+        }
+
+        html:not(.theme-dark) body:not(.theme-dark) .rank-meta {
+            color: var(--app-muted) !important;
+            -webkit-text-fill-color: var(--app-muted) !important;
+        }
     </style>
 </head>
 

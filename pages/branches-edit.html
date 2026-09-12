@@ -182,6 +182,30 @@
     .capacity-stats p {
       font-size: 0.75rem;
     }
+
+    /* Light mode: this form card (--card-bg) is translucent, so on the light
+       page its white title/labels/inputs vanish. Flip them to ink/muted. The
+       dark searchable-dropdown panel and gradient buttons keep their white. */
+    html:not(.theme-dark) body:not(.theme-dark) .section-title-premium {
+      color: var(--app-ink) !important;
+      -webkit-text-fill-color: var(--app-ink) !important;
+    }
+
+    html:not(.theme-dark) body:not(.theme-dark) .input-label-clean {
+      color: var(--app-muted) !important;
+      -webkit-text-fill-color: var(--app-muted) !important;
+    }
+
+    html:not(.theme-dark) body:not(.theme-dark) .modern-input {
+      background: #ffffff !important;
+      color: var(--app-ink) !important;
+      -webkit-text-fill-color: var(--app-ink) !important;
+    }
+
+    html:not(.theme-dark) body:not(.theme-dark) .modern-input::placeholder {
+      color: #8799af !important;
+      -webkit-text-fill-color: #8799af !important;
+    }
   </style>
 </head>
 
