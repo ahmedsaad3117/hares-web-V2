@@ -6516,6 +6516,14 @@ html:not(.theme-dark) body:not(.theme-dark) .process-modal-content [style*="colo
   text-shadow: none !important;
 }
 
+/* Free-subscription toggle label ("اشتراك مجاني (تعويض)") is white by default
+   for the dark modal; on the light-mode modal it must be dark ink to be legible. */
+html:not(.theme-dark) body:not(.theme-dark) .free-toggle label,
+html:not(.theme-dark) body:not(.theme-dark) .process-modal-content .free-toggle label {
+  color: var(--app-ink) !important;
+  -webkit-text-fill-color: var(--app-ink) !important;
+}
+
 html:not(.theme-dark) body:not(.theme-dark) .glass-card [style*="color: rgba(255, 255, 255"]:not(.btn):not(.badge):not(.status-badge):not(.type-badge),
 html:not(.theme-dark) body:not(.theme-dark) .premium-card [style*="color: rgba(255, 255, 255"]:not(.btn):not(.badge):not(.status-badge):not(.type-badge),
 html:not(.theme-dark) body:not(.theme-dark) .dashboard-card [style*="color: rgba(255, 255, 255"]:not(.btn):not(.badge):not(.status-badge):not(.type-badge),
@@ -8866,5 +8874,128 @@ html, body { max-width: 100%; overflow-x: hidden; }
   .announcement-modal-content {
     max-width: calc(100vw - 1.5rem) !important;
     width: calc(100vw - 1.5rem) !important;
+  }
+}
+
+/* ============================================================
+   Responsive data tables → stacked cards on phones/small tablets.
+   Instead of a cramped, horizontally-scrolling grid, each row
+   becomes a card and every cell shows its column name (pulled
+   into data-label by ui-utils.js -> enhanceResponsiveTables()).
+   ============================================================ */
+@media (max-width: 768px) {
+  .table-container,
+  .table-container[style*="overflow-x"] {
+    overflow-x: visible !important;
+  }
+
+  .table {
+    min-width: 0 !important;
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  /* Column headers are hidden (their text moves into each cell). */
+  .table thead {
+    position: absolute !important;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .table tbody,
+  .table tbody tr,
+  .table tbody td {
+    display: block;
+    width: 100%;
+  }
+
+  /* Each row is a card. */
+  .table tbody tr {
+    margin: 0 0 0.85rem;
+    padding: 0.4rem 0.95rem;
+    border: 1px solid var(--app-line);
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: 0 6px 16px rgba(1, 15, 64, 0.05);
+  }
+  .table tbody tr:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Each cell: column label on the start side, value on the end side. */
+  .table tbody td {
+    position: relative;
+    padding: 0.62rem 0;
+    padding-inline-start: 42%;
+    min-height: 1.5rem;
+    text-align: end;
+    border: 0;
+    border-bottom: 1px solid var(--app-line);
+    white-space: normal;
+    word-break: break-word;
+    vertical-align: middle;
+  }
+  .table tbody td:last-child {
+    border-bottom: 0;
+  }
+
+  .table tbody td::before {
+    content: attr(data-label);
+    position: absolute;
+    inset-inline-start: 0;
+    top: 0.62rem;
+    width: 38%;
+    text-align: start;
+    font-size: 0.72rem;
+    font-weight: 700;
+    line-height: 1.35;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: var(--app-muted);
+    white-space: normal;
+  }
+
+  /* Rows without labels (spinner / empty / error) span the whole card. */
+  .table tbody td:not([data-label]) {
+    padding-inline-start: 0;
+    text-align: center;
+  }
+  .table tbody td:not([data-label])::before {
+    content: none;
+  }
+
+  /* Inline groups inside cells align to the value (end) side. */
+  .table tbody td .loan-customer-line,
+  .table tbody td .loan-branch-line {
+    justify-content: flex-end;
+  }
+  .table tbody td .flex {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+  .table tbody td [style*="min-width"] {
+    min-width: 0 !important;
+  }
+
+  /* Dark theme card styling. */
+  html.theme-dark .table tbody tr,
+  body.theme-dark .table tbody tr {
+    background: rgba(255, 255, 255, 0.03);
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow: none;
+  }
+  html.theme-dark .table tbody td,
+  body.theme-dark .table tbody td {
+    border-bottom-color: rgba(255, 255, 255, 0.08);
+  }
+  html.theme-dark .table tbody td::before,
+  body.theme-dark .table tbody td::before {
+    color: rgba(255, 255, 255, 0.5);
   }
 }

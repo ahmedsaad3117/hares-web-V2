@@ -499,8 +499,64 @@
     };
   }
 
+  /**
+   * Responsive tables: on small screens, `.table` rows are turned into stacked
+   * cards by CSS (see styles.css). For each data cell to show its column name as
+   * a label, we copy the matching <thead> header text into the cell's
+   * `data-label` attribute. Runs on load and again whenever a table body changes
+   * (rows are usually rendered after an async fetch).
+   */
+  function labelTableCells(table) {
+    if (!table || !table.tHead) return;
+    const headerRow = table.tHead.rows && table.tHead.rows[0];
+    if (!headerRow) return;
+    const headers = Array.prototype.map.call(headerRow.cells, (th) =>
+      (th.textContent || '').trim()
+    );
+    const bodies = table.tBodies;
+    for (let b = 0; b < bodies.length; b++) {
+      const rows = bodies[b].rows;
+      for (let r = 0; r < rows.length; r++) {
+        const cells = rows[r].cells;
+        // Skip full-width rows (loading spinner / empty / error states).
+        if (cells.length === 1 && cells[0].hasAttribute('colspan')) continue;
+        for (let c = 0; c < cells.length; c++) {
+          const cell = cells[c];
+          if (cell.dataset.label) continue; // respect explicit labels
+          const label = headers[c];
+          if (label) cell.setAttribute('data-label', label);
+        }
+      }
+    }
+  }
+
+  function enhanceResponsiveTables(root) {
+    const scope = root && root.querySelectorAll ? root : document;
+    const tables = scope.querySelectorAll('table.table');
+    tables.forEach((table) => {
+      labelTableCells(table);
+      // Re-label when rows are (re)rendered dynamically.
+      if (table.dataset.respObserved === 'true') return;
+      table.dataset.respObserved = 'true';
+      const bodies = table.tBodies;
+      const observer = new MutationObserver(
+        debounce(() => labelTableCells(table), 50)
+      );
+      for (let b = 0; b < bodies.length; b++) {
+        observer.observe(bodies[b], { childList: true, subtree: true });
+      }
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => enhanceResponsiveTables());
+  } else {
+    enhanceResponsiveTables();
+  }
+
   // Export functions to global scope
   try {
+    global.enhanceResponsiveTables = enhanceResponsiveTables;
     global.initMeatballMenu = initMeatballMenu;
     global.showDeleteModal = showDeleteModal;
     global.closeDeleteModal = closeDeleteModal;

@@ -440,7 +440,7 @@
       "select_status_req": "يرجى اختيار الحالة أولاً",
       "status_update_failed": "فشل تحديث الحالة",
       "has_active_installment_at": "لديه قسط نشط لدى",
-      "has_installment_at": "لديه قسط لدى"
+      "has_installment_at": "لديه قسط مدفوع لدى"
     },
     "tabs": {
       "loans": "القروض",
