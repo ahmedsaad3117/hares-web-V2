@@ -17,6 +17,36 @@ class I18nManager {
     } catch (e) {
       console.warn('Could not access localStorage inside constructor', e);
     }
+
+    // Append responsive.css after the optional RTL stylesheet so the shared
+    // mobile contract wins by component intent rather than legacy file order.
+    this.loadResponsiveLayer();
+  }
+
+  /**
+   * Load the shared responsive component layer after the legacy stylesheet.
+   * Every authenticated page already imports i18n.js, so this gives all page
+   * families one migration path without duplicating link/script tags 39 times.
+   */
+  loadResponsiveLayer() {
+    const isPage = window.location.pathname.includes('/pages/');
+    const basePath = isPage ? '..' : '.';
+
+    if (!document.getElementById('responsive-stylesheet')) {
+      const link = document.createElement('link');
+      link.id = 'responsive-stylesheet';
+      link.rel = 'stylesheet';
+      link.href = `${basePath}/css/responsive.css?v=2`;
+      document.head.appendChild(link);
+    }
+
+    if (!document.getElementById('responsive-runtime')) {
+      const script = document.createElement('script');
+      script.id = 'responsive-runtime';
+      script.src = `${basePath}/js/responsive.js?v=1`;
+      script.defer = true;
+      document.head.appendChild(script);
+    }
   }
 
   /**
@@ -121,6 +151,10 @@ class I18nManager {
     // 7. Mark body as ready to show content & Hide Preloader
     const updateBody = () => {
       if (document.body) {
+        const filename = window.location.pathname.split('/').pop() || 'index.html';
+        const pageName = filename.replace(/\.html?$/i, '').replace(/[^a-z0-9-]+/gi, '-').toLowerCase();
+        document.body.classList.add('app-page', `${pageName || 'index'}-page`);
+        document.body.dataset.page = pageName || 'index';
         document.body.classList.add('i18n-ready');
         const preloader = document.getElementById('page-preloader');
         if (preloader) {

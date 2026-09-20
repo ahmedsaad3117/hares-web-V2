@@ -1,0 +1,1125 @@
+/*
+ * Q1KEY responsive component layer
+ *
+ * This file is loaded after the legacy stylesheet. New and migrated pages use
+ * explicit component classes here instead of adding more global overrides to
+ * styles.css. Keep page-specific rules scoped by the page's body class.
+ */
+
+:root {
+  --responsive-gutter: clamp(0.75rem, 3vw, 2rem);
+  --responsive-control-height: 48px;
+  --responsive-touch-target: 44px;
+  --responsive-radius-sm: 10px;
+  --responsive-radius-md: 14px;
+  --responsive-space-1: 0.25rem;
+  --responsive-space-2: 0.5rem;
+  --responsive-space-3: 0.75rem;
+  --responsive-space-4: 1rem;
+  --responsive-space-5: 1.25rem;
+  --responsive-space-6: 1.5rem;
+}
+
+/* Shared primitives used by the first migrated page and future page families. */
+.responsive-page-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--responsive-space-4);
+  margin-block-end: clamp(1.25rem, 3vw, 2rem);
+}
+
+.responsive-page-header__title {
+  display: flex;
+  align-items: center;
+  gap: var(--responsive-space-3);
+  min-width: 0;
+}
+
+.responsive-page-header__icon {
+  display: inline-grid;
+  flex: 0 0 40px;
+  width: 40px;
+  height: 40px;
+  place-items: center;
+  font-size: 1.75rem;
+  line-height: 1;
+}
+
+.responsive-page-header__copy {
+  min-width: 0;
+}
+
+.responsive-page-header__copy h1 {
+  font-size: clamp(1.55rem, 4vw, 2rem) !important;
+  line-height: 1.2 !important;
+}
+
+.responsive-page-header__copy p {
+  margin-block-start: var(--responsive-space-1);
+}
+
+.responsive-toolbar {
+  min-width: 0;
+}
+
+.responsive-filter-rail {
+  display: flex;
+  align-items: center;
+  gap: var(--responsive-space-2);
+  min-width: 0;
+}
+
+.responsive-filter-rail > * {
+  flex: 0 0 auto;
+}
+
+/* Shared authenticated application shell. */
+.app-page .main-content,
+.app-page .page-content,
+.app-page .glass-card,
+.app-page .premium-card,
+.app-page .table-container,
+.app-page .form-grid,
+.app-page .grid {
+  min-width: 0;
+}
+
+.app-page .page-content {
+  padding-inline: var(--responsive-gutter);
+}
+
+.app-page input,
+.app-page select,
+.app-page textarea {
+  max-width: 100%;
+}
+
+.app-page .responsive-scroll-table {
+  min-width: 900px;
+}
+
+.app-page .responsive-scroll-table th,
+.app-page .responsive-scroll-table td {
+  white-space: normal;
+}
+
+.app-page .responsive-data-table td {
+  overflow-wrap: break-word;
+}
+
+/* Generated card collections used by list and detail pages. */
+.app-page #customersGrid,
+.app-page #branchesGrid,
+.app-page #institutionsGrid,
+.app-page #installmentsGrid,
+.app-page #productsGrid,
+.app-page #usersGrid,
+.app-page .cards-grid,
+.app-page .details-grid,
+.app-page .info-grid {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+}
+
+@media (max-width: 1024px) {
+  .app-page .stats-grid,
+  .app-page .stats-row,
+  .app-page .premium-dashboard-grid,
+  .app-page .dashboard-grid,
+  .app-page .summary-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .app-page .responsive-scroll-table {
+    min-width: 820px;
+  }
+
+  .dashboard-page .flex.items-center.gap-3:has(#filterInstallments) {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+  }
+
+  .dashboard-page .flex.items-center.gap-3:has(#filterInstallments) > * {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .dashboard-page #filterInstallments {
+    grid-column: 1 / -1;
+    margin-top: 0 !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .app-page .page-content {
+    width: 100%;
+    padding-inline: var(--responsive-gutter);
+  }
+
+  /* One compact mobile header row: menu, language/theme, and profile. */
+  .app-page .header-container-premium {
+    gap: var(--responsive-space-2);
+    margin-block-end: var(--responsive-space-4);
+  }
+
+  .app-page .header-container-premium .header-main-bar {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: var(--responsive-space-3);
+    padding-inline: 0;
+  }
+
+  .app-page .header-container-premium .header-breadcrumb {
+    width: auto;
+    flex: 0 0 auto !important;
+  }
+
+  .app-page .header-container-premium .header-actions {
+    width: auto;
+    flex: 0 1 auto;
+    justify-content: flex-end;
+    margin-inline-start: auto;
+  }
+
+  .app-page .header-top-bar {
+    gap: var(--responsive-space-2);
+    padding: var(--responsive-space-3);
+  }
+
+  .app-page .header-date-box {
+    gap: var(--responsive-space-3);
+    padding: var(--responsive-space-2) var(--responsive-space-3);
+  }
+
+  /* Legacy page headings become the same intentional mobile header pattern. */
+  .app-page .page-content > .flex.items-center.justify-between.mb-8,
+  .app-page .page-content > [style*="justify-content: space-between"][style*="margin-bottom: 2rem"] {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    align-items: start !important;
+    gap: var(--responsive-space-4) !important;
+    margin-block-end: var(--responsive-space-5) !important;
+  }
+
+  .app-page .page-content > .flex.items-center.justify-between.mb-8 > .btn,
+  .app-page .page-content > .flex.items-center.justify-between.mb-8 > a.btn,
+  .app-page .page-content > [style*="justify-content: space-between"][style*="margin-bottom: 2rem"] > .btn {
+    width: 100%;
+  }
+
+  .customers-page .page-content > .flex.gap-3 {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--responsive-space-2) !important;
+    width: 100%;
+    margin-block-end: var(--responsive-space-4);
+  }
+
+  .customers-page .page-content > .flex.gap-3 > .btn {
+    width: 100%;
+  }
+
+  /* Forms and toolbars. */
+  .app-page .form-grid,
+  .app-page .form-row,
+  .app-page .grid-cols-2,
+  .app-page .grid-cols-3,
+  .app-page .grid-cols-4,
+  .app-page .dual-column-layout,
+  .app-page .details-grid,
+  .app-page .info-grid,
+  .app-page .stats-grid,
+  .app-page .stats-row,
+  .app-page .premium-dashboard-grid,
+  .app-page .dashboard-grid,
+  .app-page .summary-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .app-page .form-group,
+  .app-page .form-field,
+  .app-page .input-group,
+  .app-page .field-group {
+    min-width: 0 !important;
+    width: 100%;
+  }
+
+  .app-page .form-actions,
+  .app-page .modal-actions,
+  .app-page .modal-card-footer,
+  .app-page .button-group {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+    gap: var(--responsive-space-2);
+  }
+
+  .app-page .form-actions > .btn,
+  .app-page .modal-actions > .btn,
+  .app-page .modal-card-footer > .btn,
+  .app-page .button-group > .btn {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .app-page .filter-buttons,
+  .app-page .filter-tabs,
+  .app-page .report-tabs,
+  .app-page .record-tabs-container,
+  .app-page .rank-tabs,
+  .app-page .tabs-container {
+    flex-wrap: nowrap !important;
+    max-width: 100%;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scrollbar-width: thin;
+  }
+
+  .app-page .filter-buttons > *,
+  .app-page .filter-tabs > *,
+  .app-page .report-tabs > *,
+  .app-page .record-tabs-container > *,
+  .app-page .rank-tabs > *,
+  .app-page .tabs-container > * {
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
+
+  /* Dialogs remain inside dynamic mobile viewport and keep actions reachable. */
+  .app-page .modal-card,
+  .app-page .modal-content,
+  .app-page .process-modal-content,
+  .app-page .announcement-modal-content {
+    width: calc(100vw - 1.5rem) !important;
+    max-width: calc(100vw - 1.5rem) !important;
+    max-height: calc(100dvh - 1.5rem) !important;
+    margin: auto;
+  }
+
+  .app-page .modal-card-body,
+  .app-page .modal-body,
+  .app-page .process-modal-body {
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  /* Generic operational data tables become normal-flow record cards. */
+  body:not(.loans-page) .responsive-data-table {
+    display: block;
+    width: 100%;
+    min-width: 0 !important;
+  }
+
+  body:not(.loans-page) .responsive-data-table thead {
+    position: absolute !important;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  body:not(.loans-page) .responsive-data-table tbody {
+    display: grid;
+    gap: var(--responsive-space-4);
+    width: 100%;
+  }
+
+  body:not(.loans-page) .responsive-data-table tbody tr {
+    display: block;
+    width: 100%;
+    margin: 0;
+    padding: var(--responsive-space-4);
+    overflow: hidden;
+    border: 1px solid var(--app-line);
+    border-radius: var(--responsive-radius-md);
+    background: #fff;
+    box-shadow: 0 8px 24px rgba(1, 15, 64, 0.07);
+  }
+
+  body:not(.loans-page) .responsive-data-table tbody td {
+    position: static;
+    display: grid;
+    grid-template-columns: minmax(6.5rem, 36%) minmax(0, 1fr);
+    align-items: center;
+    gap: var(--responsive-space-3);
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: var(--responsive-touch-target);
+    padding: 0.7rem 0 !important;
+    text-align: start !important;
+    white-space: normal !important;
+    border: 0;
+    border-bottom: 1px solid var(--app-line);
+  }
+
+  body:not(.loans-page) .responsive-data-table tbody td::before {
+    content: attr(data-label);
+    position: static;
+    width: auto;
+    color: var(--app-muted);
+    font-size: 0.78rem;
+    font-weight: 700;
+    line-height: 1.35;
+    letter-spacing: 0;
+    text-align: start;
+    text-transform: none;
+    white-space: normal;
+  }
+
+  body:not(.loans-page) .responsive-data-table tbody td > * {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  body:not(.loans-page) .responsive-data-table tbody td:last-child {
+    border-bottom: 0;
+  }
+
+  body:not(.loans-page) .responsive-data-table tbody td:last-child .flex,
+  body:not(.loans-page) .responsive-data-table tbody td:last-child .action-buttons,
+  body:not(.loans-page) .responsive-data-table tbody td:last-child .actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: var(--responsive-space-2);
+  }
+
+  body:not(.loans-page) .responsive-data-table tbody tr.responsive-table-message {
+    padding: var(--responsive-space-6);
+    text-align: center;
+  }
+
+  body:not(.loans-page) .responsive-data-table tbody tr.responsive-table-message td {
+    display: block;
+    padding: 0 !important;
+    text-align: center !important;
+    border: 0;
+  }
+
+  body:not(.loans-page) .responsive-data-table tbody tr.responsive-table-message td::before {
+    content: none;
+  }
+
+  html.theme-dark body:not(.loans-page) .responsive-data-table tbody tr,
+  body.theme-dark:not(.loans-page) .responsive-data-table tbody tr {
+    border-color: rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.04);
+    box-shadow: none;
+  }
+
+  /* Reports retain column relationships in an explicit scroll region. */
+  .app-page .responsive-scroll-table {
+    min-width: 760px;
+  }
+
+  .app-page .table-card > div[style*="overflow-x"],
+  .reports-page .report-content > div[style*="overflow-x"] {
+    max-width: 100%;
+    overflow-x: auto !important;
+    overscroll-behavior-inline: contain;
+  }
+
+  /* Search Logs historically sits directly under main-content. */
+  .search-logs-page .main-content > .glass-card {
+    width: calc(100% - (2 * var(--responsive-gutter)));
+    margin-inline: var(--responsive-gutter);
+  }
+
+  .search-logs-page .main-content > .glass-card:first-of-type > div {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    align-items: stretch !important;
+  }
+
+  .search-logs-page .main-content > .glass-card:first-of-type > div > div {
+    min-width: 0 !important;
+  }
+
+  .search-logs-page .main-content > .glass-card:first-of-type .btn {
+    width: 100%;
+  }
+
+  /* Dashboard reporting controls and export actions. */
+  .dashboard-page .flex.items-center.gap-3:has(#filterInstallments) {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+  }
+
+  .dashboard-page .flex.items-center.gap-3:has(#filterInstallments) > * {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .dashboard-page #filterInstallments {
+    grid-column: 1 / -1;
+    margin-top: 0 !important;
+  }
+
+  .dashboard-page .q1-hero-copy,
+  .dashboard-page .q1-hero-visual,
+  .dashboard-page .q1-hero-copy h1,
+  .dashboard-page .q1-hero-copy p {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .dashboard-page .q1-hero-copy h1,
+  .dashboard-page .q1-hero-copy h1 * {
+    overflow-wrap: anywhere;
+  }
+
+  .dashboard-page .premium-label {
+    flex-wrap: wrap;
+    gap: var(--responsive-space-2);
+  }
+
+  .dashboard-page .premium-indicator {
+    width: auto;
+    max-width: 100%;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .dashboard-simple-page .report-header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: stretch;
+    gap: var(--responsive-space-3);
+  }
+
+  .dashboard-simple-page .report-filters {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    width: 100%;
+    min-width: 0;
+    align-items: stretch;
+    gap: var(--responsive-space-2);
+  }
+
+  .dashboard-simple-page .date-input-group {
+    display: grid;
+    grid-template-columns: minmax(4.5rem, auto) minmax(0, 1fr);
+    width: 100%;
+    min-width: 0;
+  }
+
+  .dashboard-simple-page .date-input,
+  .dashboard-simple-page .report-filters .filter-btn {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .dashboard-new-page .export-bar,
+  .dashboard-advanced-page .export-bar {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--responsive-space-2);
+  }
+
+  .dashboard-new-page .export-btn,
+  .dashboard-advanced-page .export-btn {
+    justify-content: center;
+    min-width: 0;
+    padding: 0.7rem 0.5rem;
+    text-align: center;
+  }
+
+  /* Comparison charts must size from the viewport, not canvas defaults. */
+  .comparisons-page .comparisons-container {
+    width: 100%;
+    max-width: 100%;
+    padding-inline: 0;
+  }
+
+  .comparisons-page .comparison-hero,
+  .comparisons-page .chart-section {
+    padding: var(--responsive-space-4);
+  }
+
+  .comparisons-page .chart-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: var(--responsive-space-3);
+  }
+
+  .comparisons-page .chart-container {
+    width: 100% !important;
+    min-width: 0;
+    height: 280px;
+    overflow: hidden;
+  }
+
+  .comparisons-page .chart-container canvas {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .comparisons-page .rankings-list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* Cashbox transaction date range becomes a two-column mobile form. */
+  .cashbox-page .glass-card > div:has(#filterFromDate) {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    align-items: stretch !important;
+    gap: var(--responsive-space-3);
+  }
+
+  .cashbox-page div:has(> #filterFromDate) {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+    gap: var(--responsive-space-2) !important;
+  }
+
+  .cashbox-page div:has(> #filterFromDate) > input {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .cashbox-page div:has(> #filterFromDate) > .text-muted {
+    display: none;
+  }
+
+  .cashbox-page div:has(> #filterFromDate) > .btn {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+
+  .cashbox-page .page-content > .glass-card:first-child > div:first-child {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    align-items: stretch !important;
+    gap: var(--responsive-space-3);
+  }
+
+  .cashbox-page .page-content > .glass-card:first-child > div:first-child > div:last-child {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+    gap: var(--responsive-space-2) !important;
+  }
+
+  .cashbox-page .page-content > .glass-card:first-child > div:first-child > div:last-child .btn {
+    width: 100%;
+    min-width: 0;
+    padding-inline: var(--responsive-space-2);
+  }
+
+  .my-subscription-page .subscription-header {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    align-items: stretch !important;
+    gap: var(--responsive-space-4) !important;
+  }
+
+  .my-subscription-page .subscription-header > div,
+  .my-subscription-page .subscription-header .subscription-info {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .my-subscription-page .subscription-header > div:last-child .btn {
+    width: 100%;
+  }
+
+  .tools-page .section-header {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    align-items: stretch !important;
+    gap: var(--responsive-space-3) !important;
+  }
+
+  .tools-page .section-header > .btn,
+  .tools-page #subscriptionPlans .section-header > .btn.btn-primary {
+    width: 100%;
+    min-width: 0 !important;
+    white-space: normal;
+  }
+
+  .subscriptions-page .filter-bar {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    width: 100%;
+    gap: var(--responsive-space-3);
+  }
+
+  .subscriptions-page .filter-bar .search-input,
+  .subscriptions-page .filter-bar .search-input input,
+  .subscriptions-page .filter-bar select {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .subscriptions-page .filter-divider {
+    display: none;
+  }
+}
+
+@media (max-width: 360px) {
+  body:not(.loans-page) .responsive-data-table tbody td {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--responsive-space-1);
+  }
+
+  .app-page .form-actions,
+  .app-page .modal-actions,
+  .app-page .modal-card-footer,
+  .app-page .button-group {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .dashboard-page .q1-hero-copy h1 {
+    font-size: clamp(1.7rem, 10vw, 2.1rem) !important;
+  }
+}
+
+/* Loans reference implementation. */
+.loans-page .loans-toolbar {
+  padding: clamp(0.75rem, 2.5vw, 1rem);
+}
+
+.loans-page .loans-search {
+  margin-block-end: var(--responsive-space-4);
+}
+
+.loans-page .loans-filter {
+  padding-block: 1px;
+}
+
+.loans-page .loans-filter__button {
+  min-height: var(--responsive-touch-target);
+  padding: 0.55rem 0.9rem !important;
+  white-space: nowrap;
+  font-size: 0.9rem !important;
+}
+
+.loans-page .loans-filter__button[aria-pressed="true"] {
+  color: var(--app-primary-dark) !important;
+  background: var(--app-blue-soft) !important;
+  border-color: var(--app-primary) !important;
+  box-shadow: 0 0 0 2px rgba(1, 71, 247, 0.1);
+}
+
+.loans-page .loans-filter__button:disabled {
+  cursor: wait;
+  opacity: 0.55;
+}
+
+.loans-page .loans-filter__dot {
+  width: 0.55rem;
+  height: 0.55rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  margin: 0 !important;
+}
+
+.loans-page .loans-filter__dot::before {
+  content: none;
+}
+
+.loans-page .loans-table-card {
+  min-width: 0;
+}
+
+.loans-page .loan-customer-line,
+.loans-page .loan-branch-line {
+  display: flex;
+  align-items: center;
+  gap: var(--responsive-space-3);
+  min-width: 0;
+}
+
+.loans-page .loan-customer-line {
+  justify-content: space-between;
+}
+
+.loans-page .loan-customer-name,
+.loans-page .loan-branch-copy {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.loans-page .loan-whatsapp-inline {
+  display: inline-grid;
+  flex: 0 0 var(--responsive-touch-target) !important;
+  width: var(--responsive-touch-target) !important;
+  height: var(--responsive-touch-target);
+  min-width: var(--responsive-touch-target) !important;
+  max-width: var(--responsive-touch-target) !important;
+  padding: 0 !important;
+  place-items: center;
+  border-radius: var(--responsive-radius-sm);
+}
+
+.loans-page .loan-whatsapp-inline svg {
+  width: 18px;
+  height: 18px;
+}
+
+.loans-page .loan-payment-plan {
+  min-width: 7.5rem;
+}
+
+.loans-page .loan-progress {
+  margin-block-start: var(--responsive-space-1);
+}
+
+.loans-page .loan-progress__track {
+  width: 100%;
+  height: 4px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(102, 114, 142, 0.18);
+}
+
+.loans-page .loan-progress__value {
+  width: var(--loan-progress, 0%);
+  height: 100%;
+  border-radius: inherit;
+  background: var(--loan-progress-color, var(--app-warning));
+}
+
+.loans-page .loan-progress__caption {
+  margin-block-start: 0.125rem;
+}
+
+.loans-page .loan-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--responsive-space-2);
+  min-width: 0;
+}
+
+.loans-page .loan-actions .btn {
+  min-height: var(--responsive-touch-target);
+  padding: 0.5rem 0.8rem !important;
+  font-size: 0.875rem !important;
+}
+
+@media (min-width: 769px) {
+  .loans-page .loans-table {
+    min-width: 1080px;
+    table-layout: fixed;
+  }
+
+  .loans-page .loans-table th {
+    padding-inline: 0.65rem;
+    white-space: normal;
+  }
+
+  .loans-page .loans-table td {
+    padding-inline: 0.65rem;
+    font-size: 0.9rem !important;
+  }
+
+  .loans-page .loan-cell-id { width: 55px; }
+  .loans-page .loan-cell-customer { width: 180px; }
+  .loans-page .loan-cell-institution { width: 120px; }
+  .loans-page .loan-cell-branch { width: 125px; }
+  .loans-page .loan-cell-product { width: 115px; }
+  .loans-page .loan-cell-amount { width: 90px; }
+  .loans-page .loan-cell-plan { width: 115px; }
+  .loans-page .loan-cell-status { width: 75px; }
+  .loans-page .loan-cell-due { width: 105px; }
+  .loans-page .loan-cell-actions { width: 120px; }
+
+  .loans-page .loan-customer-line {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 0.4rem;
+  }
+
+  .loans-page .loan-whatsapp-inline {
+    width: 36px !important;
+    height: 36px;
+    min-width: 36px !important;
+    max-width: 36px !important;
+    flex-basis: 36px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .responsive-page-header {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .responsive-page-header__action {
+    justify-self: stretch;
+  }
+
+  .responsive-page-header__action.btn {
+    width: 100%;
+  }
+
+  .responsive-filter-rail {
+    width: 100%;
+    flex-wrap: nowrap !important;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scroll-snap-type: inline proximity;
+    scrollbar-width: thin;
+    padding-block-end: var(--responsive-space-2);
+  }
+
+  .responsive-filter-rail > * {
+    scroll-snap-align: start;
+  }
+
+  .loans-page .page-content {
+    padding-inline: var(--responsive-gutter);
+  }
+
+  .loans-page .header-container-premium {
+    gap: var(--responsive-space-2);
+    margin-block-end: var(--responsive-space-4);
+  }
+
+  .loans-page .header-container-premium .header-main-bar {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: var(--responsive-space-3);
+    padding-inline: 0;
+  }
+
+  .loans-page .header-container-premium .header-breadcrumb {
+    flex: 0 0 auto !important;
+  }
+
+  .loans-page .header-container-premium .header-actions {
+    width: auto;
+    flex: 0 1 auto;
+    justify-content: flex-end;
+    margin-inline-start: auto;
+  }
+
+  .loans-page .loans-table-card {
+    padding: 0;
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .loans-page .loans-table-container,
+  .loans-page .loans-table-container[style*="overflow-x"] {
+    overflow: visible !important;
+  }
+
+  .loans-page .loans-table {
+    display: block;
+    width: 100%;
+    min-width: 0 !important;
+  }
+
+  .loans-page .loans-table thead {
+    position: absolute !important;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .loans-page .loans-table tbody {
+    display: grid;
+    gap: var(--responsive-space-4);
+  }
+
+  .loans-page .loans-table tbody tr {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      "id status"
+      "customer customer"
+      "institution institution"
+      "branch branch"
+      "product product"
+      "amount amount"
+      "plan plan"
+      "due due"
+      "actions actions";
+    width: 100%;
+    margin: 0;
+    padding: var(--responsive-space-4);
+    overflow: hidden;
+    border: 1px solid var(--app-line);
+    border-radius: var(--responsive-radius-md);
+    background: #fff;
+    box-shadow: 0 8px 24px rgba(1, 15, 64, 0.07);
+  }
+
+  .loans-page .loans-table tbody td {
+    position: static;
+    display: grid;
+    grid-template-columns: minmax(6.5rem, 34%) minmax(0, 1fr);
+    align-items: center;
+    gap: var(--responsive-space-3);
+    width: auto;
+    min-width: 0;
+    min-height: var(--responsive-touch-target);
+    padding: 0.7rem 0;
+    padding-inline-start: 0;
+    text-align: start;
+    border: 0;
+    border-bottom: 1px solid var(--app-line);
+    white-space: normal;
+  }
+
+  .loans-page .loans-table tbody td::before {
+    content: attr(data-label);
+    position: static;
+    width: auto;
+    color: var(--app-muted);
+    font-size: 0.78rem;
+    font-weight: 700;
+    line-height: 1.35;
+    letter-spacing: 0;
+    text-align: start;
+    text-transform: none;
+    white-space: normal;
+  }
+
+  .loans-page .loans-table tbody td > * {
+    min-width: 0;
+    justify-self: stretch;
+  }
+
+  .loans-page .loans-table tbody .loan-cell-id,
+  .loans-page .loans-table tbody .loan-cell-status {
+    grid-template-columns: 1fr;
+    align-content: center;
+    border-bottom: 1px solid var(--app-line);
+  }
+
+  .loans-page .loans-table tbody .loan-cell-id::before,
+  .loans-page .loans-table tbody .loan-cell-status::before {
+    font-size: 0.7rem;
+  }
+
+  .loans-page .loans-table tbody .loan-cell-status {
+    justify-items: end;
+    padding-inline-start: var(--responsive-space-3);
+  }
+
+  .loans-page .loans-table tbody .loan-cell-status::before {
+    text-align: end;
+  }
+
+  .loans-page .loans-table tbody .loan-cell-status .badge {
+    justify-self: end;
+    margin: 0 !important;
+  }
+
+  .loans-page .loan-cell-id { grid-area: id; }
+  .loans-page .loan-cell-customer { grid-area: customer; }
+  .loans-page .loan-cell-institution { grid-area: institution; }
+  .loans-page .loan-cell-branch { grid-area: branch; }
+  .loans-page .loan-cell-product { grid-area: product; }
+  .loans-page .loan-cell-amount { grid-area: amount; }
+  .loans-page .loan-cell-plan { grid-area: plan; }
+  .loans-page .loan-cell-status { grid-area: status; }
+  .loans-page .loan-cell-due { grid-area: due; }
+  .loans-page .loan-cell-actions { grid-area: actions; }
+
+  .loans-page .loans-table tbody .loan-cell-actions {
+    display: block;
+    padding-block: var(--responsive-space-3) 0;
+    border-bottom: 0;
+  }
+
+  .loans-page .loans-table tbody .loan-cell-actions::before {
+    display: none;
+  }
+
+  .loans-page .loan-customer-line,
+  .loans-page .loan-branch-line,
+  .loans-page .loans-table tbody td .loan-customer-line,
+  .loans-page .loans-table tbody td .loan-branch-line {
+    justify-content: flex-start;
+  }
+
+  .loans-page .loan-customer-line {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) var(--responsive-touch-target);
+  }
+
+  .loans-page .loan-payment-plan {
+    min-width: 0;
+  }
+
+  .loans-page .loan-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .loans-page .loan-actions .btn:only-child {
+    grid-column: 1 / -1;
+  }
+
+  .loans-page .pagination {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+    margin-block-start: 0 !important;
+  }
+
+  .loans-page .pagination__previous,
+  .loans-page .pagination__next {
+    width: 100%;
+    min-height: var(--responsive-touch-target);
+  }
+
+  .loans-page .pagination__page,
+  .loans-page .pagination__ellipsis {
+    display: none;
+  }
+
+  .loans-page .loans-table tbody tr.responsive-table-message {
+    display: block;
+    padding: var(--responsive-space-6);
+    text-align: center;
+  }
+
+  html.theme-dark .loans-page .loans-table tbody tr,
+  body.theme-dark.loans-page .loans-table tbody tr {
+    border-color: rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.04);
+    box-shadow: none;
+  }
+
+  html.theme-dark .loans-page .loans-table tbody td,
+  body.theme-dark.loans-page .loans-table tbody td {
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+  }
+}
+
+@media (max-width: 360px) {
+  .loans-page .loans-table tbody td:not(.loan-cell-id):not(.loan-cell-status):not(.loan-cell-actions) {
+    grid-template-columns: 1fr;
+    gap: var(--responsive-space-1);
+  }
+
+  .loans-page .responsive-page-header__icon {
+    flex-basis: 34px;
+    width: 34px;
+    height: 34px;
+    font-size: 1.5rem;
+  }
+}

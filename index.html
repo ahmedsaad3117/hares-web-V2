@@ -2096,12 +2096,18 @@
             }
 
             .q1lp-actions {
+                width: auto;
+                max-width: 136px;
                 margin-inline-start: auto;
             }
 
             .q1lp-actions .outline,
             .q1lp-actions .primary {
-                display: none;
+                display: none !important;
+            }
+
+            .q1lp-mobile-btn {
+                flex: 0 0 42px;
             }
 
             .q1lp-hero {
@@ -2184,6 +2190,34 @@
 
             .q1lp-compare-row {
                 min-width: 680px;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .q1lp-logo-text {
+                display: none;
+            }
+
+            .q1lp-actions {
+                margin-inline-start: 0;
+            }
+
+        }
+
+        @media (max-width: 380px) {
+            .q1lp-section-title h2 {
+                font-size: 26px;
+                overflow-wrap: anywhere;
+            }
+
+            .q1lp-reference-frame .q1lp-section-title {
+                width: calc(100% - 24px);
+            }
+
+            .q1lp-reference-frame .q1lp-section-title h2 {
+                width: 100%;
+                padding-inline: 10px;
+                white-space: normal;
             }
         }
     </style>
