@@ -35,6 +35,15 @@ async function run() {
         const metrics = await page.evaluate(() => {
           const viewportWidth = document.documentElement.clientWidth;
           const allowed = '.nav, .plans-table-wrapper, .dashboard-preview, .hero-product, .q1lp-compare';
+          const loginButton = document.querySelector('.q1lp-header #loginBtn');
+          const loginRect = loginButton && loginButton.getBoundingClientRect();
+          const loginStyle = loginButton && getComputedStyle(loginButton);
+          let loginOpens = false;
+          if (loginButton) {
+            loginButton.click();
+            loginOpens = Boolean(document.getElementById('loginModal')?.classList.contains('active'));
+            if (typeof window.closeLoginModal === 'function') window.closeLoginModal();
+          }
           const offenders = [];
           document.querySelectorAll('body *').forEach((element) => {
             const style = getComputedStyle(element);
@@ -57,6 +66,10 @@ async function run() {
           return {
             direction: document.documentElement.dir,
             documentOverflow: document.documentElement.scrollWidth - viewportWidth,
+            loginVisible: Boolean(loginButton && loginStyle.display !== 'none' && loginRect.width > 0 && loginRect.height > 0),
+            loginOpens,
+            loginHeight: loginRect ? Math.round(loginRect.height) : 0,
+            loginMinHeight: loginStyle ? loginStyle.minHeight : '',
             header: ['.q1lp-header-inner', '.q1lp-logo', '.q1lp-actions'].map((selector) => {
               const element = document.querySelector(selector);
               const rect = element && element.getBoundingClientRect();
@@ -85,6 +98,9 @@ async function run() {
     result.runtimeErrors.length ||
     result.documentOverflow > 2 ||
     result.offenders.length ||
+    !result.loginVisible ||
+    !result.loginOpens ||
+    (result.width <= 680 && result.loginHeight < 44) ||
     result.direction !== (result.locale === 'ar' ? 'rtl' : 'ltr')
   );
   process.stdout.write(`${JSON.stringify({ cases: results.length, passed: results.length - failures.length, failed: failures.length, failures }, null, 2)}\n`);

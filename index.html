@@ -2097,17 +2097,26 @@
 
             .q1lp-actions {
                 width: auto;
-                max-width: 136px;
+                max-width: none;
                 margin-inline-start: auto;
             }
 
-            .q1lp-actions .outline,
             .q1lp-actions .primary {
                 display: none !important;
             }
 
+            .q1lp-actions .outline {
+                display: inline-flex !important;
+            }
+
+            .q1lp-header .q1lp-btn {
+                min-height: 44px !important;
+            }
+
             .q1lp-mobile-btn {
-                flex: 0 0 42px;
+                width: 44px;
+                height: 44px;
+                flex: 0 0 44px;
             }
 
             .q1lp-hero {
@@ -2193,7 +2202,7 @@
             }
         }
 
-        @media (max-width: 420px) {
+        @media (max-width: 480px) {
             .q1lp-logo-text {
                 display: none;
             }
