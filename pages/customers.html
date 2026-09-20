@@ -15,8 +15,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title data-i18n-key="customers.title">Customers - Q1KEY Platform</title>
   <link rel="icon" type="image/png" href="../logo.png">
-  <link rel="stylesheet" href="../css/styles.css?v=63">
-  <script src="../js/i18n.js"></script>
+  <link rel="stylesheet" href="../css/styles.css?v=64">
+  <script src="../js/i18n.js?v=3"></script>
 </head>
 
 <body>
@@ -109,7 +109,7 @@
   <script src="../js/ui-utils.js?v=7"></script>
   <script src="../components/sidebar.js?v=17"></script>
   <script src="../components/header.js?v=5"></script>
-  <script src="../components/pagination.js"></script>
+  <script src="../components/pagination.js?v=3"></script>
   <script>
     // Force correct API config
     window.API_CONFIG = { baseUrl: 'http://localhost:3001/api' };
@@ -253,6 +253,21 @@
       }
     }
 
+    function idsMatch(left, right) {
+      return left !== null && left !== undefined &&
+        right !== null && right !== undefined &&
+        String(left) === String(right);
+    }
+
+    function isCustomerInCurrentOrganization(customer, currentUser = user) {
+      if (!customer || !currentUser) return false;
+      if (currentUser.roleName === 'Super Admin') return true;
+
+      return idsMatch(customer.institutionId, currentUser.institutionId) ||
+        customer.isInOrganization === true ||
+        customer.isLinked === true;
+    }
+
     function renderSearchResults(customers, searchedValue, searchType) {
       const grid = document.getElementById('customersGrid');
       // Generic label
@@ -284,11 +299,12 @@
 
       // Render found customers with link button if from another institution
       const customersHTML = customers.map(customer => {
-        // A customer is "mine" if they belong to my institution (origin) OR if I have linked them to my current scope
-        const isMyCustomer = (user.roleName === 'Super Admin') || customer.institutionId === user.institutionId || customer.isLinked === true;
+        // Organization membership includes the customer's origin institution and
+        // links made by any branch that belongs to the current institution.
+        const isMyCustomer = isCustomerInCurrentOrganization(customer);
 
-        // Only show link actions if they are NOT "my customer" in the current scope
-        const canLink = !customer.isLinked && user.roleName !== 'Super Admin';
+        // Linking is only relevant for customers outside the whole organization.
+        const canLink = !isMyCustomer && user.roleName !== 'Super Admin';
 
         return `
         <div class="glass-card p-6" style="transition: all 0.2s ease; ${!isMyCustomer ? 'border: 2px solid #f59e0b;' : ''}">

@@ -36,14 +36,14 @@ class I18nManager {
       const link = document.createElement('link');
       link.id = 'responsive-stylesheet';
       link.rel = 'stylesheet';
-      link.href = `${basePath}/css/responsive.css?v=2`;
+      link.href = `${basePath}/css/responsive.css?v=3`;
       document.head.appendChild(link);
     }
 
     if (!document.getElementById('responsive-runtime')) {
       const script = document.createElement('script');
       script.id = 'responsive-runtime';
-      script.src = `${basePath}/js/responsive.js?v=1`;
+      script.src = `${basePath}/js/responsive.js?v=2`;
       script.defer = true;
       document.head.appendChild(script);
     }

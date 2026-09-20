@@ -316,6 +316,9 @@
     "search_hint": "💡 Search by National ID (10 digits) or Phone Number (e.g., 0551234567). If the customer belongs to another institution, you can link them to yours.",
     "no_customers": "No customers yet",
     "no_customers_found": "No customers found",
+    "search_logs": {
+      "no_results_help": "This customer is not registered in the system. You can add them now."
+    },
     "searching": "Searching...",
     "link_success": "Customer \"{name}\" linked to your institution successfully!",
     "link_failed": "Failed to link customer",

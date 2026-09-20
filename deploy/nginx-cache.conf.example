@@ -1,0 +1,22 @@
+# Include these locations inside the server block that serves hares-web-V2.
+# Example: include /var/www/hares-web-V2/deploy/nginx-cache.conf.example;
+
+location ~* \.html?$ {
+    expires off;
+    add_header Cache-Control "no-cache, no-store, must-revalidate" always;
+    add_header Pragma "no-cache" always;
+    add_header Expires "0" always;
+    try_files $uri $uri/ =404;
+}
+
+location ~* \.(?:css|js|json)$ {
+    expires off;
+    add_header Cache-Control "no-cache, must-revalidate" always;
+    add_header Expires "0" always;
+    try_files $uri =404;
+}
+
+location ~* \.(?:png|jpe?g|gif|svg|webp|ico|woff2?|ttf|otf)$ {
+    expires 1d;
+    try_files $uri =404;
+}
