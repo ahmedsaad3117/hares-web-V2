@@ -184,15 +184,15 @@
         }
 
         .request-card.pending {
-            border-right: 4px solid #f59e0b;
+            border-inline-start: 4px solid #f59e0b;
         }
 
         .request-card.approved {
-            border-right: 4px solid #10b981;
+            border-inline-start: 4px solid #10b981;
         }
 
         .request-card.rejected {
-            border-right: 4px solid #ef4444;
+            border-inline-start: 4px solid #ef4444;
         }
 
         .request-header {
@@ -206,11 +206,13 @@
             display: flex;
             align-items: center;
             gap: 1rem;
+            min-width: 0;
         }
 
         .request-icon {
             width: 50px;
             height: 50px;
+            flex-shrink: 0;
             background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.2));
             border-radius: 12px;
             display: flex;
@@ -223,6 +225,10 @@
             color: white;
             font-size: 1.1rem;
             margin: 0 0 0.25rem 0;
+        }
+
+        .request-details {
+            min-width: 0;
         }
 
         .request-details p {
@@ -241,24 +247,45 @@
             font-weight: 600;
         }
 
+        .request-header > .request-status {
+            flex-shrink: 0;
+            border: 1px solid transparent;
+        }
+
+        .request-status-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            opacity: 0.78;
+        }
+
+        .request-status-value {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
         .request-status.pending {
             background: rgba(245, 158, 11, 0.2);
             color: #fbbf24;
+            border-color: rgba(245, 158, 11, 0.35);
         }
 
         .request-status.approved {
             background: rgba(16, 185, 129, 0.2);
             color: #10b981;
+            border-color: rgba(16, 185, 129, 0.35);
         }
 
         .request-status.rejected {
             background: rgba(239, 68, 68, 0.2);
             color: #ef4444;
+            border-color: rgba(239, 68, 68, 0.35);
         }
 
         .request-status.cancelled {
             background: rgba(100, 116, 139, 0.2);
             color: #64748b;
+            border-color: rgba(100, 116, 139, 0.35);
         }
 
         .request-body {
@@ -342,6 +369,184 @@
         .action-btn.free:hover {
             background: #6366f1;
             color: white;
+        }
+
+        @media (max-width: 768px) {
+            .requests-list {
+                gap: 0.875rem;
+            }
+
+            .request-card {
+                width: 100%;
+                box-sizing: border-box;
+                padding: 1rem;
+                border-radius: 16px;
+            }
+
+            .request-header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.875rem;
+                margin-bottom: 0;
+            }
+
+            .request-info {
+                width: 100%;
+                align-items: flex-start;
+                gap: 0.75rem;
+            }
+
+            .request-icon {
+                width: 44px;
+                height: 44px;
+                flex: 0 0 44px;
+                border-radius: 11px;
+                font-size: 1.25rem;
+            }
+
+            .request-details {
+                flex: 1;
+            }
+
+            .request-details h3 {
+                flex-wrap: wrap;
+                font-size: 1rem;
+                line-height: 1.45;
+                overflow-wrap: anywhere;
+            }
+
+            .request-details p {
+                line-height: 1.45;
+                overflow-wrap: anywhere;
+            }
+
+            .request-header > .request-status {
+                width: 100%;
+                min-height: 44px;
+                box-sizing: border-box;
+                justify-content: space-between;
+                padding: 0.625rem 0.75rem;
+                border-radius: 11px;
+                white-space: nowrap;
+            }
+
+            .request-status-label {
+                font-size: 0.8rem;
+            }
+
+            .request-status-value {
+                font-size: 0.9rem;
+            }
+
+            .request-body {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 0;
+                margin-top: 1rem;
+                padding: 0;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                border-radius: 12px;
+                overflow: hidden;
+            }
+
+            .request-body > .request-field {
+                min-width: 0;
+                padding: 0.75rem;
+            }
+
+            .request-body > .request-field:nth-child(odd) {
+                border-inline-end: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .request-body > .request-field:nth-child(n + 3) {
+                border-top: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .request-body > .request-field:last-child:nth-child(odd) {
+                grid-column: 1 / -1;
+                border-inline-end: 0;
+            }
+
+            .request-body > .request-field .label {
+                font-size: 0.72rem;
+                line-height: 1.35;
+            }
+
+            .request-body > .request-field .value,
+            .request-body > .request-field .value.amount {
+                font-size: 0.95rem;
+                line-height: 1.4;
+                overflow-wrap: anywhere;
+            }
+
+            .request-actions {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 0.625rem;
+                margin-top: 1rem;
+            }
+
+            .request-actions .action-btn {
+                width: 100%;
+                min-width: 0;
+                min-height: 44px;
+                box-sizing: border-box;
+                justify-content: center;
+                padding: 0.7rem 0.5rem;
+                line-height: 1.3;
+                text-align: center;
+            }
+
+            .request-actions .action-btn:only-child {
+                grid-column: 1 / -1;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .request-card {
+                padding: 0.875rem;
+            }
+
+            .request-body > .request-field {
+                padding: 0.65rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            html:not(.theme-dark) body:not(.theme-dark) .request-body {
+                border-color: var(--app-line) !important;
+            }
+
+            html:not(.theme-dark) body:not(.theme-dark) .request-body > .request-field:nth-child(odd) {
+                border-inline-end-color: var(--app-line) !important;
+            }
+
+            html:not(.theme-dark) body:not(.theme-dark) .request-body > .request-field:nth-child(n + 3) {
+                border-top-color: var(--app-line) !important;
+            }
+        }
+
+        html:not(.theme-dark) body:not(.theme-dark) .request-header > .request-status.pending {
+            background: #fff5d9;
+            border-color: #f0cc70;
+            color: #8a4b08;
+        }
+
+        html:not(.theme-dark) body:not(.theme-dark) .request-header > .request-status.approved {
+            background: #e8f8f0;
+            border-color: #9bd8ba;
+            color: #066b42;
+        }
+
+        html:not(.theme-dark) body:not(.theme-dark) .request-header > .request-status.rejected {
+            background: #fff0f1;
+            border-color: #f2a8ae;
+            color: #a81925;
+        }
+
+        html:not(.theme-dark) body:not(.theme-dark) .request-header > .request-status.cancelled {
+            background: #eef2f7;
+            border-color: #cbd5e1;
+            color: #475569;
         }
 
         .empty-state {
@@ -1087,10 +1292,10 @@
                 if (req.status === 'Pending') {
                     // If pendingData exists, it's a new registration request because renewals don't store pendingData
                     if (req.pendingData && req.pendingData !== 'null') {
-                        typeLabel = 'إنشاء جديد';
+                        typeLabel = i18n.isRTL() ? 'إنشاء جديد' : 'New registration';
                         typeClass = 'new-badge';
                     } else {
-                        typeLabel = 'تجديد اشتراك';
+                        typeLabel = i18n.isRTL() ? 'تجديد اشتراك' : 'Renewal';
                         typeClass = 'renewal-badge';
                     }
                 }
@@ -1109,8 +1314,9 @@
                                     ${!isInstitution && req.institution ? `<p style="color: #818cf8; font-weight: bold; margin-top: 4px;">${t('requests.list.parent_institution')}: ${req.institution.name}</p>` : ''}
                                 </div>
                             </div>
-                            <div class="request-status ${req.status.toLowerCase()}">
-                                ${getStatusIcon(req.status)} ${getStatusLabel(req.status)}
+                            <div class="request-status ${req.status.toLowerCase()}" role="status" aria-label="${t('requests.list.status_label')}: ${getStatusLabel(req.status)}">
+                                <span class="request-status-label">${t('requests.list.status_label')}</span>
+                                <span class="request-status-value"><span aria-hidden="true">${getStatusIcon(req.status)}</span> ${getStatusLabel(req.status)}</span>
                             </div>
                         </div>
                         <div class="request-body">
@@ -1142,6 +1348,10 @@
 
         // Bridge function for backwards compatibility if needed, or just remove usages of renderRequests
         function renderRequests() { renderRequestsList(); }
+
+        // Request cards are generated dynamically; rebuild them when the
+        // language switcher changes locale so labels and status stay in sync.
+        window.addEventListener('localeChanged', renderRequestsList);
 
 
         function openProcessModal(requestId, action) {

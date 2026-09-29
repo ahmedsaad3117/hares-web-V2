@@ -269,6 +269,11 @@
       display: flex;
       align-items: center;
       gap: 0.75rem;
+      min-width: 0;
+    }
+
+    .customer-info {
+      min-width: 0;
     }
 
     .customer-avatar {
@@ -311,6 +316,19 @@
       align-items: center;
       gap: 0.5rem;
       white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .status-badge-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      opacity: 0.78;
+    }
+
+    .status-badge-value {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
     }
 
     .status-badge-premium.paid {
@@ -496,27 +514,151 @@
     /* Responsive Design */
     @media (max-width: 768px) {
       .installments-hero {
-        padding: 1.75rem;
+        padding: 1.25rem;
+        border-radius: 18px;
       }
 
       .installments-hero h1 {
-        font-size: 1.75rem;
+        font-size: 1.5rem;
       }
 
       .stats-grid-premium {
         grid-template-columns: repeat(2, 1fr);
       }
 
+      .installments-grid {
+        gap: 0.875rem;
+      }
+
+      .installment-card {
+        width: 100%;
+        padding: 1rem;
+        border-radius: 16px;
+      }
+
+      .installment-card::before {
+        width: 4px;
+      }
+
+      .installment-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.875rem;
+        margin-bottom: 0;
+      }
+
+      .installment-customer {
+        align-items: flex-start;
+        width: 100%;
+      }
+
+      .customer-avatar {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+      }
+
+      .customer-info {
+        flex: 1;
+      }
+
+      .customer-info h3 {
+        font-size: 1rem;
+        line-height: 1.45;
+        overflow-wrap: anywhere;
+      }
+
+      .customer-meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.35rem;
+        line-height: 1.45;
+      }
+
+      .customer-meta > span,
+      .customer-meta > div {
+        max-width: 100%;
+      }
+
+      .status-badge-premium {
+        width: 100%;
+        min-height: 44px;
+        box-sizing: border-box;
+        justify-content: space-between;
+        padding: 0.625rem 0.75rem;
+        border-radius: 11px;
+      }
+
+      .status-badge-label {
+        font-size: 0.8rem;
+      }
+
+      .status-badge-value {
+        font-size: 0.9rem;
+      }
+
       .installment-details {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0;
+        margin-top: 1rem;
+        padding: 0;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        overflow: hidden;
+      }
+
+      .detail-item {
+        min-width: 0;
+        padding: 0.75rem;
+      }
+
+      .detail-item:nth-child(odd) {
+        border-inline-end: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .detail-item:nth-child(n + 3) {
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .detail-item:last-child:nth-child(odd) {
+        grid-column: 1 / -1;
+        border-inline-end: 0;
+      }
+
+      .detail-label {
+        font-size: 0.72rem;
+        line-height: 1.35;
+      }
+
+      .detail-value,
+      .detail-value.amount {
+        font-size: 0.95rem;
+        line-height: 1.4;
+        overflow-wrap: anywhere;
       }
 
       .installment-actions {
-        flex-direction: column;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 0.625rem;
+        margin-top: 1rem;
       }
 
       .action-btn {
-        min-width: 100%;
+        min-width: 0;
+        width: 100%;
+        min-height: 44px;
+        padding: 0.75rem;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .installment-card {
+        padding: 0.875rem;
+      }
+
+      .detail-item {
+        padding: 0.65rem;
       }
     }
 
@@ -542,6 +684,20 @@
     html:not(.theme-dark) body:not(.theme-dark) .detail-label {
       color: var(--app-muted) !important;
       -webkit-text-fill-color: var(--app-muted) !important;
+    }
+
+    @media (max-width: 768px) {
+      html:not(.theme-dark) body:not(.theme-dark) .installment-details {
+        border-color: var(--app-line) !important;
+      }
+
+      html:not(.theme-dark) body:not(.theme-dark) .detail-item:nth-child(odd) {
+        border-inline-end-color: var(--app-line) !important;
+      }
+
+      html:not(.theme-dark) body:not(.theme-dark) .detail-item:nth-child(n + 3) {
+        border-top-color: var(--app-line) !important;
+      }
     }
   </style>
 </head>
@@ -630,6 +786,11 @@
     let currentPage = 1;
     const itemsPerPage = 12;
 
+    function normalizeInstallmentStatus(status) {
+      const normalized = String(status || 'Pending').trim().toLowerCase();
+      return ['paid', 'overdue', 'pending'].includes(normalized) ? normalized : 'pending';
+    }
+
     async function initPage() {
       await waitForI18n();
 
@@ -680,7 +841,7 @@
           matchesStatus = dueDate.getMonth() === now.getMonth() && dueDate.getFullYear() === now.getFullYear();
         } else if (currentFilter !== 'all') {
           // Compare case-insensitively
-          matchesStatus = inst.status?.toLowerCase() === currentFilter.toLowerCase();
+          matchesStatus = normalizeInstallmentStatus(inst.status) === currentFilter.toLowerCase();
         }
 
         if (!matchesStatus) return false;
@@ -778,9 +939,9 @@
     function updateStats() {
       const stats = {
         total: filteredInstallments.length,
-        paid: filteredInstallments.filter(i => i.status === 'Paid').length,
-        pending: filteredInstallments.filter(i => i.status === 'Pending').length,
-        overdue: filteredInstallments.filter(i => i.status === 'Overdue').length,
+        paid: filteredInstallments.filter(i => normalizeInstallmentStatus(i.status) === 'paid').length,
+        pending: filteredInstallments.filter(i => normalizeInstallmentStatus(i.status) === 'pending').length,
+        overdue: filteredInstallments.filter(i => normalizeInstallmentStatus(i.status) === 'overdue').length,
         totalAmount: filteredInstallments.reduce((sum, i) => sum + (i.amount || 0), 0)
       };
 
@@ -841,12 +1002,11 @@
       const pageInstallments = filteredInstallments.slice(startIndex, endIndex);
 
       grid.innerHTML = pageInstallments.map(inst => {
-        const statusClass = inst.status === 'Paid' ? 'paid' :
-          inst.status === 'Overdue' ? 'overdue' : 'pending';
-        const statusText = inst.status === 'Paid' ? t('installments.paid') :
-          inst.status === 'Overdue' ? t('installments.overdue') : t('installments.pending');
-        const statusIcon = inst.status === 'Paid' ? '✅' :
-          inst.status === 'Overdue' ? '⚠️' : '⏳';
+        const statusClass = normalizeInstallmentStatus(inst.status);
+        const statusText = statusClass === 'paid' ? t('installments.paid') :
+          statusClass === 'overdue' ? t('installments.overdue') : t('installments.pending');
+        const statusIcon = statusClass === 'paid' ? '✅' :
+          statusClass === 'overdue' ? '⚠️' : '⏳';
 
         const customerName = inst.customer?.name || t('common.message.na');
         const customerPhone = inst.customer?.phoneNumber || '';
@@ -875,8 +1035,9 @@
                   </div>
                 </div>
               </div>
-              <div class="status-badge-premium ${statusClass}">
-                ${statusIcon} ${statusText}
+              <div class="status-badge-premium ${statusClass}" role="status" aria-label="${t('installments.status')}: ${statusText}">
+                <span class="status-badge-label">${t('installments.status')}</span>
+                <span class="status-badge-value"><span aria-hidden="true">${statusIcon}</span> ${statusText}</span>
               </div>
             </div>
 
@@ -897,7 +1058,7 @@
                 <span class="detail-label">${t('installments.amount')}</span>
                 <span class="detail-value amount">${inst.amount?.toLocaleString(locale === 'ar' ? 'ar-SA' : 'en-US')} ${t('my_subscription.currency')}</span>
               </div>
-              ${inst.status === 'Paid' ? `
+              ${statusClass === 'paid' ? `
                 <div class="detail-item">
                   <span class="detail-label">${t('installments.payment_date')}</span>
                   <span class="detail-value">${paidDate}</span>
@@ -909,7 +1070,7 @@
               <a href="installments-view.html?id=${inst.id}" class="action-btn action-btn-secondary">
                 👁️ ${t('installments.view')}
               </a>
-              ${inst.status !== 'Paid' ? `
+              ${statusClass !== 'paid' ? `
                 <button onclick="processPayment(${inst.id})" class="action-btn action-btn-primary">
                   💰 ${t('installments.pay')}
                 </button>
@@ -986,6 +1147,13 @@
     function processPayment(installmentId) {
       window.location.href = `installments-view.html?id=${installmentId}`;
     }
+
+    // Dynamic cards and counters are built in JavaScript, so refresh them
+    // after the global language switcher changes the locale.
+    window.addEventListener('localeChanged', () => {
+      renderInstallments();
+      updateStats();
+    });
 
     // Initialize
     if (document.readyState === 'loading') {
