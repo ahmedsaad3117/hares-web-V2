@@ -215,6 +215,9 @@
     /* Installments Grid (replacing table) */
     .installments-grid {
       display: grid;
+      /* Installment cards are information-dense and need the full content width.
+         This also overrides the shared auto-fit card grid loaded after this page. */
+      grid-template-columns: minmax(0, 1fr) !important;
       gap: 1.25rem;
     }
 
